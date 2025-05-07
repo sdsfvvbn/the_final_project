@@ -1,0 +1,373 @@
+/* ===========================
+   General Styles
+=========================== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #CAE9FF;
+    color: #1B4965;
+}
+
+/* ===========================
+   Header
+=========================== */
+header {
+    background-color: #5FA8D3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    color: #ffffff;
+    font-size: 14px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    height: 150px;
+    width: 150px;
+}
+
+.auth-links {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    color: #1B4864;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.auth-links a {
+    color: #1B4864;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.divider {
+    height: 3px;
+    background-color: #1B4864;
+    margin: 0;
+}
+
+.bottom-nav {
+    background-color: #5FA8D3;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-links li a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ===========================
+   User Info
+=========================== */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 50px;
+    font-size: 18px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+/* ===========================
+   Profile Section
+=========================== */
+.profile {
+    padding: 20px 20px;
+    text-align: center;
+}
+
+.profile h1 {
+    margin: 0;
+    font-size: 47px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.profile-card {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px 120px;
+    text-align: left;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ccc;
+    border: 2px solid #5FA8D3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 55px;
+}
+
+.profile-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 60px;
+}
+
+.profile-details h2 {
+    font-size: 40px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.profile-details p {
+    font-size: 16px;
+    text-align: left;
+    color: #1B4965;
+    margin-bottom: 10px;
+}
+
+/* ===========================
+   Skills and Personality
+=========================== */
+.skills, .personality {
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.skills h3, .personality h3 {
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.skills span, .personality span {
+    display: inline-block;
+    background-color: #5FA8D3;
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin: 5px 8px 5px 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ===========================
+   Availability Section
+=========================== */
+.availability-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.availability-container h3 {
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.class-type, .time-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 150px;
+}
+
+.class-type label {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 10px; 
+}
+
+.class-type input[type="radio"] {
+    accent-color: #5FA8D3; 
+    margin-right: 5px;
+}
+
+.time-box {
+    margin-top: -15px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 20px;
+    color: #1B4864;
+    font-size: 20px;
+    line-height: 1.6;
+    height: 100%;
+}
+
+.time-box ul {
+    margin: 0;
+    padding: 15px 20px;
+    background-color: #5FA8D3;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1.6;
+    list-style-position: inside;
+}
+
+/* ===========================
+   In-Person Section
+=========================== */
+.in-person {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0px;
+}
+
+.in-person h3 {
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.in-person label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.in-person input[type="radio"] {
+    accent-color: #5FA8D3;
+    margin-right: 5px;
+}
+
+/* ===========================
+   Self Introduction
+=========================== */
+.self-introduction {
+    margin-top: 30px;
+}
+
+.self-introduction h3 {
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.self-introduction p {
+    background-color: #5FA8D3;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 15px;
+    line-height: 1.6;
+    font-size: 20px;
+    font-weight: 500;
+    max-width: 100%;
+}
+
+/* ===========================
+   Suggested Teachers
+=========================== */
+.suggested-teachers {
+    margin-top: 50px;
+    background-color: #CAE9FF;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.suggested-teachers h2 {
+    font-size: 40px;
+    margin-bottom: 30px;
+    color: #1B4965;
+}
+
+.teachers {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.teacher-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-card img {
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #CAE9FF;
+}
+
+.teacher-card p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #1B4965;
+    line-height: 1.4;
+}
