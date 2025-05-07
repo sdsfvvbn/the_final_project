@@ -41,7 +41,7 @@
 首先，從 GitHub 克隆專案到本地端：
 
 ```bash
-git clone https://github.com/sdsfvvbn/final-project
+git clone https://github.com/sdsfvvbn/the_final_project
 ```
 
 ### 2. 創建虛擬環境
