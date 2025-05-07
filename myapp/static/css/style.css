@@ -1,0 +1,70 @@
+/* 自定義樣式 */
+body {
+    background-color: #CAE9FF;
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif;
+}
+
+.navbar {
+    background-color: #5FA8D3 !important;
+}
+
+/* 卡片樣式 */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px #5fa8d3;
+    background-color: #FFFFFF;
+}
+
+.card-header {
+    background-color: #BEE9E8;
+    border-bottom: 1px solid #62B6CB;
+}
+
+.card-header h2, .card-header h1, .card-header h3 {
+    color: #1B4965;
+}
+
+/* 按鈕樣式 */
+.btn-primary {
+    background-color: #62B6CB;
+    border-color: #62B6CB;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #5FA8D3;
+    border-color: #5FA8D3;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* 表單樣式 */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #62B6CB;
+    padding: 10px;
+}
+
+.form-control:focus {
+    border-color: #5FA8D3;
+    box-shadow: 0 0 0 0.2rem rgba(98, 182, 203, 0.25);
+}
+
+/* 連結樣式 */
+a {
+    color: #1B4965;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #5FA8D3;
+    text-decoration: underline;
+}
+
+/* 輔助提示訊息 */
+.alert {
+    background-color: #BEE9E8;
+    color: #1B4965;
+    border-color: #62B6CB;
+}
