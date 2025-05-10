@@ -49,7 +49,7 @@ git clone https://github.com/sdsfvvbn/the_final_project
 進入專案資料夾：
 
 ```bash
-cd Project
+cd the_final_project
 ```
 
 創建虛擬環境：
@@ -63,14 +63,9 @@ python -m venv django-venv
 - **Windows 使用者** 啟動虛擬環境：
 
 ```bash
-.\venv\Scripts\activate
+.\django-venv\Scripts\activate
 ```
 
-- **Mac/Linux 使用者** 啟動虛擬環境：
-
-```bash
-source venv/bin/activate
-```
 
 ### 4. 安裝依賴項目
 

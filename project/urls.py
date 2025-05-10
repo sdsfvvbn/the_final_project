@@ -19,9 +19,10 @@ from django.urls import path
 from django.urls import include
 
 import message
-
+from homepage import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('message/', include('message.urls', namespace='message')),
     path('myapp/', include('myapp.urls', namespace='myapp')),
+    path('', views.home, name='homepage'),
 ]

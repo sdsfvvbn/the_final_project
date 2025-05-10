@@ -1,0 +1,68 @@
+header, nav {
+    background-color: #5FA8D3;
+    color: white;
+}
+
+body {
+    background-color: #CAE9FF;
+}
+.custom-btn {
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+    color: #1B4965;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-tabs {
+    background-color: white;
+    justify-content: space-between;
+    border-bottom: none;
+}
+  
+.nav-tabs .nav-link {
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+  
+.nav-tabs .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #BEE9E8;
+    border-bottom: 3px solid #1B4965;
+    color: #000;
+}
+
+.tab-content {
+    background-color: #BEE9E8;
+}
+
+.navbar {
+    background-color: white; /* atau warna sesuai desain kamu */
+}
+  
+.navbar .nav-link {
+    color: white !important;         /* warna tulisan */
+    font-weight: 600;               /* tebalin */   
+    text-transform: none;           /* jangan kapital semua */
+}
+  
+.navbar .nav-link:hover {
+    color: #007bff !important;      /* warna saat hover */
+    text-decoration: underline;
+}
+  
+.navbar-brand img {
+    height: auto;
+    width: 100px;
+}  
