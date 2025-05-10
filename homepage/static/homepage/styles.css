@@ -46,3 +46,23 @@ body {
 .tab-content {
     background-color: #BEE9E8;
 }
+
+.navbar {
+    background-color: white; /* atau warna sesuai desain kamu */
+}
+  
+.navbar .nav-link {
+    color: white !important;         /* warna tulisan */
+    font-weight: 600;               /* tebalin */   
+    text-transform: none;           /* jangan kapital semua */
+}
+  
+.navbar .nav-link:hover {
+    color: #007bff !important;      /* warna saat hover */
+    text-decoration: underline;
+}
+  
+.navbar-brand img {
+    height: auto;
+    width: 100px;
+}  

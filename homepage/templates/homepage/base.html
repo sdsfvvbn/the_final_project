@@ -10,38 +10,44 @@
 </head>
 
 <body id="page-top">
-    <div class="sticky-top">
-        <header class="py-3 border-bottom">
-            <div class="container d-flex justify-content-between align-items-center">
-                <a href="#page-top">
-                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="Logo" class="img-fluid" style="width: 100px; height: auto;">
-                </a>
-                <div>
-                    <a href="#login" class="btn custom-btn">Log In</a>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#page-top">
+                <img src="{% static 'homepage/assets/Logo.png' %}" alt="Logo" style="width: 100px; height: auto;">
+            </a>
+      
+            <!-- Hamburger button for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <!-- Navbar -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link fw-semibold" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#category">Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#contact">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#chat">Chat</a>
+                    </li>
+                </ul>
+      
+                <!-- Login Signup button -->
+                <div class="d-flex">
+                    <a href="#login" class="btn custom-btn me-2">Log In</a>
                     <a href="#signup" class="btn custom-btn">Sign Up</a>
                 </div>
             </div>
-        </header>
-        
-        <nav>
-            <div class="container">
-                <ul class="nav justify-content-between">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#category">Category</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#chat">Chat</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+      
     
     {%block body%}
     {%endblock%}
