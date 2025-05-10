@@ -23,5 +23,5 @@ import message
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('message/', include('message.urls', namespace='message')),
-
+    path('myapp/', include('myapp.urls', namespace='myapp')),
 ]

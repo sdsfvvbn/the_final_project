@@ -1,9 +1,10 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from message.models import Message
 from datetime import datetime, timedelta
 
 
+User = get_user_model()
 class Command(BaseCommand):
     help = '創建示範用的假資料，包括使用者和訊息'
 

@@ -1,18 +1,18 @@
 from django.shortcuts import render, redirect
 from .models import Message
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.db.models import Q
 from django.utils import timezone
 from django.db.models import F
 #用render 回傳 (request對象 / 模板路徑 / (字典 要傳給模板東西))
-# @login_required
-
+User = get_user_model()
+@login_required
 
 def message_page(request, username = None):
     # 如果沒有提供 username，則重定向到主頁或其他頁面
-    request.user = User.objects.get(username="alan")
+    # request.user = User.objects.get(username="alan")
     
     # 如果沒有提供 username，則不設置 other_user
     other_user = None
