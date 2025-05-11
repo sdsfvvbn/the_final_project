@@ -1,41 +1,17 @@
+{%extends "message/base.html"%}
 {% load static %}
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <title>Chatting</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'message/styles.css' %}">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
-        integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-
+{%block body%}
 <body class="bg-light d-flex flex-column min-vh-100">
-    <header class="bg-primary text-white p-3" style="height:100px;">
-        <h1>My Header</h1>
-    </header>
-
     <!-- 浮動側邊欄切換按鈕 -->
-    <div class="position-fixed start-0" style="z-index: 1030; margin-top: 100px;">
+    <!-- <div class="position-fixed start-0" style="z-index: 1030; margin-top: 100px;">
         <div class="p-3 d-md-none" >
             <i class="fa-solid fa-circle-chevron-left toggle-icon" 
                id="toggleSidebar" style="cursor: pointer; color: #1b4965; font-size: 2rem;"></i>
         </div>
-    </div>
+    </div> -->
 
     <div class="container-fluid flex-grow-1 px-0">
-        <div class="row g-0" style="height: calc(100vh - 100px);">
+        <div class="row g-0" style="height: calc(100vh - 95px);">
             <!-- Left Sidebar -->
             <div class="col-md-4 col-sm-12 d-none d-md-block" id="sidebar" style="transition: all 0.3s ease;">
                 <div class="card h-100 rounded-0">
@@ -46,7 +22,7 @@
                         </div>
                     </div>
                     <div class="overflow-auto flex-grow-1" style="background-color: #BEE9E8;">
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush ul-group">
                             {% for item in recent_contacts %}
                             <li class="list-group-item p-2" id="user-{{ item.user.username }}">
                                 <a href="{% url 'message:message_page' username=item.user.username %}"
@@ -88,7 +64,9 @@
             <div class="col-md-8 col-sm-12" id="chatWindow">
                 <div class="card h-100 rounded-0 chat-container d-flex flex-column">
                     <div class="card-header rounded-0 chat-header" style="background-color: #BEE9E8;">
-                        <h3 class="text-center text-md-start">{% if other_user %}Chat with {{ other_user.username }}{% else %}Welcome to Chat{% endif %}</h3>
+                         <i class="fa-solid fa-circle-chevron-left toggle-icon d-md-none " 
+                        id="toggleSidebar" style="cursor: pointer; color: #1b4965; font-size: 2rem;"></i>
+                        <h3 class="text-center">{% if other_user %}Chat with {{ other_user.username }}{% else %}Welcome to Chat{% endif %}</h3>
                     </div>
 
                     <div class="message-area card-body overflow-auto flex-grow-1">
@@ -166,7 +144,7 @@
                         sidebar.classList.remove('d-none');
                         chatWindow.classList.add('d-none');
                         toggleIcon.classList.remove('fa-circle-chevron-left');
-                        toggleIcon.classList.add('fa-circle-chevron-right');
+                        toggleIcon.classList.add('d-none');
                     } else {
                         // 隱藏側邊欄
                         sidebar.classList.add('d-none');
@@ -183,10 +161,10 @@
                 
                 if (isMobile) {
                     // 手機版：側邊欄預設隱藏
-                    sidebar.classList.add('d-none');
+                    // sidebar.classList.add('d-none');
                     chatWindow.classList.remove('d-none');
-                    toggleIcon.classList.remove('fa-circle-chevron-right');
-                    toggleIcon.classList.add('fa-circle-chevron-left');
+                    // toggleIcon.classList.remove('fa-circle-chevron-right');
+                    // toggleIcon.classList.add('fa-circle-chevron-left');
                 } else {
                     // 桌面版：側邊欄預設顯示
                     sidebar.classList.remove('d-none');
@@ -211,8 +189,8 @@
                     if (window.innerWidth < 768) { // 只在手機版執行
                         sidebar.style.left = '-100%';
                         messageArea.style.overflow = 'auto'; // 恢復滾動
-                        toggleIcon.classList.remove('fa-circle-chevron-left');
-                        toggleIcon.classList.add('fa-circle-chevron-right');
+                        // toggleIcon.classList.remove('fa-circle-chevron-left');
+                        // toggleIcon.classList.add('fa-circle-chevron-right');
                     }
                 });
             });
@@ -275,4 +253,5 @@
 
 </body>
 
+{%endblock%}
 </html>

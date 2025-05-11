@@ -91,7 +91,7 @@ a {
     flex: 0 0 auto;
 }
 
-ul {
+.ul-group {
     /* border-top: #1b4965 1px solid; */
     border-bottom: #1b4965 1px solid;
 }

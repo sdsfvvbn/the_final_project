@@ -8,11 +8,11 @@ from django.utils import timezone
 from django.db.models import F
 #用render 回傳 (request對象 / 模板路徑 / (字典 要傳給模板東西))
 User = get_user_model()
-@login_required
+# @login_required
 
 def message_page(request, username = None):
     # 如果沒有提供 username，則重定向到主頁或其他頁面
-    # request.user = User.objects.get(username="alan")
+    request.user = User.objects.get(username="alan")
     
     # 如果沒有提供 username，則不設置 other_user
     other_user = None
