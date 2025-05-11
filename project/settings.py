@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'message', 
     'myapp',  # Replace with your app name
     'homepage', 
+    'myprofile',
 ]
 
 MIDDLEWARE = [
