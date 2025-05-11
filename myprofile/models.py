@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from your_app_name.models import Skill, Tag  # 替換 your_app_name 為實際應用名稱
+from  myprofile.models import Skill, Tag  # 替換 your_app_name 為實際應用名稱
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
