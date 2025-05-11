@@ -1,120 +1,143 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href= "{% static 'profile/styles.css' %}" />
+
 </head>
 <body>
     <header>
         <div class="top-nav">
-          <div class="logo">
-            <a href="homepage.html">
-                <img src="logo.png" alt="TalentSwap Logo">
-            </a>
-          </div>
-          <div class="auth-links">
-            <a href="#">LOG IN</a> | <a href="#">SIGN UP</a>
-          </div>
-          <div class="user-info">
-            <span>Hi, Emma!</span>
-            <div class="user-avatar"></div>
-          </div>
+            <div class="logo">
+                <a href="homepage.html">
+                    <img src="{% static 'images/logo.png' %}" alt="{% trans 'TalentSwap Logo' %}">
+                </a>
+            </div>
+            <div class="auth-links">
+                <a href="#">{% trans "LOG IN" %}</a> | <a href="#">{% trans "SIGN UP" %}</a>
+            </div>
+            <div class="user-info">
+                <span>{% trans "Hi, " %}{{ profile.user.username }}!</span>
+                <div class="user-avatar">
+                    <img src="{{ profile.avatar.url }}" alt="{% trans 'User Avatar' %}">
+                </div>
+            </div>
         </div>
         <div class="divider"></div>
         <nav class="bottom-nav">
-          <ul class="nav-links">
-            <li><a href="#">HOMEPAGE</a></li>
-            <li><a href="#">CATEGORY</a></li>
-            <li><a href="#">CONTACT US</a></li>
-            <li><a href="#">CHAT</a></li>
-          </ul>
+            <ul class="nav-links">
+                <li><a href="#">{% trans "HOMEPAGE" %}</a></li>
+                <li><a href="#">{% trans "CATEGORY" %}</a></li>
+                <li><a href="#">{% trans "CONTACT US" %}</a></li>
+                <li><a href="#">{% trans "CHAT" %}</a></li>
+            </ul>
         </nav>
-      </header>
+    </header>
 
     <main>
         <section class="profile">
-            <h1>Profile</h1>
+            <h1>{% trans "Profile" %}</h1>
             <div class="profile-card">
-                <img src="emma.jpg" class="profile-picture" />
+                <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
                 <div class="profile-details">
-                    <h2>Emma Liu <span>劉芷涵</span></h2>
-                    <p>Instagram: @emmatalks_ | Tainan City, Taiwan <span>台南市</span></p>
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                    <p>Instagram: @emmatalks_ | Tainan City, Taiwan</p>
 
                     <div class="skills">
-                        <h3>Want to Learn</h3>
-                        <span>Public Speaking</span>
-                        <span>Python Programming</span>
-                        <h3>Can Teach</h3>
-                        <span>Chinese Speaking</span>
-                        <span>Watercolor Painting</span>
+                        <h3>{% trans "Want to Learn" %}</h3>
+                        {% for skill in profile.want_to_learn.all %}
+                            <span>{{ skill.name }}</span>
+                        {% empty %}
+                            <p>{% trans "No skills selected." %}</p>
+                        {% endfor %}
+
+                        <h3>{% trans "Can Teach" %}</h3>
+                        {% for skill in profile.can_teach.all %}
+                            <span>{{ skill.name }}</span>
+                        {% empty %}
+                            <p>{% trans "No teaching skills." %}</p>
+                        {% endfor %}
                     </div>
 
                     <div class="personality">
-                        <h3>Personality</h3>
-                        <span>Calm</span>
-                        <span>Patient</span>
-                        <span>Thoughtful</span>
+                        <h3>{% trans "Personality" %}</h3>
+                        {% for trait in profile.personality.all %}
+                            <span class="tag">{{ trait.name }}</span>
+                        {% empty %}
+                            <p>{% trans "No traits specified." %}</p>
+                        {% endfor %}
                     </div>
 
                     <div class="availability-container">
                         <div class="class-type">
-                            <h3>Preferred Class Type</h3>
-                            <label><input type="radio" name="class-type" checked> Physical</label>
-                            <label><input type="radio" name="class-type"> Online</label>
+                            <h3>{% trans "Preferred Class Type" %}</h3>
+                            <label>
+                                <input type="radio" name="class-type" value="Physical" {% if profile.class_type == "Physical" %}checked{% endif %}>
+                                {% trans "Physical" %}
+                            </label>
+                            <label>
+                                <input type="radio" name="class-type" value="Online" {% if profile.class_type == "Online" %}checked{% endif %}>
+                                {% trans "Online" %}
+                            </label>
                         </div>
                         <div class="time-box">
-                            <h3>Available Time</h3>
-                            <ul>
-                                <li>Weekends All Day</li>
-                                <li>Wednesday Night</li>
-                            </ul>
+                            <h3>{% trans "Available Time" %}</h3>
+                            <ol id="available-time-list">
+                                {% for time in profile.available_time.splitlines %}
+                                    <li>{{ time }}</li>
+                                {% empty %}
+                                    <li>{% trans "No available time specified." %}</li>
+                                {% endfor %}
+                            </ol>
+                            <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
+                                {{ profile.available_time|default:""|trim }}
+                            </textarea>
                         </div>
                     </div>
 
                     <div class="in-person">
-                        <h3>Willing to Meet In Person</h3>
-                        <label><input type="radio" name="in-person" checked> Yes</label>
-                        <label><input type="radio" name="in-person"> No</label>
+                        <h3>{% trans "Willing to Meet In Person" %}</h3>
+                        <label>
+                            <input type="radio" name="in-person" value="Yes" {% if profile.willing_to_meet_in_person %}checked{% endif %}>
+                            {% trans "Yes" %}
+                        </label>
+                        <label>
+                            <input type="radio" name="in-person" value="No" {% if not profile.willing_to_meet_in_person %}checked{% endif %}>
+                            {% trans "No" %}
+                        </label>
                     </div>
 
                     <div class="self-introduction">
-                        <h3>Self Introduction</h3>
-                        <p>
-                            Hi! I'm Emma, a freelancer who loves languages, art, and deep conversations.
-                            I'm happy to help you improve your Chinese or painting skills. I'm looking to
-                            become more confident in public speaking and learn some basic Python coding
-                            for creative projects!
-                        </p>
+                        <h3>{% trans "Self Introduction" %}</h3>
+                        <textarea id="self-intro" name="self_intro" rows="6" cols="50" placeholder="{% trans 'Write a brief introduction about yourself.' %}">
+                            {{ profile.self_intro|default:""|trim }}
+                        </textarea>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="suggested-teachers">
-            <h2>Suggested Teachers</h2>
+            <h2>{% trans "Suggested Teachers" %}</h2>
             <div class="teachers">
+                {% for teacher in suggested_teachers %}
                 <div class="teacher-card">
-                    <img src="teacher1.jpg" alt="Mr. Kevin Chen">
-                    <p>Mr. Kevin Chen</p>
-                    <p>Toastmasters coach<br>(public speaking)</p>
+                    <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
+                    <p>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</p>
+                    <p>{{ teacher.self_intro|linebreaks }}</p>
+                    <p>
+                        <strong>{% trans "Can Teach:" %}</strong>
+                        {% for skill in teacher.can_teach.all %}
+                            <span>{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
                 </div>
-                <div class="teacher-card">
-                    <img src="teacher2.jpg" alt="Irene Lin">
-                    <p>Irene Lin</p>
-                    <p>Python tutor for beginners</p>
-                </div>
-                <div class="teacher-card">
-                    <img src="teacher3.jpg" alt="Grace Wu">
-                    <p>Grace Wu</p>
-                    <p>Former TEDx speaker<br>& speech trainer</p>
-                </div>
-                <div class="teacher-card">
-                    <img src="teacher4.jpg" alt="Anna Lee">
-                    <p>Anna Lee</p>
-                    <p>Python developer with teaching experience</p>
-                </div>
+                {% empty %}
+                <p>{% trans "No suggested teachers available at the moment." %}</p>
+                {% endfor %}
             </div>
         </section>
     </main>
