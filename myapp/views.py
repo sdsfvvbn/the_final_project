@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'homepage/TalentSwap.html')
 
 def register_view(request):
     if request.method == 'POST':
@@ -17,7 +17,7 @@ def register_view(request):
             user = form.save()
             login(request, user)
             messages.success(request, '註冊成功！')
-            return redirect('home')
+            return redirect('homepage')
         else:
             # 顯示表單驗證錯誤
             for field in form:
@@ -39,7 +39,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, f'歡迎回來，{username}！')
-            return redirect('home')
+            return redirect('homepage')
         else:
             # 檢查使用者是否存在
             User = get_user_model()
@@ -57,7 +57,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, '您已成功登出。')
-    return redirect('home')
+    return redirect('homepage')
 
 @login_required
 def delete_account(request):
@@ -66,5 +66,5 @@ def delete_account(request):
         logout(request)  # 先登出
         user.delete()    # 刪除帳號
         messages.success(request, '您的帳號已成功註銷。')
-        return redirect('home')
+        return redirect('homepage')
     return render(request, 'registration/delete_account.html')

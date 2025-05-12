@@ -8,36 +8,36 @@ from django.utils import timezone
 from django.db.models import F
 #用render 回傳 (request對象 / 模板路徑 / (字典 要傳給模板東西))
 User = get_user_model()
-# @login_required
 
+@login_required  # Add this decorator to ensure only authenticated users can access
 def message_page(request, username = None):
-    # 如果沒有提供 username，則重定向到主頁或其他頁面
-    request.user = User.objects.get(username="alan")
+    # Remove the hardcoded user assignment
+    # request.user = User.objects.get(username="alan")  # Remove this line
     
-    # 如果沒有提供 username，則不設置 other_user
+    # If no username provided, just show the chat interface without a specific conversation
     other_user = None
     messages = []
     
     if username:
-        other_user = User.objects.get(username=username)
-        # 找出跟這個人的所有訊息，按時間升序排序，並確保精確排序
-        messages = Message.objects.filter(
-            sender__in=[request.user, other_user],
-            receiver__in=[request.user, other_user]
-        ).order_by('created_at', 'id')  # 添加 id 作為次要排序條件
+        try:
+            other_user = User.objects.get(username=username)
+            # Find all messages between these users
+            messages = Message.objects.filter(
+                sender__in=[request.user, other_user],
+                receiver__in=[request.user, other_user]
+            ).order_by('created_at', 'id')
 
-        # 打印消息順序用於調試
-        for msg in messages:
-            print(f"Message: {msg.text}, Time: {msg.created_at}, Sender: {msg.sender.username}, ID: {msg.id}")
-
-        # 將所有未讀消息標記為已讀
-        Message.objects.filter(
-            sender=other_user,
-            receiver=request.user,
-            is_read=False
-        ).update(is_read=True)
+            # Mark unread messages as read
+            Message.objects.filter(
+                sender=other_user,
+                receiver=request.user,
+                is_read=False
+            ).update(is_read=True)
+        except User.DoesNotExist:
+            # Handle case where username doesn't exist
+            return redirect('message:message_page_without_username')
     
-    # 找出所有聊天過的人（左邊列表用）
+    # Find all users who have chatted with the current user
     contacted_users = User.objects.filter(
         id__in=Message.objects.filter(
             sender=request.user

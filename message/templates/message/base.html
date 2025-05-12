@@ -117,10 +117,16 @@
                     </li>
                 </ul>
 
-                <!-- Login Signup button -->
-                <div class="d-flex">
-                    <a href="#login" class="btn custom-btn me-2">Log In</a>
-                    <a href="#signup" class="btn custom-btn">Sign Up</a>
+                 <!-- Login/Signup or User Info -->
+                <div class="d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                        <span class="text-white me-3">Welcome, {{ user.username }}</span>
+                        <a href="{% url 'myapp:logout' %}" class="btn custom-btn me-2">Log Out</a>
+                        <!-- <a href="{% url 'myapp:delete_account' %}" class="btn custom-btn btn-danger">Delete Account</a> -->
+                    {% else %}
+                        <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">Log In</a>
+                        <a href="{% url 'myapp:register' %}" class="btn custom-btn">Sign Up</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
