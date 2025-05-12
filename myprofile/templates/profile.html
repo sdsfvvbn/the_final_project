@@ -44,7 +44,19 @@
                 <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
                 <div class="profile-details">
                     <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
-                    <p>Instagram: @emmatalks_ | Tainan City, Taiwan</p>
+                    <p>
+                        {% if profile.instagram %}
+                            Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank">@{{ profile.instagram }}</a>
+                        {% else %}
+                            {% trans "No Instagram provided." %}
+                        {% endif %}
+                        |
+                        {% if profile.city %}
+                            {{ profile.city }}
+                        {% else %}
+                            {% trans "No city provided." %}
+                        {% endif %}
+                    </p>
 
                     <div class="skills">
                         <h3>{% trans "Want to Learn" %}</h3>
@@ -127,9 +139,7 @@
                 <div class="teacher-card">
                     <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
                     <p>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</p>
-                    <p>{{ teacher.self_intro|linebreaks }}</p>
                     <p>
-                        <strong>{% trans "Can Teach:" %}</strong>
                         {% for skill in teacher.can_teach.all %}
                             <span>{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
                         {% endfor %}

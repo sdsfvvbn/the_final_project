@@ -16,6 +16,8 @@ class Tag(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
+    instagram = models.CharField(max_length=100, blank=True, null=True)  # Instagram profile link
+    city = models.CharField(max_length=100, blank=True, null=True)  # 居住城市
     want_to_learn = models.ManyToManyField(Skill, related_name='learners')
     can_teach = models.ManyToManyField(Skill, related_name='teachers')
     personality = models.ManyToManyField(Tag, blank=True)  # 例如 Calm, Patient
