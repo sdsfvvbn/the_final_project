@@ -258,9 +258,25 @@
                 const messageArea = document.getElementById('messageArea');
                 const chatTitle = document.getElementById('chatTitle');
                 const messageForm = document.getElementById('messageForm');
+                const chatFooter = document.querySelector('.chat-footer');
                 
                 // 更新標題
                 chatTitle.textContent = 'Chat with ' + username;
+                
+                // 確保輸入框顯示
+                if (chatFooter) {
+                    chatFooter.innerHTML = `
+                        <form id="messageForm" onsubmit="sendMessage(event)">
+                            {% csrf_token %}
+                            <div class="type-container d-flex align-items-center">
+                                <input name="text" type="text" class="form-control type-input" placeholder="Type...">
+                                <i class="fa fa-plus type-icon mx-2 "></i>
+                                <i class="fa fa-paper-plane send-icon ms-2" id="sendButton"
+                                    style="cursor: pointer;" onclick="sendMessage(event)"></i>
+                            </div>
+                        </form>
+                    `;
+                }
                 
                 // 顯示載入中
                 messageArea.innerHTML = `

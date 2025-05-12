@@ -47,7 +47,7 @@ img {
 
 .list-group-item {
     background-color: #BEE9E8;
-    border: #1b4965 1px solid;
+    border:none;
 }
 
 .list-group-item p {
