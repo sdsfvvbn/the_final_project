@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'homepage', 
     'myprofile',
     'comment',
+    'category',
 ]
 
 MIDDLEWARE = [
