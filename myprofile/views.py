@@ -7,17 +7,15 @@ def profile_view(request):
     try:
         profile = request.user.userprofile
     except UserProfile.DoesNotExist:
-        # 如果沒有 UserProfile，重定向到創建頁面
-        return redirect("create_profile")  # 假設有一個名為 create_profile 的 URL
+        return redirect("create_profile")  # 如果沒有 UserProfile，重定向到創建頁面
 
-    # 根據使用者的需求篩選符合條件的老師
+    # 根據學生的需求篩選推薦老師
     skills_to_learn = profile.want_to_learn.all()
     suggested_teachers = UserProfile.objects.filter(
         can_teach__in=skills_to_learn
     ).exclude(id=profile.id).distinct()
 
-    # 將老師的數據傳遞到模板
-    return render(request, "profile.html", {
-        "profile": profile,
-        "suggested_teachers": suggested_teachers
+    return render(request, "myprofile/profile.html", {
+        "profile": profile,  # 當前學生的資料
+        "suggested_teachers": suggested_teachers  # 推薦老師的資料
     })

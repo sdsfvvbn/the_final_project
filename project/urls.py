@@ -15,8 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls import include
+from django.urls import path, include
+from homepage import views as homepage_views
+from category import views as category_views
 
 import message
 from homepage import views
@@ -26,4 +27,7 @@ urlpatterns = [
     path('myapp/', include('myapp.urls', namespace='myapp')),
     path('', views.home, name='homepage'),
     path('profile/', include('myprofile.urls')),  # 將 myprofile 的 URL 配置包含進來
+    path('comment/', include('comment.urls')),
+    path('', homepage_views.home, name='homepage'),
+    path('category/', category_views.category, name='category'),
 ]

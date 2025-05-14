@@ -1,0 +1,105 @@
+{% extends "homepage/base.html" %}
+{% load static %}
+{% block body %}
+    <div class="container text-center">
+        <!-- Sorting Buttons -->
+        <br>
+        <div class="filter-buttons mb-3 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+            <select id="categoryFliter" class="form-select" onchange="filterByCategory()">
+                <option value="all">Category</option>
+                <option value="Language">Language</option>
+                <option value="Music">Music</option>
+                <option value="Art">Art</option>
+                <option value="Sports">Sports</option>
+                <option value="Cooking">Cooking</option>
+            </select>
+            <select id="personalityFilter" class="form-select" onchange="filterByPersonality()">
+            <!-- <select id="personalityFilter" class="form-select" onchange="filterByPersonality()" multiple> -->
+                <option value="all">Personality</option>
+                <option value="Creative">Creative</option>
+                <option value="Organized">Organized</option>
+                <option value="Calm">Calm</option>
+                <option value="Patient">Patient</option>
+                <option value="Thoughtful">Thoughtful</option>
+                <option value="Extrovert">Extrovert</option>
+                <option value="Cheerful">Cheerful</option>
+                <option value="Serious">Serious</option>
+                <option value="Funny">Funny</option>
+                <option value="Knowledgeable">Knowledgeable</option>
+                <option value="Goal-Oriented">Goal-Oriented</option>
+                <option value="Good Communicator">Good Communicator</option>
+                <option value="Supportive">Supportive</option>
+                <option value="Inspiring">Inspiring</option>
+                <option value="Friendly">Friendly</option>
+            </select>
+            <select id="willingnessFilter" class="form-select" onchange="filterByWillingness()">
+                <option value="all">Willingness</option>
+                <option value="Physical">Physical</option>
+                <option value="Online">Online</option>
+            </select>
+            <select id="classFilter" class="form-select" onchange="filterByClass()">
+                <option value="all">Class Type</option>
+                <option value="Physical">Physical</option>
+                <option value="Online">Online</option>
+            </select>
+            <select id="ratingFilter" class="form-select" onchange="filterByRating()">
+                <option value="all">Rating</option>
+                <option value="5">5</option>
+                <option value="4-4.99">4</option>
+                <option value="3-3.99">3</option>
+                <option value="2-2.99">2</option>
+                <option value="1-1.99">1</option>
+                <option value="0-0.99">below 1</option>
+            </select>
+        </div>
+        
+        <!-- Sorting Text Labels -->
+        <div class="sortContainer">
+            <label for="sortSelect">Sort by:</label>
+            <select id="sortSelect" class="form-select sort-bar" onchange="sortRecommendations()">
+                <option value="priceAsc">Lessons: Low to High</option>
+                <option value="priceDesc">Lessons: High to Low</option>
+                <option value="rating">Rating: High to Low</option>
+                <option value="name">Name: A–Z</option>
+            </select>
+        </div>
+        <br>
+
+        <div id="recommendationList">
+            <div class="card" data-name="Tutor A" data-lessons="25" data-rating="4.5">
+                <strong>Product A</strong><br>
+                Lessons: 25<br>
+                Rating: 4.5
+            </div>
+            <div class="card" data-name="Tutor B" data-lessons="15" data-rating="4.8">
+                <strong>Product B</strong><br>
+                Lessons: 15<br>
+                Rating: 4.8
+            </div>
+            <div class="card" data-name="Tutor C" data-lessons="30" data-rating="5.0">
+                <strong>Product C</strong><br>
+                Lessons: 30<br>
+                Rating: 5.0
+            </div>
+        </div>
+    </div>
+
+    <div class="card-grid">
+        {% for mentor in mentors %}
+        <div class="mentor-card">
+        <img src="{{ mentor.avatar.url }}" alt="{{ mentor.name }}" class="mentor-avatar">
+            <div class="mentor-info">
+                <div class="mentor-header">
+                    <span class="mentor-name">{{ mentor.name }}</span>
+                    <span class="mentor-rating">⭐ {{ mentor.rating }}</span>
+                </div>
+                <p class="mentor-title">{{ mentor.title }}</p>
+                <p class="mentor-location">📍 {{ mentor.location }} | {{ mentor.mode }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="{% static 'category/sort.js'%}"></script>
+    <!-- <script src="{% static 'category/filter.js'%}"></script> -->
+{% endblock %}
