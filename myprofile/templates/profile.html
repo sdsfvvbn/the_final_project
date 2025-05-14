@@ -61,16 +61,16 @@
                     <div class="skills">
                         <h3>{% trans "Want to Learn" %}</h3>
                         {% for skill in profile.want_to_learn.all %}
-                            <span>{{ skill.name }}</span>
+                            <span class="tag">{{ skill.name }}</span>
                         {% empty %}
-                            <p>{% trans "No skills selected." %}</p>
+                            <span>{% trans "No skills selected." %}</span>
                         {% endfor %}
 
                         <h3>{% trans "Can Teach" %}</h3>
                         {% for skill in profile.can_teach.all %}
-                            <span>{{ skill.name }}</span>
+                            <span class="tag">{{ skill.name }}</span>
                         {% empty %}
-                            <p>{% trans "No teaching skills." %}</p>
+                            <span>{% trans "No teaching skills." %}</span>
                         {% endfor %}
                     </div>
 
@@ -79,7 +79,7 @@
                         {% for trait in profile.personality.all %}
                             <span class="tag">{{ trait.name }}</span>
                         {% empty %}
-                            <p>{% trans "No traits specified." %}</p>
+                            <span>{% trans "No traits specified." %}</span>
                         {% endfor %}
                     </div>
 

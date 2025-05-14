@@ -194,7 +194,7 @@ header {
     margin-bottom: 20px;
 }
 
-.skills span, .personality span {
+.skills span, .personality span, .tag {
     display: inline-block;
     background-color: #5FA8D3;
     color: #ffffff;

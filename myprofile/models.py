@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 # 定義技能模型
 class Skill(models.Model):
     name = models.CharField(max_length=100, unique=True)  # 技能名稱，必須唯一
-
+    tags = models.ManyToManyField('Tag', blank=True, related_name='skills')  # 與標籤的多對多關係
+    
     def __str__(self):
         return self.name  # 返回技能名稱作為字符串表示
 
