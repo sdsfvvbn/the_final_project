@@ -133,11 +133,12 @@ header {
     display: flex;
     flex-direction: row;
     gap: 40px;
-    max-width: 1000px;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
     border-radius: 25px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px 120px;
+    padding: 30px;
     text-align: left;
     align-items: flex-start;
 }
@@ -161,7 +162,7 @@ header {
     flex-direction: column;
     justify-content: flex-start;
     text-align: left;
-    padding-left: 60px;
+    padding-left: 20px;
 }
 
 .profile-details h2 {
@@ -176,6 +177,24 @@ header {
     text-align: left;
     color: #1B4965;
     margin-bottom: 10px;
+}
+
+/* Add responsive design */
+@media screen and (max-width: 768px) {
+    .profile-card {
+        flex-direction: column;
+        padding: 20px;
+        align-items: center;
+    }
+    
+    .profile-details {
+        padding-left: 0;
+        width: 100%;
+    }
+    
+    .profile-picture {
+        margin-top: 20px;
+    }
 }
 
 /* ===========================

@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -152,7 +154,7 @@
                                 {% endfor %}
                             </ol>
                             <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
-                                {{ profile.available_time|default:""|trim }}
+                                {{ profile.available_time|default:""}}
                             </textarea>
                         </div>
                     </div>
@@ -172,7 +174,7 @@
                     <div class="self-introduction">
                         <h3>{% trans "Self Introduction" %}</h3>
                         <textarea id="self-intro" name="self_intro" rows="6" cols="50" placeholder="{% trans 'Write a brief introduction about yourself.' %}">
-                            {{ profile.self_intro|default:""|trim }}
+                            {{ profile.self_intro|default:"" }}
                         </textarea>
                     </div>
                 </div>
