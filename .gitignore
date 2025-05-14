@@ -1,4 +1,5 @@
 django-venv/
+django-ven/
 __pycache__/
 db.sqlite3
 *.pyc

@@ -1,0 +1,331 @@
+{% extends "homepage/base.html" %}
+{% load static %}
+{%block body%}
+    <section class="py-5 bg-white">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+              <h1 class="fw-bold text-dark">Ready to Learn<br>New Skill?</h1>
+              <form class="mt-4" onsubmit="return redirectSearch();">
+                <input type="text" id="materialSearch" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm" 
+                       placeholder="What you want to learn?" 
+                       style="background-color: #64b9d8; color: white">
+              </form>
+            </div>
+            <div class="col-md-6 text-center">
+              <img src="{% static 'homepage/assets/Girls.png' %}" alt="Girls Illustration" class="img-fluid" style="max-height: 300px;">
+            </div>
+          </div>
+        </div>
+    </section>     
+
+    <div class="container my-5">
+        <!-- Carousel container -->
+        <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+
+            <!-- Indicators (dots below the carousel) -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0" class="active"></button>
+                <!-- we need to set one image active -->
+                <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="2"></button>
+            </div>
+
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="https://picsum.photos/seed/4/300/100.jpg" class="d-block w-100" alt="">
+                    <!--d-block: become block element-->
+                    <!--w-100: set img width = block width -->
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/seed/5/300/100.jpg" class="d-block w-100" alt="">
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/seed/6/300/100.jpg" class="d-block w-100" alt="">
+                </div>
+            </div>
+
+            <!-- Previous and Next controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div> 
+
+    <!-- TAB COMPONENT -->
+    <div class="container my-5">    
+        <!-- Tab navigation bar -->
+        <nav>
+            <ul class="nav nav-tabs" id="myTab">
+                <!-- Tab button: Art -->
+                <li class="nav-item">
+                    <button class="nav-link active" id="art-tab" data-bs-toggle="tab" data-bs-target="#art" type="button">
+                    Art
+                    </button>
+                </li>
+    
+                <!-- Tab button: IT & Computer -->
+                <li class="nav-item">
+                    <button class="nav-link" id="itcomp-tab" data-bs-toggle="tab" data-bs-target="#itcomp" type="button">
+                    IT & Computer
+                    </button>
+                </li>
+    
+                <!-- Tab button: Language -->
+                <li class="nav-item">
+                    <button class="nav-link" id="language-tab" data-bs-toggle="tab" data-bs-target="#language" type="button">
+                    Language
+                    </button>
+                </li>
+
+                <!-- Tab button: Music -->
+                <li class="nav-item">
+                    <button class="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music" type="button">
+                    Music
+                    </button>
+                </li>
+
+                <!-- Tab button: Lifestyle -->
+                <li class="nav-item">
+                    <button class="nav-link" id="lifestyle-tab" data-bs-toggle="tab" data-bs-target="#lifestyle" type="button">
+                    Lifestyle
+                    </button>
+                </li>
+
+                <!-- Tab button: Business -->
+                <li class="nav-item">
+                    <button class="nav-link" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button">
+                    Business
+                    </button>
+                </li>
+
+                <!-- Tab button: Sport -->
+                <li class="nav-item">
+                    <button class="nav-link" id="sport-tab" data-bs-toggle="tab" data-bs-target="#sport" type="button">
+                    Sport
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    
+        <!-- Tab content area -->
+        <div class="tab-content p-3" id="myTabContent">
+            <!-- Tab panel: Art -->
+            <div class="tab-pane fade show active" id="art">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP1.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Digital Painting</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP2.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Traditional Drawing</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP3.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Hand Lettering</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP4.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Photography</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Video Editing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Tab panel: IT & Computer -->
+            <div class="tab-pane fade" id="itcomp">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP3.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">HTML</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP1.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Java</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Basic Programming</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP6.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Python</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP2.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Coding for Kids</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab panel: Language -->
+            <div class="tab-pane fade" id="language">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP2.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Japanese</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Chinese for Business</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP6.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">English</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP3.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Sign Language</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP4.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Korean</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab panel: Music -->
+            <div class="tab-pane fade" id="music">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP1.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Guitar</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP3.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Piano</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP6.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Vocal</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Violin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab panel: Lifestyle -->
+            <div class="tab-pane fade" id="lifestyle">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP4.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Cooking</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP3.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Crocheting</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Origami</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP2.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Gardening</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP1.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Pet Grooming</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab panel: Business -->
+            <div class="tab-pane fade" id="business">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP2.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Small Business</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Leadership</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP6.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Public Speaking</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab panel: Sport -->
+            <div class="tab-pane fade" id="sport">
+                <!-- CAROUSEL HORIZONTAL -->
+                <div class="py-4 white-bg">
+                    <div class="container overflow-auto">
+                        <div class="d-flex flex-nowrap">
+                            <!-- ITEM -->
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP2.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Badminton</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Soccer</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP6.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Wall Climbing</p>
+                            </div>
+                            <div class="text-center me-4">
+                                <img src="{% static 'homepage/assets/DP3.png' %}" class="rounded-circle" style="width:250px; height:250px;">
+                                <p class="mt-2 fw-semibold text-dark">Running</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="{% static 'homepage/search.js'%}"></script>
+{%endblock%}
