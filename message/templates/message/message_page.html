@@ -1,0 +1,357 @@
+{%extends "message/base.html"%}
+{% load static %}
+{%block body%}
+<body class="bg-light d-flex flex-column min-vh-100">
+    <!-- 浮動側邊欄切換按鈕 -->
+    <!-- <div class="position-fixed start-0" style="z-index: 1030; margin-top: 100px;">
+        <div class="p-3 d-md-none" >
+            <i class="fa-solid fa-circle-chevron-left toggle-icon" 
+               id="toggleSidebar" style="cursor: pointer; color: #1b4965; font-size: 2rem;"></i>
+        </div>
+    </div> -->
+
+    <div class="container-fluid flex-grow-1 px-0">
+        <div class="row g-0" style="height: calc(100vh - 95px);">
+            <!-- Left Sidebar - Desktop -->
+            <div class="col-md-4 col-sm-12 d-none d-md-block" id="sidebar">
+                <div class="card h-100 rounded-0">
+                    <div class="card-header rounded-0" >
+                        <div class="search-container">
+                            <input type="text" class="form-control search-input" placeholder="Search...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </div>
+                    <div class="overflow-auto flex-grow-1" style="background-color: #BEE9E8;">
+                        <ul class="list-group list-group-flush ul-group">
+                            {% for item in recent_contacts %}
+                            <li class="list-group-item p-2" id="user-{{ item.user.username }}">
+                                <a href="javascript:void(0)" onclick="loadChat('{{ item.user.username }}')"
+                                    class="d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <div>
+                                            <img src="https://picsum.photos/id/25/50" alt=""
+                                                class="d-flex align-self-center me-3">
+                                            <span class="badge bg-success badge-dot"></span>
+                                        </div>
+                                        <div class="pt-1">
+                                            <p class="fw-bold mb-0">{{ item.user.username }}</p>
+                                            <p class="small text-muted">
+                                                {% if item.last_message %}
+                                                {{ item.last_message.text }}
+                                                {% else %}
+                                                尚未開始聊天
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="pt-1">
+                                        <p class="small text-muted mb-1">
+                                            {{ item.last_message.created_at|timesince }} 前</p>
+                                        {% if item.unread_count %}
+                                        <span class="badge bg-danger rounded-pill float-end " id="unread-count-{{ item.user.username }}">
+                                            {{item.unread_count}}</span>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Sidebar -->
+            <div class="col-12 d-md-none" id="mobileSidebar" style="display: none;">
+                <div class="card h-100 rounded-0">
+                    <div class="card-header rounded-0" style="background-color: #BEE9E8;">
+                        <div class="search-container">
+                            <input type="text" class="form-control search-input" placeholder="Search...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </div>
+                    <div class="overflow-auto flex-grow-1" style="background-color: #BEE9E8;">
+                        <ul class="list-group list-group-flush ul-group">
+                            {% for item in recent_contacts %}
+                            <li class="list-group-item p-2" id="mobile-user-{{ item.user.username }}">
+                                <a href="javascript:void(0)" onclick="loadChat('{{ item.user.username }}')"
+                                    class="d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <div>
+                                            <img src="https://picsum.photos/id/25/50" alt=""
+                                                class="d-flex align-self-center me-3">
+                                            <span class="badge bg-success badge-dot"></span>
+                                        </div>
+                                        <div class="pt-1">
+                                            <p class="fw-bold mb-0">{{ item.user.username }}</p>
+                                            <p class="small text-muted">
+                                                {% if item.last_message %}
+                                                {{ item.last_message.text }}
+                                                {% else %}
+                                                尚未開始聊天
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="pt-1">
+                                        <p class="small text-muted mb-1">
+                                            {{ item.last_message.created_at|timesince }} 前</p>
+                                        {% if item.unread_count %}
+                                        <span class="badge bg-danger rounded-pill float-end " id="mobile-unread-count-{{ item.user.username }}">
+                                            {{item.unread_count}}</span>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          
+            <!-- Chat Window -->
+            <div class="col-md-8 col-sm-12 col-12" id="chatWindow">
+                <div class="card h-100 rounded-0 chat-container d-flex flex-column">
+                    <div class="card-header rounded-0 chat-header d-grid " style="background-color: #BEE9E8; grid-template-columns: 50px 1fr 50px; align-items: center;">
+                        <div>
+                            <i class="fa-solid fa-circle-chevron-left toggle-icon d-md-none" 
+                               onclick="toggleMobileSidebar()" style="cursor: pointer; color: #1b4965; font-size: 2rem;"></i>
+                        </div> 
+                        <h3 class="text-center text-md-start" id="chatTitle">{% if other_user %}Chat with {{ other_user.username }}{% else %}Welcome to Chat{% endif %}</h3>
+                        <div></div>
+                    </div>
+
+                    <div class="message-area card-body overflow-auto flex-grow-1" id="messageArea">
+                        {% if other_user %}
+                            {% for message in messages %}
+                            {% if message.sender == request.user %}
+                            <div class="d-flex flex-row justify-content-end mb-2">
+                                <div class="d-flex align-items-center">
+                                    <span
+                                        class="small me-1  rounded-3 align-self-center comic-relief-regular text-time float-start">
+                                        {{message.created_at|date:"H:i" }}</span>
+                                    <p class="p-2 me-3 mb-1 text-white rounded-3 " style="background-color: #62b6cb;">
+                                        {{ message.text }}
+                                    </p>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="d-flex flex-row justify-content-start mb-2">
+                                <div class="d-flex align-items-center">
+                                    <p class="p-2 ms-3 mb-1 text-white rounded-3" style="background-color: #62b6cb;">
+                                        {{ message.text }}
+                                    </p>
+                                    <span
+                                        class="small ms-1  rounded-3 comic-relief-regular text-time float-end">{{message.created_at|date:"H:i"}}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                <div class="text-center">
+                                    <i class="fas fa-comments fa-4x mb-3" style="color: #62b6cb;"></i>
+                                    <h4 class="mb-3">Choose who you want to chat with</h4>
+                                    <p class="text-muted">Select a conversation from the left sidebar to start chatting</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-footer chat-footer border-0">
+                        {% if other_user %}
+                        <form id="messageForm" onsubmit="sendMessage(event)">
+                            {% csrf_token %}
+                            <div class="type-container d-flex align-items-center">
+                                <input name="text" type="text" class="form-control type-input" placeholder="Type...">
+                                <i class="fa fa-plus type-icon mx-2 "></i>
+                                <i class="fa fa-paper-plane send-icon ms-2" id="sendButton"
+                                    style="cursor: pointer;" onclick="sendMessage(event)"></i>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.querySelector('.type-input');
+            const form = document.getElementById('messageForm');
+            const sendButton = document.getElementById('sendButton');
+            const messageArea = document.querySelector('.message-area');
+
+            // 切換手機版側邊欄
+            window.toggleMobileSidebar = function() {
+                const mobileSidebar = document.getElementById('mobileSidebar');
+                const chatWindow = document.getElementById('chatWindow');
+                
+                if (mobileSidebar.style.display === 'none') {
+                    mobileSidebar.style.display = 'block';
+                    chatWindow.style.display = 'none';
+                } else {
+                    mobileSidebar.style.display = 'none';
+                    chatWindow.style.display = 'block';
+                }
+            }
+
+            // 發送訊息
+            window.sendMessage = function(event) {
+                event.preventDefault();
+                const input = document.querySelector('.type-input');
+                const messageText = input.value.trim();
+                
+                if (messageText === '') return;
+
+                // 獲取 CSRF token
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                
+                // 獲取當前聊天對象的用戶名
+                const currentChat = document.getElementById('chatTitle').textContent.replace('Chat with ', '');
+                
+                // 創建新的訊息元素
+                const messageHtml = `
+                    <div class="d-flex flex-row justify-content-end mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="small me-1 rounded-3 align-self-center comic-relief-regular text-time float-start">
+                                ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                            </span>
+                            <p class="p-2 me-3 mb-1 text-white rounded-3" style="background-color: #62b6cb;">
+                                ${messageText}
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                // 添加到聊天區域
+                messageArea.insertAdjacentHTML('beforeend', messageHtml);
+                
+                // 清空輸入框
+                input.value = '';
+                
+                // 滾動到底部
+                scrollToBottom();
+
+                // 發送 AJAX 請求
+                fetch(`/message/${currentChat}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: `text=${encodeURIComponent(messageText)}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                    // 可以添加錯誤提示
+                    alert('Failed to send message. Please try again.');
+                });
+            }
+
+            // 載入聊天內容
+            window.loadChat = function(username) {
+                const messageArea = document.getElementById('messageArea');
+                const chatTitle = document.getElementById('chatTitle');
+                const messageForm = document.getElementById('messageForm');
+                const chatFooter = document.querySelector('.chat-footer');
+                
+                // 更新標題
+                chatTitle.textContent = 'Chat with ' + username;
+                
+                // 確保輸入框顯示
+                if (chatFooter) {
+                    chatFooter.innerHTML = `
+                        <form id="messageForm" onsubmit="sendMessage(event)">
+                            {% csrf_token %}
+                            <div class="type-container d-flex align-items-center">
+                                <input name="text" type="text" class="form-control type-input" placeholder="Type...">
+                                <i class="fa fa-plus type-icon mx-2 "></i>
+                                <i class="fa fa-paper-plane send-icon ms-2" id="sendButton"
+                                    style="cursor: pointer;" onclick="sendMessage(event)"></i>
+                            </div>
+                        </form>
+                    `;
+                }
+                
+                // 顯示載入中
+                messageArea.innerHTML = `
+                    <div class="d-flex justify-content-center align-items-center h-100">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                `;
+
+                // 使用 AJAX 載入聊天內容
+                fetch(`/message/${username}/`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newMessageArea = doc.querySelector('.message-area');
+                        
+                        if (newMessageArea) {
+                            messageArea.innerHTML = newMessageArea.innerHTML;
+                        }
+                        
+                        // 在手機版切換到聊天視窗
+                        if (window.innerWidth < 768) {
+                            toggleMobileSidebar();
+                        }
+                        
+                        // 滾動到底部
+                        scrollToBottom();
+                    })
+                    .catch(error => {
+                        console.error('Error loading chat:', error);
+                        messageArea.innerHTML = `
+                            <div class="d-flex justify-content-center align-items-center h-100">
+                                <div class="text-center text-danger">
+                                    <i class="fas fa-exclamation-circle fa-2x mb-2"></i>
+                                    <p>Error loading chat. Please try again.</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+            }
+
+            // 1. 滾動到底部的函數
+            function scrollToBottom() {
+                if (messageArea) {
+                    messageArea.scrollTop = messageArea.scrollHeight;
+                }
+            }
+
+            // 2. 頁面加載時滾動到底部
+            scrollToBottom();
+
+            // 3. 監聽消息區域的變化，當有新消息時滾動到底部
+            const observer = new MutationObserver(scrollToBottom);
+            if (messageArea) {
+                observer.observe(messageArea, { 
+                    childList: true,
+                    subtree: true
+                });
+            }
+
+            // 5. 監聽輸入框的 Enter 鍵
+            if (input) {
+                input.addEventListener('keypress', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        sendMessage(event);
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+
+{%endblock%}
+</html>

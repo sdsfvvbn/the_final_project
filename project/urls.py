@@ -18,8 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from homepage import views as homepage_views
 from category import views as category_views
+from django.urls import path
+from django.urls import include
 
+import message
+from homepage import views
 urlpatterns = [
     path('', homepage_views.home, name='homepage'),
     path('category/', category_views.category, name='category'),
+    path('admin/', admin.site.urls),
+    path('message/', include('message.urls', namespace='message')),
+    path('myapp/', include('myapp.urls', namespace='myapp')),
+    path('', views.home, name='homepage'),
+    path('profile/', include('myprofile.urls')),  # 將 myprofile 的 URL 配置包含進來
 ]

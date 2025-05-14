@@ -1,0 +1,121 @@
+.search-container,
+.type-container {
+    position: relative;
+}
+
+.search-input,
+.type-input {
+    height: 50px;
+    border-radius: 30px;
+    padding-left: 35px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: #62b6cb;
+}
+
+.type-input {
+    padding-left: 45px;
+    
+}
+
+/* .toggle-icon, */
+.search-icon,
+.type-icon,
+.send-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #1b4965;
+}
+
+
+.send-icon {
+    right: 15px;
+    left: auto;
+   
+}
+
+img {
+    border-radius: 50px;
+}
+.card-header{
+    background-color: #BEE9E8;
+    border:none;
+    border-radius: 0;
+}
+
+.list-group-item {
+    background-color: #BEE9E8;
+    border:none;
+}
+
+.list-group-item p {
+    color: #1b4965;
+}
+
+.card-body,
+.card-footer {
+    background-color: #cae9ff;
+}
+
+a {
+    text-decoration: none;
+}
+
+.the-text {
+    background-color: #62b6cb;
+}
+
+.message-area {
+    overflow-y: auto;
+    height: calc(100vh - 240px);
+    /* Adjust height to leave room for header and input */
+    padding: 15px;
+}
+
+/* Make sure chat container expands properly */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 100px);
+}
+
+/* Fix chat header and footer */
+.chat-header {
+    flex: 0 0 auto;
+    border: none;
+}
+
+.chat-footer {
+    flex: 0 0 auto;
+}
+
+
+
+.card {
+    border: none;
+}
+
+.text-time{
+    color: #1b4965;
+}
+.comic-relief-regular {
+    font-family: "Comic Relief", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .comic-relief-bold {
+    font-family: "Comic Relief", system-ui;
+    font-weight: 700;
+    font-style: normal;
+  }
+  /* 隱藏滾動條但保留滾動功能 */
+  .message-area {
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+.message-area::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
