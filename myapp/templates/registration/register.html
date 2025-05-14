@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">註冊</h2>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="username">使用者名稱</label>
+                            <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                                   id="username" name="username" value="{{ form.username.value|default:'' }}" required>
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password1">密碼</label>
+                            <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+                                   id="password1" name="password1" required>
+                            {% if form.password1.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password1.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if not form.password1.errors %}
+                                <small class="form-text text-muted">
+                                    密碼必須至少包含 8 個字符，不能太常見，且不能全是數字。
+                                </small>
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password2">確認密碼</label>
+                            <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+                                   id="password2" name="password2" required>
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password2.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">註冊</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>已有帳號？ <a href="{% url 'myapp:login' %}">登入</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

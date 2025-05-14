@@ -258,6 +258,20 @@ header {
     height: 100%;
 }
 
+#available-time-list {
+    list-style-type: decimal;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+#available-time {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 .time-box ul {
     margin: 0;
     padding: 15px 20px;
@@ -316,7 +330,7 @@ header {
     margin-bottom: 20px;
 }
 
-.self-introduction p {
+.self-introduction textarea {
     background-color: #5FA8D3;
     color: #ffffff;
     padding: 15px;
@@ -325,6 +339,7 @@ header {
     font-size: 20px;
     font-weight: 500;
     max-width: 100%;
+    resize: vertical;
 }
 
 /* ===========================
@@ -370,4 +385,10 @@ header {
     font-size: 14px;
     color: #1B4965;
     line-height: 1.4;
+}
+
+.teacher-card strong {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
 }
