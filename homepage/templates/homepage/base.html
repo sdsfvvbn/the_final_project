@@ -14,7 +14,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
         integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
         crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .ratings {
             display: inline-flex;
@@ -56,6 +57,21 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f8f9fa;
+        }
+
+        /* 確保評價模態框在最上層 */
+        #reviewModal {
+            z-index: 1060 !important;
+        }
+
+        /* 歷史記錄模態框的 z-index */
+        #historyModal {
+            z-index: 1050 !important;
+        }
+
+        /* 確保模態框背景遮罩層的 z-index 也正確 */
+        .modal-backdrop {
+            z-index: 1040 !important;
         }
     </style>
 </head>
@@ -100,7 +116,7 @@
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'profile_view' %}">profile</a></li>
-                                <li><a class="dropdown-item" href="#">history</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#historyModal">history</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">comments for partner</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">logout</a></li>
@@ -127,20 +143,20 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #5FA8D3;">
-                    <h4 class="modal-title" id="reviewModalLabel">留下你對夥伴的評價吧!</h4>
+                    <h4 class="modal-title" id="reviewModalLabel">Your Comments for Partners!</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body dp-flex flex-column align-items-center" style="color: #1b4965;">
                     <form id="reviewForm" method="post" action="{% url 'comment:submit_review' %}">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label class="form-label">選擇要評價的用戶:</label>
+                            <label class="form-label">Choose the partner you want to review:</label>
                             <select name="rated_user" id="ratedUserSelect" class="form-select" required>
-                                <option value="">請選擇...</option>
+                                <option value="">Select...</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">評價:</label>
+                            <label class="form-label">Rating:</label>
                             <div class="ratings mb-2">
                                 <i class="fas fa-star rating-star" data-rating="5" onclick="setRating(5)"></i>
                                 <i class="fas fa-star rating-star" data-rating="4" onclick="setRating(4)"></i>
@@ -151,22 +167,297 @@
                             <input type="hidden" name="rating" id="ratingInput" value="0">
                         </div>
                         <div class="mb-3">
-                            <label for="comment" class="form-label">評論:</label>
-                            <textarea name="comment" id="comment" placeholder="留下你的評論..."
+                            <label for="comment" class="form-label">Comment:</label>
+                            <textarea name="comment" id="comment" placeholder="Leave comments..."
                                 class="form-control" style="height: 100px;"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer" style="background-color: #5FA8D3;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                    <button type="button" class="btn btn-primary" onclick="submitReview()">送出評價</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    <button type="button" class="btn btn-primary" onclick="submitReview()">SUBMIT</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="historyModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #5FA8D3;">
+                    <h4 class="modal-title text-center" id="reviewModalLabel">History</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body dp-flex flex-column align-items-center" style="color: #1b4965;">
+                    <div>
+                        <h5>Feedback from your partners</h5>
+                    </div>
+                    {%if received_reviews%}
+                    {%for r in received_reviews%}
+                    <div class="feedback form-control">
+                    <span>From: {{r.reviewer}}</span>
+                    <span>Rating: {{r.rating}}</span>
+                    <span>Comments: {{r.comment}}</span>
+                    <span>{{r.created_at}}</span>
+                   </div>
+                   {%endfor%}
+                     {%else%}
+                    <div class="feedback form-control">
+                    <span>No history available.</span>
+                    </div>
+                    {%endif%}
+                    <div>
+                        <h5>Feedback you gave to your partners</h5>
+                    </div>
+                    {%if given_reviews%}
+                    {%for r in given_reviews%}
+                    <div class="feedback form-control">
+                    <span>To: {{r.rated_user}}</span>
+                    <span>Rating: {{r.rating}}</span>
+                    <span>Comments: {{r.comment}}</span>
+                    <span>{{r.created_at}}</span>
+                   </div>
+                   {%endfor%}
+                     {%else%}
+                    <div class="feedback form-control">
+                    <span>No history available.</span>
+                    </div>
+                    {%endif%}
+                </div> 
+            </div>
+        </div>
+    </div>
     <script>
-          // 定義全局函數，直接在HTML中呼叫
-        function setRating(rating) {
+        // 將函數定義移到全局作用域
+        window.editReview = function(reviewId, ratedUser, rating, comment) {
+            // 打開評價模態框
+            const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+            reviewModal.show();
+            
+            // 設置評價數據
+            const ratedUserSelect = document.getElementById('ratedUserSelect');
+            ratedUserSelect.value = ratedUser;
+            ratedUserSelect.disabled = true;  // 禁用選擇用戶
+            
+            // 添加一個隱藏的 input 來保存 rated_user_id
+            let hiddenInput = document.getElementById('rated_user_id');
+            if (!hiddenInput) {
+                hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.id = 'rated_user_id';
+                hiddenInput.name = 'rated_user';
+                document.getElementById('reviewForm').appendChild(hiddenInput);
+            }
+            hiddenInput.value = ratedUser;
+            
+            setRating(rating);
+            document.getElementById('comment').value = comment;
+            
+            // 修改提交按鈕文字為 SAVE
+            const submitButton = document.querySelector('#reviewModal .modal-footer .btn-primary');
+            submitButton.textContent = 'SAVE';
+            
+            // 修改表單提交行為
+            const form = document.getElementById('reviewForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                formData.append('review_id', reviewId);
+                
+                fetch('{% url "comment:update_review" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 關閉評價模態框
+                        reviewModal.hide();
+                        
+                        // 立即重新載入評論列表
+                        fetch('{% url "comment:get_reviews" %}')
+                            .then(response => response.json())
+                            .then(data => {
+                                const modalBody = document.querySelector('#historyModal .modal-body');
+                                modalBody.innerHTML = '';
+                                
+                                // 添加收到的評論部分
+                                const receivedTitle = document.createElement('h5');
+                                receivedTitle.textContent = 'Feedback from your partners';
+                                modalBody.appendChild(receivedTitle);
+                                
+                                if (data.received_reviews && data.received_reviews.length > 0) {
+                                    data.received_reviews.forEach(review => {
+                                        const reviewDiv = document.createElement('div');
+                                        reviewDiv.className = 'feedback form-control mb-2';
+                                        reviewDiv.innerHTML = `
+                                            <span>From: ${review.reviewer}</span><br>
+                                            <span>Rating: ${review.rating}</span><br>
+                                            <span>Comments: ${review.comment}</span><br>
+                                            <span>${review.created_at}</span>
+                                        `;
+                                        modalBody.appendChild(reviewDiv);
+                                    });
+                                } else {
+                                    const noReviews = document.createElement('div');
+                                    noReviews.className = 'feedback form-control mb-2';
+                                    noReviews.innerHTML = '<span>No history available.</span>';
+                                    modalBody.appendChild(noReviews);
+                                }
+                                
+                                // 添加發出的評論部分
+                                const givenTitle = document.createElement('h5');
+                                givenTitle.className = 'mt-4';
+                                givenTitle.textContent = 'Feedback you gave to your partners';
+                                modalBody.appendChild(givenTitle);
+                                
+                                if (data.given_reviews && data.given_reviews.length > 0) {
+                                    data.given_reviews.forEach(review => {
+                                        const reviewDiv = document.createElement('div');
+                                        reviewDiv.className = 'feedback form-control mb-2';
+                                        reviewDiv.innerHTML = `
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <span>To: ${review.rated_user}</span><br>
+                                                    <span>Rating: ${review.rating}</span><br>
+                                                    <span>Comments: ${review.comment}</span><br>
+                                                    <span>${review.created_at}</span>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="editReview(${review.id}, ${review.rated_user_id}, ${review.rating}, '${review.comment.replace(/'/g, "\\'")}')">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteReview(${review.id})">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        `;
+                                        modalBody.appendChild(reviewDiv);
+                                    });
+                                } else {
+                                    const noReviews = document.createElement('div');
+                                    noReviews.className = 'feedback form-control mb-2';
+                                    noReviews.innerHTML = '<span>No history available.</span>';
+                                    modalBody.appendChild(noReviews);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                const modalBody = document.querySelector('#historyModal .modal-body');
+                                modalBody.innerHTML = '<div class="alert alert-danger">Error loading reviews. Please try again later.</div>';
+                            });
+                    } else {
+                        alert(data.message || '更新失敗，請稍後再試');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('發生錯誤，請稍後再試');
+                });
+            };
+        };
+
+        // 當評價模態框關閉時重置表單和按鈕文字
+        document.getElementById('reviewModal').addEventListener('hidden.bs.modal', function() {
+            const form = document.getElementById('reviewForm');
+            form.reset();
+            document.getElementById('ratedUserSelect').disabled = false;  // 重新啟用選擇用戶
+            document.querySelectorAll('.rating-star').forEach(star => {
+                star.classList.remove('rating-color');
+            });
+            document.getElementById('ratingInput').value = '0';
+            // 重置提交按鈕文字為 SUBMIT
+            const submitButton = document.querySelector('#reviewModal .modal-footer .btn-primary');
+            submitButton.textContent = 'SUBMIT';
+            // 移除隱藏的 rated_user_id input
+            const hiddenInput = document.getElementById('rated_user_id');
+            if (hiddenInput) {
+                hiddenInput.remove();
+            }
+        });
+
+        window.deleteReview = function(reviewId) {
+            if (!confirm('確定要刪除這條評價嗎？')) {
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('review_id', reviewId);
+            
+            fetch('{% url "comment:delete_review" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('評價已刪除！');
+                    // 重新載入評論列表
+                    document.getElementById('historyModal').dispatchEvent(new Event('show.bs.modal'));
+                } else {
+                    alert(data.message || '刪除失敗，請稍後再試');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('發生錯誤，請稍後再試');
+            });
+        };
+
+        // 新增評價的提交函數
+        window.submitReview = function() {
+            const form = document.getElementById('reviewForm');
+            const rating = document.getElementById('ratingInput').value;
+
+            if (rating === '0') {
+                alert('請選擇評分');
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            fetch('{% url "comment:submit_review" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 關閉評價模態框
+                    const reviewModal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+                    reviewModal.hide();
+                    
+                    // 重置表單
+                    form.reset();
+                    document.querySelectorAll('.rating-star').forEach(star => {
+                        star.classList.remove('rating-color');
+                    });
+                    document.getElementById('ratingInput').value = '0';
+                    
+                    // 重新載入評論列表
+                    document.getElementById('historyModal').dispatchEvent(new Event('show.bs.modal'));
+                } else {
+                    alert(data.message || '評價送出失敗，請稍後再試');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('發生錯誤，請稍後再試');
+            });
+        };
+
+        // 定義全局函數，直接在HTML中呼叫
+        window.setRating = function(rating) {
             document.getElementById('ratingInput').value = rating;
             console.log('Rating set to:', rating);
             
@@ -179,83 +470,106 @@
                     star.classList.remove('rating-color');
                 }
             });
-        }
+        };
         
-        // 仍然保留原有的事件綁定，作為備用
         document.addEventListener("DOMContentLoaded", function () {
-            const ratingStars = document.querySelectorAll('.rating-star');
-            const ratingInput = document.getElementById('ratingInput');
-
-            ratingStars.forEach(star => {
-                star.addEventListener('click', function () {
-                    const rating = this.dataset.rating;
-                    ratingInput.value = rating;
-
-                    // 更新星星顯示
-                    ratingStars.forEach(s => {
-                        if (s.dataset.rating <= rating) {
-                            s.classList.add('rating-color');
-                        } else {
-                            s.classList.remove('rating-color');
-                        }
-                    });
-                });
+            // 評價模態框的事件處理
+            document.getElementById('reviewModal').addEventListener('show.bs.modal', function(event) {
+                // 檢查是否是編輯模式
+                const isEditMode = document.getElementById('ratedUserSelect').disabled;
+                if (!isEditMode) {
+                    // 只有在非編輯模式下才載入用戶列表
+                    fetch('{% url "comment:get_users_to_review" %}')
+                        .then(response => response.json())
+                        .then(data => {
+                            const select = document.getElementById('ratedUserSelect');
+                            select.innerHTML = '<option value="">Select...</option>';
+                            data.users.forEach(user => {
+                                const option = document.createElement('option');
+                                option.value = user.id;
+                                option.textContent = user.username;
+                                select.appendChild(option);
+                            });
+                        });
+                }
             });
 
-            document.getElementById('reviewModal').addEventListener('show.bs.modal', function() {
-                fetch('{% url "comment:get_users_to_review" %}')
+            // 歷史記錄模態框的事件處理
+            document.getElementById('historyModal').addEventListener('show.bs.modal', function() {
+                fetch('{% url "comment:get_reviews" %}')
                     .then(response => response.json())
                     .then(data => {
-                        const select = document.getElementById('ratedUserSelect');
-                        select.innerHTML = '<option value="">請選擇...</option>';
-                        data.users.forEach(user => {
-                            const option = document.createElement('option');
-                            option.value = user.id;
-                            option.textContent = user.username;
-                            select.appendChild(option);
-                        });
+                        const modalBody = document.querySelector('#historyModal .modal-body');
+                        modalBody.innerHTML = '';
+                        
+                        // 添加收到的評論部分
+                        const receivedTitle = document.createElement('h5');
+                        receivedTitle.textContent = 'Feedback from your partners';
+                        modalBody.appendChild(receivedTitle);
+                        
+                        if (data.received_reviews && data.received_reviews.length > 0) {
+                            data.received_reviews.forEach(review => {
+                                const reviewDiv = document.createElement('div');
+                                reviewDiv.className = 'feedback form-control mb-2';
+                                reviewDiv.innerHTML = `
+                                    <span>From: ${review.reviewer}</span><br>
+                                    <span>Rating: ${review.rating}</span><br>
+                                    <span>Comments: ${review.comment}</span><br>
+                                    <span>${review.created_at}</span>
+                                `;
+                                modalBody.appendChild(reviewDiv);
+                            });
+                        } else {
+                            const noReviews = document.createElement('div');
+                            noReviews.className = 'feedback form-control mb-2';
+                            noReviews.innerHTML = '<span>No history available.</span>';
+                            modalBody.appendChild(noReviews);
+                        }
+                        
+                        // 添加發出的評論部分
+                        const givenTitle = document.createElement('h5');
+                        givenTitle.className = 'mt-4';
+                        givenTitle.textContent = 'Feedback you gave to your partners';
+                        modalBody.appendChild(givenTitle);
+                        
+                        if (data.given_reviews && data.given_reviews.length > 0) {
+                            data.given_reviews.forEach(review => {
+                                const reviewDiv = document.createElement('div');
+                                reviewDiv.className = 'feedback form-control mb-2';
+                                reviewDiv.innerHTML = `
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span>To: ${review.rated_user}</span><br>
+                                            <span>Rating: ${review.rating}</span><br>
+                                            <span>Comments: ${review.comment}</span><br>
+                                            <span>${review.created_at}</span>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="editReview(${review.id}, ${review.rated_user_id}, ${review.rating}, '${review.comment.replace(/'/g, "\\'")}')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteReview(${review.id})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                                modalBody.appendChild(reviewDiv);
+                            });
+                        } else {
+                            const noReviews = document.createElement('div');
+                            noReviews.className = 'feedback form-control mb-2';
+                            noReviews.innerHTML = '<span>No history available.</span>';
+                            modalBody.appendChild(noReviews);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        const modalBody = document.querySelector('#historyModal .modal-body');
+                        modalBody.innerHTML = '<div class="alert alert-danger">Error loading reviews. Please try again later.</div>';
                     });
             });
         });
-
-        function submitReview() {
-            const form = document.getElementById('reviewForm');
-            const rating = document.getElementById('ratingInput').value;
-
-            if (rating === '0') {
-                alert('請選擇評分');
-                return;
-            }
-
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('評價已送出！');
-                        bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
-                        // 重置表單
-                        form.reset();
-                        document.querySelectorAll('.rating-star').forEach(star => {
-                            star.classList.remove('rating-color');
-                        });
-                        document.getElementById('ratingInput').value = '0';
-                    } else {
-                        alert(data.message || '評價送出失敗，請稍後再試');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('發生錯誤，請稍後再試');
-                });
-        }
     </script>
     
 </body>
