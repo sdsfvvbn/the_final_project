@@ -2,12 +2,21 @@ from django.db import models
 from django.conf import settings
 
 # 定義技能模型
-class Skill(models.Model):
-    name = models.CharField(max_length=100, unique=True)  # 技能名稱，必須唯一
-    tags = models.ManyToManyField('Tag', blank=True, related_name='skills')  # 與標籤的多對多關係
+class SkillCategory(models.Model):
+    name = models.CharField(max_length=50)
     
     def __str__(self):
-        return self.name  # 返回技能名稱作為字符串表示
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = "Skill Categories"
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(SkillCategory, on_delete=models.CASCADE, related_name='skills')
+    
+    def __str__(self):
+        return f"{self.name} ({self.category.name})"
 
 # 定義標籤模型
 class Tag(models.Model):
@@ -30,3 +39,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class PersonalityTag(models.Model):
+    name = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.name
