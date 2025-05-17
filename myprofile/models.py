@@ -1,47 +1,100 @@
 from django.db import models
 from django.conf import settings
 
-# 定義技能模型
+# ========================
+# 技能分類模型（Skill 類別）
+# ========================
 class SkillCategory(models.Model):
-    name = models.CharField(max_length=50)
-    
+    name = models.CharField(max_length=50)  # 分類名稱，例如 Language, Art
+
     def __str__(self):
         return self.name
-    
-    class Meta:
-        verbose_name_plural = "Skill Categories"
 
+    class Meta:
+        verbose_name = "Skill Category"
+        verbose_name_plural = "Skill Categories"  # admin 中顯示複數名稱
+
+
+# ========================
+# 技能項目模型（具體技能）
+# ========================
 class Skill(models.Model):
-    name = models.CharField(max_length=100)
-    category = models.ForeignKey(SkillCategory, on_delete=models.CASCADE, related_name='skills')
-    
+    name = models.CharField(max_length=100)  # 技能名稱，例如 English, Baking
+    category = models.ForeignKey(
+        SkillCategory,
+        on_delete=models.CASCADE,
+        related_name='skills'  # 讓你可以用 category.skills.all() 反向查詢
+    )
+
     def __str__(self):
         return f"{self.name} ({self.category.name})"
 
-# 定義標籤模型
-class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)  # 標籤名稱，必須唯一
+
+# ========================
+# 個性標籤模型（可套用於用戶）
+# ========================
+class PersonalityTag(models.Model):
+    name = models.CharField(max_length=50, unique=True)  # 標籤名稱，例如 patient、creative
 
     def __str__(self):
-        return self.name  # 返回標籤名稱作為字符串表示
+        return self.name
 
-# 定義用戶資料模型
+
+# ========================
+# 使用者個人資料擴充（UserProfile）
+# ========================
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 與內建 User 模型一對一關聯
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')  # 頭像圖片
-    instagram = models.CharField(max_length=100, blank=True, null=True)  # Instagram 帳號
-    city = models.CharField(max_length=100, blank=True, null=True)  # 居住城市
-    want_to_learn = models.ManyToManyField(Skill, related_name='learners')  # 想學習的技能（多對多關係）
-    can_teach = models.ManyToManyField(Skill, related_name='teachers')  # 能教授的技能（多對多關係）
-    personality = models.ManyToManyField(Tag, blank=True)  # 個性標籤（多對多關係）
-    available_time = models.TextField(blank=True, null=True)  # 可用時間（自由文本）
-    self_intro = models.TextField(blank=True, null=True)  # 自我介紹（自由文本）
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )  # 與內建 User 模型一對一關聯
+
+    avatar = models.ImageField(
+        upload_to='avatars/',
+        default='avatars/default.png'
+    )  # 上傳頭像圖片，預設圖也可用
+
+    instagram = models.CharField(
+        max_length=100,
+        blank=True, null=True
+    )  # IG 帳號，可留空
+
+    city = models.CharField(
+        max_length=100,
+        blank=True, null=True
+    )  # 居住城市，可留空
+
+    # 想學習的技能（多對多）
+    want_to_learn = models.ManyToManyField(
+        Skill,
+        related_name='interested_users',
+        blank=True
+    )
+
+    # 可以教授的技能（多對多）
+    can_teach = models.ManyToManyField(
+        Skill,
+        related_name='teaching_users',
+        blank=True
+    )
+
+    # 個性標籤（多對多）
+    personality = models.ManyToManyField(
+        PersonalityTag,
+        blank=True
+    )
+
+    # 可上課時間
+    available_time = models.TextField(
+        blank=True, null=True,
+        help_text="可用時間，例如 Mon & Wed evenings"
+    )
+
+    # 自我介紹
+    self_intro = models.TextField(
+        blank=True, null=True,
+        help_text="請簡單介紹你自己 :)"
+    )
 
     def __str__(self):
         return self.user.username
-
-class PersonalityTag(models.Model):
-    name = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.name
