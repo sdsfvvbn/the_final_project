@@ -6,8 +6,8 @@
           <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
               <h1 class="fw-bold text-dark">Ready to Learn<br>New Skill?</h1>
-              <form class="mt-4">
-                <input type="text" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm" 
+              <form class="mt-4" onsubmit="return redirectSearch();">
+                <input type="text" id="materialSearch" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm" 
                        placeholder="What you want to learn?" 
                        style="background-color: #64b9d8; color: white">
               </form>
@@ -232,11 +232,11 @@
                                 <p class="mt-2 fw-semibold text-dark">Piano</p>
                             </div>
                             <div class="text-center me-4">
-                                <img src="{% static 'homepage/assets/DP5.png' %}png" class="rounded-circle" style="width:250px; height:250px;">
+                                <img src="{% static 'homepage/assets/DP6.png' %}" class="rounded-circle" style="width:250px; height:250px;">
                                 <p class="mt-2 fw-semibold text-dark">Vocal</p>
                             </div>
                             <div class="text-center me-4">
-                                <img src="{% static 'homepage/assets/DP6.png' %}assets/DP6.png" class="rounded-circle" style="width:250px; height:250px;">
+                                <img src="{% static 'homepage/assets/DP5.png' %}" class="rounded-circle" style="width:250px; height:250px;">
                                 <p class="mt-2 fw-semibold text-dark">Violin</p>
                             </div>
                         </div>
@@ -252,7 +252,7 @@
                         <div class="d-flex flex-nowrap">
                             <!-- ITEM -->
                             <div class="text-center me-4">
-                                <img src="{% static 'homepage/assets/DP4.png' %}png" class="rounded-circle" style="width:250px; height:250px;">
+                                <img src="{% static 'homepage/assets/DP4.png' %}" class="rounded-circle" style="width:250px; height:250px;">
                                 <p class="mt-2 fw-semibold text-dark">Cooking</p>
                             </div>
                             <div class="text-center me-4">
@@ -327,4 +327,5 @@
                     </div>
                 </div>
             </div>
+            <script src="{% static 'homepage/search.js'%}"></script>
 {%endblock%}

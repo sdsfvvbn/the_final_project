@@ -47,6 +47,13 @@ def profile_view(request):
     except UserProfile.DoesNotExist:
         return redirect('create_profile')  # 如果沒有 UserProfile，重定向到 create_profile
 
-    return render(request, 'profile.html', {
-        'profile': profile,
+    # 根據學生的需求篩選推薦老師
+    skills_to_learn = profile.want_to_learn.all()
+    suggested_teachers = UserProfile.objects.filter(
+        can_teach__in=skills_to_learn
+    ).exclude(id=profile.id).distinct()
+
+    return render(request, "myprofile/profile.html", {
+        "profile": profile,  # 當前學生的資料
+        "suggested_teachers": suggested_teachers  # 推薦老師的資料
     })
