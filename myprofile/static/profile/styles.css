@@ -37,6 +37,7 @@ header {
     width: 150px;
 }
 
+/* 登入/註冊連結區塊 */
 .auth-links {
     position: absolute;
     right: 30px;
@@ -53,12 +54,16 @@ header {
     margin: 0 5px;
 }
 
+/* 分隔線 */
 .divider {
     height: 3px;
     background-color: #1B4864;
     margin: 0;
 }
 
+/* ===========================
+   導覽列
+   =========================== */
 .bottom-nav {
     background-color: #5FA8D3;
     display: flex;
@@ -92,7 +97,7 @@ header {
 }
 
 /* ===========================
-   User Info
+   User Info 區塊
 =========================== */
 .user-info {
     display: flex;
@@ -112,7 +117,7 @@ header {
 }
 
 /* ===========================
-   Profile Section
+   Profile 主區塊
 =========================== */
 .profile {
     padding: 20px 20px;
@@ -128,6 +133,7 @@ header {
     margin-bottom: 30px;
 }
 
+/* 個人資料卡片 */
 .profile-card {
     background-color: #ffffff;
     display: flex;
@@ -143,6 +149,7 @@ header {
     align-items: flex-start;
 }
 
+/* 頭像樣式 */
 .profile-picture {
     width: 200px;
     height: 200px;
@@ -156,6 +163,7 @@ header {
     margin-top: 55px;
 }
 
+/* 個人資料細節區塊 */
 .profile-details {
     flex: 1;
     display: flex;
@@ -179,7 +187,9 @@ header {
     margin-bottom: 10px;
 }
 
-/* Add responsive design */
+/* ===========================
+   RWD 響應式設計
+   =========================== */
 @media screen and (max-width: 768px) {
     .profile-card {
         flex-direction: column;
@@ -198,7 +208,7 @@ header {
 }
 
 /* ===========================
-   Skills and Personality
+   Skills and PersonalityTag
 =========================== */
 .skills, .personality {
     text-align: left;
@@ -213,6 +223,7 @@ header {
     margin-bottom: 20px;
 }
 
+/* 技能、個性、上課型態標籤樣式 */
 .skills span, .personality span, .tag {
     display: inline-block;
     background-color: #5FA8D3;
@@ -225,7 +236,7 @@ header {
 }
 
 /* ===========================
-   Availability Section
+   上課型態與可上課時間
 =========================== */
 .availability-container {
     display: flex;
@@ -242,6 +253,7 @@ header {
     margin-bottom: 20px;
 }
 
+/* 上課型態區塊 */
 .class-type, .time-box {
     flex: 1;
     display: flex;
@@ -260,11 +272,7 @@ header {
     margin-bottom: 10px; 
 }
 
-.class-type input[type="radio"] {
-    accent-color: #5FA8D3; 
-    margin-right: 5px;
-}
-
+/* 可上課時間區塊 */
 .time-box {
     margin-top: -15px;
     display: flex;
@@ -303,40 +311,7 @@ header {
 }
 
 /* ===========================
-   In-Person Section
-=========================== */
-.in-person {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    margin-top: 0px;
-}
-
-.in-person h3 {
-    font-size: 20px;
-    color: #1B4965;
-    font-weight: bold;
-    margin-bottom: 0px;
-}
-
-.in-person label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 20px;
-    color: #1B4965;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-.in-person input[type="radio"] {
-    accent-color: #5FA8D3;
-    margin-right: 5px;
-}
-
-/* ===========================
-   Self Introduction
+   自我介紹區塊
 =========================== */
 .self-introduction {
     margin-top: 30px;
@@ -362,7 +337,7 @@ header {
 }
 
 /* ===========================
-   Suggested Teachers
+   推薦老師區塊
 =========================== */
 .suggested-teachers {
     margin-top: 50px;
@@ -384,6 +359,7 @@ header {
     flex-wrap: wrap;
 }
 
+/* 推薦老師卡片 */
 .teacher-card {
     background-color: #ffffff;
     padding: 20px;
@@ -410,4 +386,54 @@ header {
     display: block;
     margin-top: 10px;
     font-weight: bold;
+}
+
+/* ===========================
+   共用按鈕樣式
+=========================== */
+.btn, .btn-primary {
+    background-color: #5FA8D3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 5px;
+}
+.btn-primary:hover, .btn:hover {
+    background-color: #1B4965;
+}
+
+/* ===========================
+   表單欄位統一樣式
+=========================== */
+input[type="text"], input[type="file"], select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ===========================
+   訊息樣式
+=========================== */
+.error-message {
+    color: #d9534f;
+    background: #fff0f0;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.success-message {
+    color: #155724;
+    background: #d4edda;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }

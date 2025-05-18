@@ -13,7 +13,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'instagram', 'city')
 
     # 支援直欄式多選介面（適用 ManyToMany 欄位）
-    filter_horizontal = ('want_to_learn', 'can_teach', 'personality')
+    filter_horizontal = ('want_to_learn', 'can_teach', 'personality', 'class_type')
 
     # 可過濾的欄位
     list_filter = ('class_type', 'city')
