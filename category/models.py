@@ -1,13 +1,41 @@
 from django.db import models
+from django.conf import settings
+from myprofile.models import UserProfile, Skill, PersonalityTag
 
 # Create your models here.
 class Mentor(models.Model):
-    name = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    mode = models.CharField(max_length=50)  # e.g., 'Online', 'Meet in Person'
+    user_profile = models.OneToOneField(
+        UserProfile,
+        on_delete=models.CASCADE,
+        related_name='mentor_profile'
+    )
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=5.0)
-    avatar = models.ImageField(upload_to='mentors/', default='default.png')
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    mode = models.CharField(max_length=50, default='Online')  # 'Online' or 'Physical'
 
     def __str__(self):
-        return self.name
+        return self.user_profile.user.username
+
+    @property
+    def name(self):
+        return self.user_profile.user.username
+
+    @property
+    def avatar(self):
+        return self.user_profile.avatar
+
+    @property
+    def title(self):
+        return ", ".join([skill.name for skill in self.user_profile.can_teach.all()])
+
+    @property
+    def location(self):
+        return self.user_profile.city or "Not specified"
+
+    @property
+    def personality(self):
+        return self.user_profile.personality.all()
+
+    @property
+    def skills(self):
+        return self.user_profile.can_teach.all()

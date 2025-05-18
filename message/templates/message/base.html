@@ -263,7 +263,7 @@
                 e.preventDefault();
                 const formData = new FormData(form);
                 formData.append('review_id', reviewId);
-                
+            
                 fetch('{% url "comment:update_review" %}', {
                     method: 'POST',
                     body: formData,
@@ -408,7 +408,7 @@
             .catch(error => {
                 console.error('Error:', error);
                 alert('發生錯誤，請稍後再試');
-            });
+        });
         };
 
         // 新增評價的提交函數
@@ -430,30 +430,30 @@
                     'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
                     // 關閉評價模態框
                     const reviewModal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
                     reviewModal.hide();
                     
-                    // 重置表單
-                    form.reset();
-                    document.querySelectorAll('.rating-star').forEach(star => {
-                        star.classList.remove('rating-color');
-                    });
-                    document.getElementById('ratingInput').value = '0';
+                        // 重置表單
+                        form.reset();
+                        document.querySelectorAll('.rating-star').forEach(star => {
+                            star.classList.remove('rating-color');
+                        });
+                        document.getElementById('ratingInput').value = '0';
                     
                     // 重新載入評論列表
                     document.getElementById('historyModal').dispatchEvent(new Event('show.bs.modal'));
-                } else {
-                    alert(data.message || '評價送出失敗，請稍後再試');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('發生錯誤，請稍後再試');
-            });
+                    } else {
+                        alert(data.message || '評價送出失敗，請稍後再試');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('發生錯誤，請稍後再試');
+                });
         };
 
         // 定義全局函數，直接在HTML中呼叫
