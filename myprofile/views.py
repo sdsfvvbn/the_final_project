@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from myprofile.models import UserProfile, Skill, PersonalityTag
 
@@ -22,7 +22,7 @@ def create_profile(request):
         class_type = request.POST.get('class_type')
         self_intro = request.POST.get('self_intro') 
 
-        # 建立 UserProfile 物件（尚未加入多對多欄位）
+        # 建立 UserProfile 物件（不包含多對多欄位）
         profile = UserProfile.objects.create(
             user=request.user,
             avatar=avatar,
@@ -34,6 +34,7 @@ def create_profile(request):
 
         # 設定多對多欄位（技能、個性）
         profile.want_to_learn.set(skills)
+        profile.can_teach.set(skills)
         profile.personality.set(personalities)
 
         # 儲存後導向 profile 頁面
@@ -51,6 +52,38 @@ def create_profile(request):
     })
 
 
+
+# ================================================
+# 編輯個人資料（用 get_object_or_404 取得 profile）
+# ================================================
+@login_required
+def edit_profile(request):
+    # 嘗試取得目前登入使用者的 UserProfile，找不到就自動回傳 404
+    profile = get_object_or_404(UserProfile, user=request.user)
+    if request.method == 'POST':
+        # 依表單資料更新 profile
+        profile.instagram = request.POST.get('instagram')
+        profile.city = request.POST.get('city')
+        profile.self_intro = request.POST.get('self_intro')
+        profile.available_time = request.POST.get('available_time')
+        profile.want_to_learn.set(request.POST.getlist('want_to_learn'))
+        profile.can_teach.set(request.POST.getlist('can_teach'))
+        profile.personality.set(request.POST.getlist('personality'))
+        profile.class_type.set(request.POST.getlist('class_type'))
+        profile.save()
+        return redirect('profile_view')
+    # GET 請求，顯示表單
+    skills = Skill.objects.all()
+    tags = PersonalityTag.objects.all()
+    # ... 其他 context
+    return render(request, 'edit_profile.html', {
+        'profile': profile,
+        'skills': skills,
+        'tags': tags,
+        # ... 其他 context
+    })
+
+
 # ==========================
 # 顯示個人資料（含推薦教師）
 # ==========================
@@ -65,7 +98,6 @@ def profile_view(request):
 
     # 取得使用者想學的技能
     skills_to_learn = profile.want_to_learn.all()
-
     # 根據這些技能找出能教的人（排除自己）
     suggested_teachers = UserProfile.objects.filter(
         can_teach__in=skills_to_learn
