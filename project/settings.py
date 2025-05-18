@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'message', 
-    'myapp',  # Replace with your app name
+    'myapp',
     'homepage', 
     'myprofile',
     'comment',
