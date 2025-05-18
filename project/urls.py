@@ -32,5 +32,5 @@ urlpatterns = [
     path('profile/', include('myprofile.urls')),  # 將 myprofile 的 URL 配置包含進來
     path('comment/', include('comment.urls')),
     path('', homepage_views.home, name='homepage'),
-    path('category/', category_views.category, name='category'),
+    path('category/', category_views.category, name='category')
 ]

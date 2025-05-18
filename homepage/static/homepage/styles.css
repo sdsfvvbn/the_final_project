@@ -21,6 +21,43 @@ body {
 body {
     background-color: #CAE9FF;
 }
+
+.rating-star {
+    color: #ddd;
+    font-size: 1.5rem;
+    margin-right: 0.2rem;
+}
+
+.rating-star.rating-color {
+    color: #ffc107;
+}
+
+.rating-star:hover,
+.rating-star:hover~.rating-star {
+    color: #ffc107;
+}
+
+.teacher-card {
+    position: relative;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.teacher-card .btn {
+    margin-top: 1rem;
+}
+
+.review-section {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
 .custom-btn {
     color: white;
     transition: all 0.3s ease;
@@ -83,41 +120,75 @@ body {
     width: 100px;
 }
 
-/* Buat semua dropdown full width dan sejajar */
 .filter-buttons {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 10px;
-  padding: 0 5%;
-  flex-wrap: nowrap;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0 5%;
+    flex-wrap: nowrap;
 }
 
 .filter-buttons select,
 .filter-buttons .choices {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 100%;
-  height: 42px;
-  font-size: 15px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+    height: 42px;
+    font-size: 15px;
 }
 
-/* Parent container harus full width */
 .filter-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: nowrap;
-  gap: 8px; /* ini yang mengatur jarak antar dropdown */
-  width: 100%;
-  padding: 0 20px;
-  margin-bottom: 16px;
-  box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
 }
 
-/* Setiap dropdown ukurannya rata */
 .filter-buttons > * {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
+}
+
+.mentor-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    margin: 40px auto;
+}
+
+.mentor-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: orange;
+}
+
+.mentor-name {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.mentor-title {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+.mentor-location {
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.highlight {
+    background-color: yellow;
 }
