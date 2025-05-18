@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, SkillCategory, Skill, PersonalityTag
+from .models import UserProfile, SkillCategory, Skill, PersonalityTag, ClassType
 
 # ============================================
 # UserProfile 模型的後台管理設定
@@ -15,6 +15,8 @@ class UserProfileAdmin(admin.ModelAdmin):
     # 支援直欄式多選介面（適用 ManyToMany 欄位）
     filter_horizontal = ('want_to_learn', 'can_teach', 'personality')
 
+    # 可過濾的欄位
+    list_filter = ('class_type', 'city')
 
 # ============================================
 # SkillCategory 模型的後台管理設定
@@ -26,9 +28,6 @@ class SkillCategoryAdmin(admin.ModelAdmin):
 
     # 提供分類搜尋欄（模糊搜尋名稱）
     search_fields = ('name',)
-
-    # 如果未來 SkillCategory 有分類欄位，可加上 list_filter
-
 
 # ============================================
 # Skill 模型的後台管理設定
@@ -44,7 +43,6 @@ class SkillAdmin(admin.ModelAdmin):
     # 提供技能名稱模糊搜尋
     search_fields = ('name',)
 
-
 # ============================================
 # PersonalityTag 模型的後台管理設定
 # ============================================
@@ -55,3 +53,10 @@ class PersonalityTagAdmin(admin.ModelAdmin):
 
     # 可搜尋個性標籤名稱（模糊）
     search_fields = ('name',)
+
+# ============================================
+# ClassType 模型的後台管理設定
+# ============================================
+@admin.register(ClassType)
+class ClassTypeAdmin(admin.ModelAdmin):
+    list_display = ('name',)

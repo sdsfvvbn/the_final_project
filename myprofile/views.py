@@ -16,10 +16,11 @@ def create_profile(request):
         avatar = request.FILES.get('avatar')
         instagram = request.POST.get('instagram')
         city = request.POST.get('city')
-        self_intro = request.POST.get('self_intro')
         skills_to_learn = request.POST.getlist('want_to_learn')
         skills_to_teach = request.POST.getlist('can_teach')
-        personalities = request.POST.getlist('personality')  # 多選：ManyToMany
+        personalities = request.POST.getlist('personality') # 多選：ManyToMany
+        class_type = request.POST.get('class_type')
+        self_intro = request.POST.get('self_intro') 
 
         # 建立 UserProfile 物件（尚未加入多對多欄位）
         profile = UserProfile.objects.create(
@@ -27,6 +28,7 @@ def create_profile(request):
             avatar=avatar,
             instagram=instagram,
             city=city,
+            class_type=class_type,
             self_intro=self_intro
         )
 

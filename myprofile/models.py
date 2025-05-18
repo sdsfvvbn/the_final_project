@@ -39,6 +39,14 @@ class PersonalityTag(models.Model):
     def __str__(self):
         return self.name
 
+# ========================
+# 上課型態模型（如實體、線上）
+# ========================
+class ClassType(models.Model):
+    name = models.CharField(max_length=20, unique=True)  # 例如 Physical, Online
+
+    def __str__(self):
+        return self.name
 
 # ========================
 # 使用者個人資料擴充（UserProfile）
@@ -84,10 +92,17 @@ class UserProfile(models.Model):
         blank=True
     )
 
+    # 上課型態欄位（可複選）
+    class_type = models.ManyToManyField(
+        ClassType,
+        blank=True,
+        help_text="可複選你偏好的上課型態"
+    )
+
     # 可上課時間
     available_time = models.TextField(
         blank=True, null=True,
-        help_text="可用時間，例如 Mon & Wed evenings"
+        help_text="請輸入你方便上課的時間，例如：Mon-Fri evenings, Sat morning"
     )
 
     # 自我介紹
