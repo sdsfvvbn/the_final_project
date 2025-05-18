@@ -32,9 +32,9 @@
         <h2>Skills</h2>
 
         <!-- 想學習的技能 -->
-        <label for="want_to_learn">Want to Learn (hold Ctrl to select multiple):</label>
+        <label for="want_to_learn">Want to Learn:</label>
         <select id="want_to_learn" name="want_to_learn" multiple required>
-            {% for category in "language,art,music,sports,cooking".split(',') %}
+            {% for category in categories %}
                 <optgroup label="{{ category|capfirst }}">
                     {% for skill in skills %}
                         {% if skill.category.name == category %}
@@ -46,9 +46,9 @@
         </select><br>
 
         <!-- 能教授的技能 -->
-        <label for="can_teach">Can Teach (hold Ctrl to select multiple):</label>
+        <label for="can_teach">Can Teach:</label>
         <select id="can_teach" name="can_teach" multiple required>
-            {% for category in "language,art,music,sports,cooking".split(',') %}
+            {% for category in categories %}
                 <optgroup label="{{ category|capfirst }}">
                     {% for skill in skills %}
                         {% if skill.category.name == category %}
@@ -58,6 +58,7 @@
                 </optgroup>
             {% endfor %}
         </select><br>
+
 
         <!-- ================== 上課偏好 ================== -->
         <h2>Teaching Preferences</h2>

@@ -17,7 +17,8 @@ def create_profile(request):
         instagram = request.POST.get('instagram')
         city = request.POST.get('city')
         self_intro = request.POST.get('self_intro')
-        skills = request.POST.getlist('skills')  # 多選：ManyToMany
+        skills_to_learn = request.POST.getlist('want_to_learn')
+        skills_to_teach = request.POST.getlist('can_teach')
         personalities = request.POST.getlist('personality')  # 多選：ManyToMany
 
         # 建立 UserProfile 物件（尚未加入多對多欄位）
@@ -38,11 +39,13 @@ def create_profile(request):
 
     # GET 請求：顯示表單
     skills = Skill.objects.all()
-    tags = PersonalityTag.objects.all()  # ⚠️ 這裡已修正為 PersonalityTag 而不是 Tag
+    tags = PersonalityTag.objects.all()  
+    categories = ["language", "art", "music", "sports", "cooking"]
 
     return render(request, 'create_profile.html', {
         'skills': skills,
-        'tags': tags
+        'tags': tags,
+        'categories': categories 
     })
 
 
