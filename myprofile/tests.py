@@ -20,6 +20,7 @@ profile1 = UserProfile.objects.create(
     city="Tainan City, Taiwan"
 )
 profile1.want_to_learn.add(skill1, skill2)
+profile1.can_teach.add(skill3)
 profile1.personality.add(tag1,tag3)
 
 #創建使用者(老師)

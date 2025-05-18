@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 User = get_user_model()
 class Command(BaseCommand):
     help = '創建示範用的假資料，包括使用者和訊息'
-
+    def create_user_profile():
     def add_arguments(self, parser):
         # 添加命令行參數
         parser.add_argument(

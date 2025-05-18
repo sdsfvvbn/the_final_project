@@ -1,0 +1,112 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% trans "Edit Profile" %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}" />
+</head>
+<body>
+    <!-- =======================
+             個人資料主區塊
+             ======================= -->
+    <header>
+        <div class="top-nav">
+            <div class="logo">
+                <a href="{% url 'homepage' %}">
+                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="{% trans 'TalentSwap Logo' %}"style="width: 100px; height: auto;">
+                </a>
+            </div>
+            <div class="user-info">
+                <span>{% trans "Hi, " %}{{ profile.user.username }}!</span>
+                <div class="user-avatar">
+                    <img src="{{ profile.avatar.url }}" alt="{% trans 'User Avatar' %}">
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <nav class="bottom-nav">
+            <ul class="nav-links">
+                <li><a href="{% url 'homepage' %}">{% trans "HOMEPAGE" %}</a></li>
+                <li><a href="{% url 'category' %}">{% trans "CATEGORY" %}</a></li>
+                <li><a href="{% url 'message:message_page_without_username' %}">{% trans "CHAT" %}</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="profile">
+            <h1>
+                {% trans "Edit Profile" %}
+                <!-- 返回個人頁面的連結 -->
+                <a href="{% url 'profile_view' %}" class="btn" style="margin-left:10px;">{% trans "Back" %}</a>
+            </h1>
+            <div class="profile-card">
+                <!-- 編輯表單開始 -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- 頭像上傳 -->
+                    <label for="avatar">{% trans "Avatar" %}：</label>
+                    <input type="file" id="avatar" name="avatar"><br>
+                    {% if profile.avatar %}
+                        <img src="{{ profile.avatar.url }}" alt="{% trans 'Current Avatar' %}" width="80">
+                    {% endif %}
+
+                    <!-- Instagram -->
+                    <label for="instagram">{% trans "Instagram" %}：</label>
+                    <input type="text" id="instagram" name="instagram" value="{{ profile.instagram }}"><br>
+
+                    <!-- 城市 -->
+                    <label for="city">{% trans "City" %}：</label>
+                    <input type="text" id="city" name="city" value="{{ profile.city }}"><br>
+
+                    <!-- 想學技能（多選） -->
+                    <label for="want_to_learn">{% trans "Want to Learn" %}：</label>
+                    <select id="want_to_learn" name="want_to_learn" multiple>
+                        {% for skill in skills %}
+                            <option value="{{ skill.id }}" {% if skill in profile.want_to_learn.all %}selected{% endif %}>{{ skill.name }}</option>
+                        {% endfor %}
+                    </select><br>
+
+                    <!-- 能教技能（多選） -->
+                    <label for="can_teach">{% trans "Can Teach" %}：</label>
+                    <select id="can_teach" name="can_teach" multiple>
+                        {% for skill in skills %}
+                            <option value="{{ skill.id }}" {% if skill in profile.can_teach.all %}selected{% endif %}>{{ skill.name }}</option>
+                        {% endfor %}
+                    </select><br>
+
+                    <!-- 個性標籤（多選） -->
+                    <label for="personality">{% trans "Personality" %}：</label>
+                    <select id="personality" name="personality" multiple>
+                        {% for tag in tags %}
+                            <option value="{{ tag.id }}" {% if tag in profile.personality.all %}selected{% endif %}>{{ tag.name }}</option>
+                        {% endfor %}
+                    </select><br>
+
+                    <!-- 上課型態（多選） -->
+                    <label for="class_type">{% trans "Preferred Class Type" %}：</label>
+                    <select id="class_type" name="class_type" multiple>
+                        {% for ct in class_types %}
+                            <option value="{{ ct.id }}" {% if ct in profile.class_type.all %}selected{% endif %}>{{ ct.name }}</option>
+                        {% endfor %}
+                    </select><br>
+
+                    <!-- 可上課時間 -->
+                    <label for="available_time">{% trans "Available Time" %}：</label>
+                    <textarea id="available_time" name="available_time" rows="3">{{ profile.available_time }}</textarea><br>
+
+                    <!-- 自我介紹 -->
+                    <label for="self_intro">{% trans "Self Introduction" %}：</label>
+                    <textarea id="self_intro" name="self_intro" rows="5">{{ profile.self_intro }}</textarea><br>
+
+                    <button type="submit" class="btn">{% trans "Save" %}</button>
+                </form>
+                <!-- 編輯表單結束 -->
+            </div>
+        </section>
+    </main>
+</body>
+</html>
