@@ -11,15 +11,18 @@
 
 </head>
 <body>
+    <!-- =======================
+         頁首區塊：LOGO、登入資訊、導覽列
+         ======================= -->
     <header>
         <div class="top-nav">
             <div class="logo">
-                <a href="homepage.html">
+                <a href="{% url 'homepage' %}">
                     <img src="{% static 'images/logo.png' %}" alt="{% trans 'TalentSwap Logo' %}">
                 </a>
             </div>
             <div class="auth-links">
-                <a href="#">{% trans "LOG IN" %}</a> | <a href="#">{% trans "SIGN UP" %}</a>
+                <a href="{% url 'myapp:login' %}">{% trans "LOG IN" %}</a> | <a href="#">{% trans "SIGN UP" %}</a>
             </div>
             <div class="user-info">
                 <span>{% trans "Hi, " %}{{ profile.user.username }}!</span>
@@ -31,17 +34,22 @@
         <div class="divider"></div>
         <nav class="bottom-nav">
             <ul class="nav-links">
-                <li><a href="#">{% trans "HOMEPAGE" %}</a></li>
-                <li><a href="#">{% trans "CATEGORY" %}</a></li>
-                <li><a href="#">{% trans "CONTACT US" %}</a></li>
-                <li><a href="#">{% trans "CHAT" %}</a></li>
+                <li><a href="{% url 'homepage' %}">{% trans "HOMEPAGE" %}</a></li>
+                <li><a href="{% url 'category' %}">{% trans "CATEGORY" %}</a></li>
+                <li><a href="{% url 'message' %}">{% trans "CHAT" %}</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section class="profile">
-            <h1>{% trans "Profile" %}</h1>
+            <h1>{% trans "Profile" %}
+                <!-- 編輯按鈕，連到 edit_profile 頁面 -->
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary" style="margin-left:10px;">
+                    <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" style="width:20px;vertical-align:middle;">
+                    {% trans "Edit" %}
+                </a>
+            </h1>
             <div class="profile-card">
                 <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
                 <div class="profile-details">
