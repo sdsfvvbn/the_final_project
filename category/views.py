@@ -1,42 +1,37 @@
 from django.shortcuts import render
 from django.db.models import Q
-from .models import Mentor
-from myprofile.models import Skill, SkillCategory, PersonalityTag, ClassType
+from myprofile.models import UserProfile, Skill, SkillCategory, PersonalityTag, ClassType
 
 # Create your views here.
 def category(request):
-    # Start with all available mentors
-    mentors = Mentor.objects.filter(is_available=True)
+    # 獲取所有有教學技能的用戶
+    mentors = UserProfile.objects.filter(can_teach__isnull=False).distinct()
     
-    # Get filter parameters from request
+    # 獲取過濾參數
     category_filter = request.GET.get('category', '')
     personality_filter = request.GET.get('personality', '')
     mode_filter = request.GET.get('mode', '')
     search_query = request.GET.get('search', '')
     
-    # Apply filters only if they are provided
-    # If no filter is provided, all available mentors will be shown
+    # 應用過濾器
     if category_filter:
-        # Filter by skill category
-        mentors = mentors.filter(user_profile__can_teach__category__name=category_filter)
+        mentors = mentors.filter(can_teach__category__name=category_filter)
     
     if personality_filter:
-        # Filter by personality tag
-        mentors = mentors.filter(user_profile__personality__name=personality_filter)
+        mentors = mentors.filter(personality__name=personality_filter)
     
     if mode_filter:
-        # Filter by teaching mode (Online/Physical)
-        mentors = mentors.filter(mode=mode_filter)
+        mentors = mentors.filter(class_type__name=mode_filter)
     
-    # Apply search if provided
+    # 應用搜尋
     if search_query:
         mentors = mentors.filter(
-            Q(user_profile__user__username__icontains=search_query) |
-            Q(user_profile__city__icontains=search_query) |
-            Q(user_profile__can_teach__name__icontains=search_query)
+            Q(user__username__icontains=search_query) |
+            Q(city__icontains=search_query) |
+            Q(can_teach__name__icontains=search_query)
         ).distinct()
     
-    # Get all categories and personality tags for the filter dropdowns
+    # 獲取所有分類和個性標籤用於過濾下拉選單
     categories = SkillCategory.objects.all()
     personality_tags = PersonalityTag.objects.all()
     class_types = ClassType.objects.all()
