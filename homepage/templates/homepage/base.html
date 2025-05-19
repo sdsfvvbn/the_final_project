@@ -109,22 +109,23 @@
                 <!-- Login/Signup or User Info -->
                 <div class="d-flex align-items-center">
                     {% if user.is_authenticated %}
+                        <!-- <a href="{% url 'myapp:delete_account' %}" class="btn custom-btn btn-danger">Delete Account</a> -->
                         <div class="dropdown">
                             <div class="d-flex align-items-center" role="button" data-bs-toggle="dropdown" style="cursor: pointer;">
                                 <span class="text-white me-3">Welcome, {{ user.username }}</span>
-                                <img src="{% static 'homepage/assets/default-avatar.png' %}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
+                                <img src="{% static 'homepage/assets/DP1.png' %}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'profile_view' %}">profile</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#historyModal">history</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">comments for partner</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Log Out</a></li>
                             </ul>
                         </div>
                     {% else %}
-                        <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">Log In</a>
-                        <a href="{% url 'myapp:register' %}" class="btn custom-btn">Sign Up</a>
+                        <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">LOG IN</a>
+                        <a href="{% url 'myapp:register' %}" class="btn custom-btn">SIGN UP</a>
                     {% endif %}
                 </div>
             </div>
