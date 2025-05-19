@@ -3,7 +3,7 @@
 =========================== */
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: "Font Tex Bold";
     background-color: #CAE9FF;
     color: #1B4965;
 }
@@ -14,6 +14,16 @@ body {
 header {
     background-color: #5FA8D3;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@font-face {
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
 }
 
 .top-nav {

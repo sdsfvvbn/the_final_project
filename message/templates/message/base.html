@@ -119,11 +119,11 @@
                                 <img src="{% static 'homepage/assets/DP1.png' %}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'profile_view' %}">profile</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#historyModal">history</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">comments for partner</a></li>
+                                <li><a class="dropdown-item" href="{% url 'profile_view' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#historyModal">History</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">Comments for Partner</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Log Out</a></li>
                             </ul>
                         </div>
                     {% else %}

@@ -23,13 +23,25 @@ body {
     background-color: #CAE9FF;
 }
 
-<<<<<<< HEAD
-=======
 .rating-star {
     color: #ddd;
     font-size: 1.5rem;
     margin-right: 0.2rem;
 }
+
+.join {
+    background-color: #62B6CB;
+    color: #ffffff;
+    font-weight: bold;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    border: none !important;
+}
+
+.join:hover {
+    transform: scale(1.08);    
+    background-color: #1B4965; 
+}
+
 
 .rating-star.rating-color {
     color: #ffc107;
@@ -61,7 +73,6 @@ body {
     background-color: #f8f9fa;
 }
 
->>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 .custom-btn {
     color: white;
     transition: all 0.3s ease;
@@ -134,11 +145,11 @@ body {
     flex-wrap: nowrap;
 }
 
-<<<<<<< HEAD
 .choices__item {
     flex-shrink: 0;
     margin-right: 6px;
-=======
+}
+
 .filter-buttons select,
 .filter-buttons .choices {
     flex: 1 1 0;
@@ -146,7 +157,6 @@ body {
     max-width: 100%;
     height: 42px;
     font-size: 15px;
->>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 }
 
 .filter-buttons {
@@ -168,7 +178,6 @@ body {
 
 .mentor-card {
     background-color: white;
-<<<<<<< HEAD
     border-radius: 20px;
     padding: 20px;
     display: flex;
@@ -182,13 +191,11 @@ body {
 
 .mentor-card:hover {
     transform: translateY(-4px);
-=======
     border-radius: 16px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     max-width: 400px;
     margin: 40px auto;
->>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 }
 
 .mentor-avatar {
@@ -196,7 +203,6 @@ body {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-<<<<<<< HEAD
 }
 
 .mentor-info {
@@ -247,7 +253,6 @@ body {
 .rating-star:hover,
 .rating-star:hover~.rating-star {
     color: #ffc107;
-=======
     background-color: orange;
 }
 
@@ -269,5 +274,4 @@ body {
 
 .highlight {
     background-color: yellow;
->>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 }

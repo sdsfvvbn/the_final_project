@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-    </section>     
+    </section>
 
     <div class="container my-5">
         <!-- Carousel container -->
@@ -61,6 +61,32 @@
             </button>
         </div>
     </div> 
+
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="fw-bold text-dark">Join Our Community</h2>
+            <p class="text-muted">Connect with mentors and learners around the world.</p>
+            <p class="text-muted">Share your skills and learn from others.</p>
+            <div class="target-icon-grid">
+                <div class="target-icon">
+                    <img src="{% static 'homepage/assets/target1.png' %}" alt="Students">
+                </div>
+                <div class="target-icon">
+                    <img src="{% static 'homepage/assets/target2.png' %}" alt="Parents">
+                </div>
+                <div class="target-icon">
+                    <img src="{% static 'homepage/assets/target3.png' %}" alt="Lifelong Learners">
+                </div>
+                <div class="target-icon">
+                    <img src="{% static 'homepage/assets/target4.png' %}" alt="Community Helpers">
+                </div>
+            </div>
+            <a href="{% url 'myapp:login' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Join Now!</a>
+            <p class="section-subtitle mt-4">
+                For anyone who wants to learn, share, and support each other in the journey of personal growth.
+            </p>
+        </div>
+    </section>
 
     <!-- TAB COMPONENT -->
     <div class="container my-5">    
@@ -327,5 +353,6 @@
                     </div>
                 </div>
             </div>
-            <script src="{% static 'homepage/search.js'%}"></script>
+    <script src="{% static 'homepage/search.js'%}"></script>
+    <script src="{% static 'homepage/scroll.js'%}"></script>
 {%endblock%}
