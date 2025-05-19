@@ -65,7 +65,7 @@
 
         <!-- 上課形式 -->
         <label for="class_type">Class Type:</label>
-        <select id="class_type" name="class_type" required>
+        <select id="class_type" name="class_type" multiple required>
             {% for ct in class_types %}
                 {% if ct.name != "Both" %}
                     <option value="{{ ct.id }}">{{ ct.name }}</option>
