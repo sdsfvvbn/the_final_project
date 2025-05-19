@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 User = get_user_model()
 class Command(BaseCommand):
     help = '創建示範用的假資料，包括使用者和訊息'
+    
     def add_arguments(self, parser):
         # 添加命令行參數
         parser.add_argument(
@@ -18,12 +19,6 @@ class Command(BaseCommand):
             '--clear-all',
             action='store_true',
             help='在創建新資料前刪除所有現有資料',
-        )
-        parser.add_argument(
-            '--message-count',
-            type=int,
-            default=20,
-            help='要創建的訊息數量（默認為20）',
         )
 
     def handle(self, *args, **options):
@@ -63,21 +58,15 @@ class Command(BaseCommand):
         self.stdout.write('清除現有訊息...')
         Message.objects.all().delete()
 
-        # 設定時間戳和訊息數量
+        # 設定時間戳
         now = datetime.now()
-        message_count = options['message_count']
-        self.stdout.write(f'將創建 {message_count} 則訊息...')
         
         # 創建基本訊息對話
-        self._create_basic_messages(alan, maya, alex, emily, leo,now)
-        
-        # 根據指定數量創建額外的訊息
-        if message_count > 20:
-            self._create_additional_messages(alan, maya, alex, emily,leo, now, message_count - 20)
+        self._create_basic_messages(alan, maya, alex, emily, leo, now)
         
         self.stdout.write(self.style.SUCCESS(f'已成功創建 {Message.objects.count()} 則訊息！'))
         
-    def _create_basic_messages(self, alan, maya, alex, emily,leo, now):
+    def _create_basic_messages(self, alan, maya, alex, emily, leo, now):
         """創建基本的對話訊息"""
         # Alan 和 Maya 的對話
         Message.objects.create(sender=alan, receiver=maya, text="Hi Maya, 你有特別想學哪一首歌嗎？", created_at=now)
@@ -113,41 +102,8 @@ class Command(BaseCommand):
         Message.objects.create(sender=alan, receiver=leo, text="你甚麼時候方便", created_at=now + timedelta(minutes=33))
         
         # 創建未讀訊息
-        Message.objects.create(sender=alan, receiver=maya, text="Maya，別忘了我們約定的學習時間！", created_at=now + timedelta(minutes=11), is_read=False)
-        Message.objects.create(sender=maya, receiver=alan, text="謝謝提醒，Alan，我會準時的！", created_at=now + timedelta(minutes=15), is_read=False)
-        Message.objects.create(sender=alan, receiver=alex, text="Alex，明天時間可以延後30分鐘嗎", created_at=now + timedelta(minutes=18), is_read=False)
-        Message.objects.create(sender=alan, receiver=emily, text="Emily，我到教室了喔", created_at=now + timedelta(minutes=19), is_read=False)
-        Message.objects.create(sender=leo, receiver=alan, text="後天早上，你覺得呢", created_at=now + timedelta(minutes=35))
-    def _create_additional_messages(self, alan, maya, alex, emily,leo, now, count):
-        """創建額外的訊息"""
-        users = [alan, maya, alex, emily,leo]
-        messages = [
-            "好的，謝謝你的回覆！",
-            "我們可以改時間嗎？",
-            "你有什麼推薦的學習資源嗎？",
-            "我覺得上次的交流很有幫助",
-            "我們下次什麼時候見面？",
-            "你能分享一些學習心得嗎？",
-            "我想請教你一個問題",
-            "謝謝你的幫助",
-            "我最近學到了一些新的東西",
-            "你有空討論這個話題嗎？"
-        ]
-        
-        self.stdout.write(f'創建 {count} 則額外訊息...')
-        
-        import random
-        for i in range(count):
-            sender = random.choice(users)
-            receiver = random.choice([u for u in users if u != sender])
-            text = f"{random.choice(messages)} ({i+1})"
-            is_read = random.choice([True, False])
-            created_at = now + timedelta(minutes=15+i)
-            
-            Message.objects.create(
-                sender=sender,
-                receiver=receiver,
-                text=text,
-                created_at=created_at,
-                is_read=is_read
-            )
+        Message.objects.create(sender=alan, receiver=maya, text="Maya，別忘了我們約定的學習時間！", created_at=now + timedelta(minutes=55), is_read=False)
+        Message.objects.create(sender=maya, receiver=alan, text="謝謝提醒，Alan，我會準時的！", created_at=now + timedelta(minutes=55), is_read=False)
+        Message.objects.create(sender=alan, receiver=alex, text="Alex，明天時間可以延後30分鐘嗎", created_at=now + timedelta(minutes=55), is_read=False)
+        Message.objects.create(sender=alan, receiver=emily, text="Emily，我到教室了喔", created_at=now + timedelta(minutes=55), is_read=False)
+        Message.objects.create(sender=leo, receiver=alan, text="後天早上，你覺得呢", created_at=now + timedelta(minutes=55))

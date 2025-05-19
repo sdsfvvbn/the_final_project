@@ -1,4 +1,5 @@
-header, nav {
+header,
+nav {
     background-color: #5FA8D3;
     color: white;
     font-family: "Font Tex Bold", sans-serif;
@@ -9,19 +10,21 @@ body {
 }
 
 @font-face {
-   font-family: "Font Tex Bold";
-   src: url("fonts/texgyreadventor-bold.otf") format("opentype");
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
 }
 
 @font-face {
-   font-family: "Font Tex Regular";
-   src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
 }
 
 body {
     background-color: #CAE9FF;
 }
 
+<<<<<<< HEAD
+=======
 .rating-star {
     color: #ddd;
     font-size: 1.5rem;
@@ -58,6 +61,7 @@ body {
     background-color: #f8f9fa;
 }
 
+>>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 .custom-btn {
     color: white;
     transition: all 0.3s ease;
@@ -76,14 +80,14 @@ body {
     justify-content: space-between;
     border-bottom: none;
 }
-  
+
 .nav-tabs .nav-link {
     color: #000;
     font-weight: bold;
     width: 100%;
     text-align: center;
 }
-  
+
 .nav-tabs .nav-item {
     flex: 1;
     text-align: center;
@@ -114,7 +118,7 @@ body {
     color: #1B4965 !important;
     font-size: 1.2em;
 }
-  
+
 .navbar-brand img {
     height: auto;
     width: 100px;
@@ -130,6 +134,11 @@ body {
     flex-wrap: nowrap;
 }
 
+<<<<<<< HEAD
+.choices__item {
+    flex-shrink: 0;
+    margin-right: 6px;
+=======
 .filter-buttons select,
 .filter-buttons .choices {
     flex: 1 1 0;
@@ -137,6 +146,7 @@ body {
     max-width: 100%;
     height: 42px;
     font-size: 15px;
+>>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 }
 
 .filter-buttons {
@@ -158,11 +168,27 @@ body {
 
 .mentor-card {
     background-color: white;
+<<<<<<< HEAD
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    margin: 12px auto;
+    transition: transform 0.3s;
+}
+
+.mentor-card:hover {
+    transform: translateY(-4px);
+=======
     border-radius: 16px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     max-width: 400px;
     margin: 40px auto;
+>>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 }
 
 .mentor-avatar {
@@ -170,6 +196,58 @@ body {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
+<<<<<<< HEAD
+}
+
+.mentor-info {
+    flex: 1;
+}
+
+.mentor-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 18px;
+    color: #1b1b1b;
+}
+
+.mentor-rating {
+    color: #f5a623;
+}
+
+.mentor-title {
+    margin: 4px 0;
+    font-weight: 500;
+    color: #333;
+}
+
+.mentor-location {
+    font-size: 14px;
+    color: #555;
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    padding: 30px 0;
+}
+
+.rating-star {
+    color: #ddd;
+    font-size: 1.5rem;
+    margin-right: 0.2rem;
+}
+
+.rating-star.rating-color {
+    color: #ffc107;
+}
+
+.rating-star:hover,
+.rating-star:hover~.rating-star {
+    color: #ffc107;
+=======
     background-color: orange;
 }
 
@@ -191,4 +269,5 @@ body {
 
 .highlight {
     background-color: yellow;
+>>>>>>> 558de0fcfd6655026a3c30b36d6d3879f32de085
 }

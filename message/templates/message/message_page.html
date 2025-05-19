@@ -299,6 +299,17 @@
                             messageArea.innerHTML = newMessageArea.innerHTML;
                         }
                         
+                        // 移除未讀標記 - 不需調用後端，後端已經處理
+                        const unreadBadge = document.getElementById(`unread-count-${username}`);
+                        if (unreadBadge) {
+                            unreadBadge.style.display = 'none';
+                        }
+                        
+                        const mobileUnreadBadge = document.getElementById(`mobile-unread-count-${username}`);
+                        if (mobileUnreadBadge) {
+                            mobileUnreadBadge.style.display = 'none';
+                        }
+                        
                         // 在手機版切換到聊天視窗
                         if (window.innerWidth < 768) {
                             toggleMobileSidebar();

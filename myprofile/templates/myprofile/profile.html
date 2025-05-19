@@ -1,3 +1,5 @@
+{% extends "homepage/base.html" %}
+{% block body %}
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -21,7 +23,7 @@
                 </a>
             </div>
             <div class="auth-links">
-                <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">{% trans "LOG IN |" %}</a>
+                <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">{% trans "LOG IN" %}</a>
                 <a href="{% url 'myapp:register' %}" class="btn custom-btn">{% trans "SIGN UP" %}</a>
             </div>
             <div class="user-info">
@@ -158,3 +160,4 @@
     </main>
 </body>
 </html>
+{% endblock %}
