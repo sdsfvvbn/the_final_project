@@ -94,10 +94,27 @@ def password_reset_request(request):
                 token = default_token_generator.make_token(user)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
 
+                # 添加調試日誌
+                logger.info(f'User ID: {user.pk}')
+                logger.info(f'Generated uid: {uid}')
+                logger.info(f'Generated token: {token}')
+
                 # 建立重設密碼的連結
-                reset_url = request.build_absolute_uri(
-                    reverse('myapp:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
-                )
+                try:
+                    # 確保 uid 是字符串
+                    uid_str = uid.decode('utf-8')
+                    logger.info(f'Decoded uid: {uid_str}')
+
+                    reset_url = request.build_absolute_uri(
+                        reverse('password_reset_confirm', kwargs={'uidb64': uid_str, 'token': token})
+                    )
+                    logger.info(f'Generated reset URL: {reset_url}')
+                except Exception as e:
+                    logger.error(f'Error generating reset URL: {str(e)}')
+                    logger.error(f'Error type: {type(e)}')
+                    logger.error(f'Error args: {e.args}')
+                    messages.error(request, f'生成重設密碼連結時發生錯誤：{str(e)}')
+                    return redirect('myapp:login')
 
                 # 發送電子郵件
                 subject = '重設您的密碼'
@@ -122,6 +139,7 @@ def password_reset_request(request):
                     )
                     logger.info(f'密碼重設郵件已發送到 {email}')
                     messages.success(request, '重設密碼的連結已發送到您的電子郵件。')
+                    return redirect('password_reset_done')
                 except ValueError as ve:
                     logger.error(f'郵件設定錯誤：{str(ve)}')
                     messages.error(request, '郵件設定錯誤，請聯繫管理員。')
@@ -158,7 +176,7 @@ def password_reset_confirm(request, uidb64, token):
                     user.save()
                     logger.info(f'使用者 {user.username} 的密碼已成功重設')
                     messages.success(request, '您的密碼已成功重設。請使用新密碼登入。')
-                    return redirect('myapp:login')
+                    return redirect('myapp:password_reset_complete')
                 except Exception as e:
                     logger.error(f'重設密碼時發生錯誤：{str(e)}')
                     messages.error(request, '重設密碼時發生錯誤，請稍後再試。')
