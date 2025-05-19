@@ -454,6 +454,9 @@ select[multiple] {
     box-sizing: border-box;
     outline: none;
     transition: border 0.2s;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    z-index: auto !important;
 }
 
 select[multiple]:focus {
