@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Message
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.utils import timezone
 from django.db.models import F
@@ -87,3 +87,28 @@ def message_page(request, username = None):
         # 'unread_count': unread_count,
         #  'last_message': last_message,
     })
+
+@login_required
+def add_contact(request, username):
+    try:
+        other_user = User.objects.get(username=username)
+        
+        # 檢查是否已經有對話記錄
+        existing_messages = Message.objects.filter(
+            Q(sender=request.user, receiver=other_user) |
+            Q(sender=other_user, receiver=request.user)
+        ).exists()
+        
+        if not existing_messages:
+            # 創建一個初始訊息
+            Message.objects.create(
+                sender=request.user,
+                receiver=other_user,
+                text="Hi! I'd like to connect with you.",
+                is_read=False
+            )
+        
+        # 重定向到聊天頁面
+        return redirect('message:message_page', username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
