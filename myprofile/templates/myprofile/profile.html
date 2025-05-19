@@ -68,10 +68,14 @@
                 <div class="availability-container">
                     <div class="class-type">
                         <h3>{% trans "Preferred Class Type" %}</h3>
-                        {% for ct in profile.class_type.all %}
-                            <span class="tag">{{ ct.name }}</span>
-                        {% empty %}
-                            <span>{% trans "No class type specified." %}</span>
+                        {% for ct in class_types %}
+                            {% if ct.name != "Both" %}
+                                <label>
+                                    <input type="checkbox" disabled
+                                        {% if ct in profile.class_type.all %}checked{% endif %}>
+                                    {{ ct.name }}
+                                </label>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <div class="time-box">
