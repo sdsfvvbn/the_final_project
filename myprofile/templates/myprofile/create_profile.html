@@ -66,10 +66,12 @@
         <!-- 上課形式 -->
         <label for="class_type">Class Type:</label>
         <select id="class_type" name="class_type" required>
-            <option value="online">Online</option>
-            <option value="offline">Offline</option>
-            <option value="both">Both</option>
-        </select><br>
+            {% for ct in class_types %}
+                {% if ct.name != "Both" %}
+                    <option value="{{ ct.id }}">{{ ct.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
 
         <!-- 可用時間 -->
         <label for="available_time">Available Time:</label>
