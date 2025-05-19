@@ -21,11 +21,12 @@
         <div class="top-nav">
             <div class="logo">
                 <a href="{% url 'homepage' %}">
-                    <img src="{% static 'images/logo.png' %}" alt="{% trans 'TalentSwap Logo' %}">
+                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="{% trans 'TalentSwap Logo' %}"style="width: 100px; height: auto;">
                 </a>
             </div>
             <div class="auth-links">
-                <a href="{% url 'myapp:login' %}">{% trans "LOG IN" %}</a> | <a href="#">{% trans "SIGN UP" %}</a>
+                <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">{% trans "LOG IN | " %}</a>
+                <a href="{% url 'myapp:register' %}" class="btn custom-btn">{% trans "SIGN UP" %}</a>
             </div>
             <div class="user-info">
                 <span>{% trans "Hi, " %}{{ profile.user.username }}!</span>
@@ -35,16 +36,20 @@
             </div>
         </div>
         <div class="divider"></div>
+        <!-- 下方導覽列，連結到首頁、分類、聊天室 -->
         <nav class="bottom-nav">
             <ul class="nav-links">
                 <li><a href="{% url 'homepage' %}">{% trans "HOMEPAGE" %}</a></li>
                 <li><a href="{% url 'category' %}">{% trans "CATEGORY" %}</a></li>
-                <li><a href="{% url 'message' %}">{% trans "CHAT" %}</a></li>
+                <li><a href="{% url 'message:message_page_without_username' %}">{% trans "CHAT" %}</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
+    <!-- =======================
+             個人資料主區塊
+             ======================= -->
         <section class="profile">
             <h1>{% trans "Profile" %}
                 <!-- 編輯按鈕，連到 edit_profile 頁面 -->
@@ -71,6 +76,7 @@
                         {% endif %}
                     </p>
 
+                    <!-- 技能區塊：想學與能教 -->
                     <div class="skills">
                         <h3>{% trans "Want to Learn" %}</h3>
                         {% for skill in profile.want_to_learn.all %}
@@ -87,6 +93,7 @@
                         {% endfor %}
                     </div>
 
+                    <!-- 個性標籤區塊 -->
                     <div class="personality">
                         <h3>{% trans "Personality" %}</h3>
                         {% for trait in profile.personality.all %}
@@ -96,17 +103,15 @@
                         {% endfor %}
                     </div>
 
+                    <!-- 上課型態與可上課時間 -->
                     <div class="availability-container">
                         <div class="class-type">
                             <h3>{% trans "Preferred Class Type" %}</h3>
-                            <label>
-                                <input type="radio" name="class-type" value="Physical" {% if profile.class_type == "Physical" %}checked{% endif %}>
-                                {% trans "Physical" %}
-                            </label>
-                            <label>
-                                <input type="radio" name="class-type" value="Online" {% if profile.class_type == "Online" %}checked{% endif %}>
-                                {% trans "Online" %}
-                            </label>
+                            {% for ct in profile.class_type.all %}
+                                <span class="tag">{{ ct.name }}</span>
+                            {% empty %}
+                                <span>{% trans "No class type specified." %}</span>
+                            {% endfor %}
                         </div>
                         <div class="time-box">
                             <h3>{% trans "Available Time" %}</h3>
@@ -123,28 +128,19 @@
                         </div>
                     </div>
 
-                    <div class="in-person">
-                        <h3>{% trans "Willing to Meet In Person" %}</h3>
-                        <label>
-                            <input type="radio" name="in-person" value="Yes" {% if profile.willing_to_meet_in_person %}checked{% endif %}>
-                            {% trans "Yes" %}
-                        </label>
-                        <label>
-                            <input type="radio" name="in-person" value="No" {% if not profile.willing_to_meet_in_person %}checked{% endif %}>
-                            {% trans "No" %}
-                        </label>
-                    </div>
-
+                    <!-- 自我介紹區塊 -->
                     <div class="self-introduction">
                         <h3>{% trans "Self Introduction" %}</h3>
-                        <textarea id="self-intro" name="self_intro" rows="6" cols="50" placeholder="{% trans 'Write a brief introduction about yourself.' %}">
-                            {{ profile.self_intro|default:"" }}
-                        </textarea>
+                        <h3>{% trans "Self Introduction" %}</h3>
+                        <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- =======================
+             推薦老師區塊
+             ======================= -->
         <section class="suggested-teachers">
             <h2>{% trans "Suggested Teachers" %}</h2>
             <div class="teachers">

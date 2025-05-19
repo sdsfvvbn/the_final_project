@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from myprofile.models import UserProfile, Skill, PersonalityTag
+from myprofile.models import UserProfile, Skill, PersonalityTag, ClassType
 
 # ==========================
 # 建立用戶個人資料（初次填寫）
@@ -33,24 +33,25 @@ def create_profile(request):
         )
 
         # 設定多對多欄位（技能、個性）
-        profile.want_to_learn.set(skills)
-        profile.can_teach.set(skills)
+        profile.want_to_learn.set(skills_to_learn)
+        profile.can_teach.set(skills_to_teach)
         profile.personality.set(personalities)
-
+        profile.class_type.set(class_type)
         # 儲存後導向 profile 頁面
         return redirect('profile_view')
 
     # GET 請求：顯示表單
     skills = Skill.objects.all()
     tags = PersonalityTag.objects.all()  
+    class_types = ClassType.objects.all()
     categories = ["language", "art", "music", "sports", "cooking"]
 
-    return render(request, 'create_profile.html', {
+    return render(request, 'myprofile/create_profile.html', {
         'skills': skills,
         'tags': tags,
-        'categories': categories 
+        'categories': categories,
+        'class_types': class_types, 
     })
-
 
 
 # ================================================
@@ -75,12 +76,14 @@ def edit_profile(request):
     # GET 請求，顯示表單
     skills = Skill.objects.all()
     tags = PersonalityTag.objects.all()
-    # ... 其他 context
-    return render(request, 'edit_profile.html', {
+    class_types = ClassType.objects.all()
+    categories = ["language", "art", "music", "sports", "cooking"]
+    return render(request, 'myprofile/edit_profile.html', {
         'profile': profile,
         'skills': skills,
         'tags': tags,
-        # ... 其他 context
+        'categories': categories,
+        'class_types': class_types,
     })
 
 

@@ -6,15 +6,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% trans "Edit Profile" %}</title>
-    <!-- 共用 profile 的 CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}" />
 </head>
 <body>
+    <!-- =======================
+             個人資料主區塊
+             ======================= -->
     <header>
         <div class="top-nav">
             <div class="logo">
                 <a href="{% url 'homepage' %}">
-                    <img src="{% static 'images/logo.png' %}" alt="{% trans 'TalentSwap Logo' %}">
+                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="{% trans 'TalentSwap Logo' %}"style="width: 100px; height: auto;">
                 </a>
             </div>
             <div class="user-info">
@@ -29,7 +31,7 @@
             <ul class="nav-links">
                 <li><a href="{% url 'homepage' %}">{% trans "HOMEPAGE" %}</a></li>
                 <li><a href="{% url 'category' %}">{% trans "CATEGORY" %}</a></li>
-                <li><a href="{% url 'message' %}">{% trans "CHAT" %}</a></li>
+                <li><a href="{% url 'message:message_page_without_username' %}">{% trans "CHAT" %}</a></li>
             </ul>
         </nav>
     </header>
