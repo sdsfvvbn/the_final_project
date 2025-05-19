@@ -1,10 +1,17 @@
 {% extends "homepage/base.html" %}
 {% load static %}
 {% load i18n %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+{% endblock %}
+
+{% block title %}
+
 {% block body %}
 <main>
-<!-- =======================
-    個人資料主區塊
+    <!-- =======================
+        個人資料主區塊
     ======================= -->
     <section class="profile">
         <h1>{% trans "Profile" %}
