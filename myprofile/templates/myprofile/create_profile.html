@@ -66,11 +66,13 @@
                         <!-- 可以教授的技能（多選小方塊） -->
                         <div class="form-group mb-3">
                             <label>可以教授的技能</label>
-                            {% for skill in profile.can_teach.all %}
-                                <span class="tag">{{ skill.name }}</span>
-                            {% empty %}
-                                <span>尚未選擇技能</span>
-                            {% endfor %}
+                            <div class="checkbox-group">
+                                {% for skill in skills %}
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="can_teach" value="{{ skill.id }}">
+                                        <span>{{ skill.name }}</span>
+                                    </label>
+                                {% endfor %}
                             </div>
                         </div>
 
