@@ -9,6 +9,7 @@
                     <h3 class="text-center">建立個人資料</h3>
                 </div>
                 <div class="card-body">
+                    {# 顯示訊息 #}
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }}">
@@ -20,7 +21,7 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <!-- 頭像上傳 -->
+                        <!-- 頭像上傳與預覽 -->
                         <div class="form-group mb-4">
                             <label for="{{ form.avatar.id_for_label }}">頭像</label>
                             <div class="text-center mb-3">
@@ -30,23 +31,25 @@
                             <small class="form-text text-muted">您可以上傳自己的頭像，或使用預設頭像</small>
                         </div>
 
-                        <!-- 其他表單欄位 -->
+                        <!-- Instagram -->
                         <div class="form-group mb-3">
                             <label for="{{ form.instagram.id_for_label }}">Instagram</label>
                             {{ form.instagram }}
                         </div>
 
+                        <!-- 城市 -->
                         <div class="form-group mb-3">
                             <label for="{{ form.city.id_for_label }}">城市</label>
                             {{ form.city }}
                         </div>
 
+                        <!-- 自我介紹 -->
                         <div class="form-group mb-3">
                             <label for="{{ form.self_intro.id_for_label }}">自我介紹</label>
                             {{ form.self_intro }}
                         </div>
 
-                        <!-- 技能選擇 -->
+                        <!-- 想學習的技能（多選小方塊） -->
                         <div class="form-group mb-3">
                             <label>想學習的技能</label>
                             <div class="checkbox-group">
@@ -56,9 +59,10 @@
                                         {{ skill.name }}
                                     </label>
                                 {% endfor %}
-                                </div>
                             </div>
+                        </div>
 
+                        <!-- 可以教授的技能（多選小方塊） -->
                         <div class="form-group mb-3">
                             <label>可以教授的技能</label>
                             <div class="checkbox-group">
@@ -71,7 +75,7 @@
                             </div>
                         </div>
 
-                        <!-- 個性標籤 -->
+                        <!-- 個性特質（多選小方塊） -->
                         <div class="form-group mb-3">
                             <label>個性特質</label>
                             <div class="checkbox-group">
@@ -84,16 +88,22 @@
                             </div>
                         </div>
 
-                        <!-- 課程類型 -->
+                        <!-- 課程類型（多選小方塊） -->
                         <div class="form-group mb-3">
                             <label>課程類型</label>
-                            <select name="class_type" class="form-control" multiple>
-                                {% for type in class_types %}
-                                    <option value="{{ type.id }}">{{ type.name }}</option>
+                            <div class="checkbox-group class-type-group">
+                                {% for ct in class_types %}
+                                    {% if ct.name != "Both" %}
+                                        <label class="checkbox-label tag-option">
+                                            <input type="checkbox" name="class_type" value="{{ ct.id }}">
+                                            {{ ct.name }}
+                                        </label>
+                                    {% endif %}
                                 {% endfor %}
-                            </select>
+                            </div>
                         </div>
 
+                        <!-- 送出按鈕 -->
                         <div class="text-center mt-4">
                             <button type="submit" class="btn btn-primary">建立個人資料</button>
                         </div>
@@ -103,18 +113,10 @@
         </div>
     </div>
 </div>
-        <!-- 上課形式 -->
-        <label for="class_type">Class Type:</label>
-        <select id="class_type" name="class_type" multiple required>
-            {% for ct in class_types %}
-                {% if ct.name != "Both" %}
-                    <option value="{{ ct.id }}">{{ ct.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
 
 {% block extra_js %}
 <script>
+/* 頭像即時預覽功能 */
 document.addEventListener('DOMContentLoaded', function() {
     const avatarInput = document.querySelector('input[type="file"]');
     const avatarPreview = document.getElementById('avatar-preview');

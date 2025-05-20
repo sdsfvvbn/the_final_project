@@ -56,28 +56,56 @@
 
                 <!-- 技能區塊：想學與能教 -->
                 <div class="skills">
+                    <!-- 想學技能 -->
                     <h3>{% trans "Want to Learn" %}</h3>
                     {% for skill in profile.want_to_learn.all %}
                         <span class="tag">{{ skill.name }}</span>
+                        {% if forloop.last %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
                     {% empty %}
                         <span>{% trans "No skills selected." %}</span>
-                    {% endfor %}
-
-                    <h3>{% trans "Can Teach" %}</h3>
-                    {% for skill in profile.can_teach.all %}
-                        <span class="tag">{{ skill.name }}</span>
-                    {% empty %}
-                        <span>{% trans "No teaching skills." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
                     {% endfor %}
                 </div>
 
-                <!-- 個性標籤區塊 -->
+                <!-- 能教技能 -->
+                <div class="skills">
+                    <h3>{% trans "Can Teach" %}</h3>
+                    {% for skill in profile.can_teach.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                        {% if forloop.last %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
+                    {% empty %}
+                        <span>{% trans "No teaching skills." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <!-- 個性特質 -->
                 <div class="personality">
                     <h3>{% trans "Personality" %}</h3>
                     {% for trait in profile.personality.all %}
                         <span class="tag">{{ trait.name }}</span>
+                        {% if forloop.last %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
                     {% empty %}
                         <span>{% trans "No traits specified." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
                     {% endfor %}
                 </div>
 

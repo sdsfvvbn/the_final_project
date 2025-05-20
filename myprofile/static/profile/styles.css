@@ -2,137 +2,94 @@
    技能/個性標籤樣式
 =========================== */
 .tag {
-    display: inline-block;
-    background-color: #5FA8D3;
-    color: #fff;
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin: 5px 8px 5px 0;
-    font-size: 18px;
-    font-weight: bold;
-    vertical-align: middle;
+    display: inline-block;              /* 讓標籤橫向排列 */
+    background-color: #5FA8D3;          /* 標籤底色 */
+    color: #fff;                        /* 文字顏色 */
+    padding: 5px 14px;                  /* 內距 */
+    border-radius: 20px;                /* 圓角 */
+    margin: 5px 8px 5px 0;              /* 外距 */
+    font-size: 18px;                    /* 字體大小 */
+    font-weight: bold;                  /* 字體加粗 */
+    vertical-align: middle;             /* 與加號 icon 垂直對齊 */
 }
 
 /* ===========================
-   加號 icon 樣式
+   加號 icon 外層連結樣式
 =========================== */
 .add-tag-link {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8px;
-    text-decoration: none;
+    display: inline-block;              /* 讓加號 icon 跟標籤同一行 */
+    vertical-align: middle;             /* 垂直置中 */
+    margin-left: 8px;                   /* 與標籤間距 */
+    text-decoration: none;              /* 移除底線 */
 }
-.add-icon {
-    color: #5FA8D3;
-    font-size: 20px;
-    background: #fff;
+
+/* ===========================
+   圓圈加號 icon 樣式
+=========================== */
+.circle-add {
+    display: inline-flex;               /* 讓內容置中 */
+    align-items: center;                /* 垂直置中 */
+    justify-content: center;            /* 水平置中 */
+    width: 28px;                        /* 圓圈寬度 */
+    height: 28px;                       /* 圓圈高度 */
+    border-radius: 50%;                 /* 圓形 */
+    background: #fff;                   /* 白色底 */
+    border: 2px solid #5FA8D3;          /* 藍色邊框 */
+    color: #5FA8D3;                     /* 加號顏色 */
+    font-size: 18px;                    /* 加號大小 */
+    transition: background 0.2s, color 0.2s; /* hover 動畫 */
+    cursor: pointer;                    /* 滑鼠變手指 */
+}
+.circle-add:hover {
+    background: #5FA8D3;                /* hover 時底色變藍 */
+    color: #fff;                        /* 加號變白 */
+}
+
+/* ===========================
+   其他常用樣式（可依需求保留）
+=========================== */
+.profile-card {
+    background-color: #fff;
+    border-radius: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    padding: 4px 6px;
-    transition: color 0.2s, background 0.2s;
-}
-.add-icon:hover {
-    color: #fff;
-    background: #5FA8D3;
+    object-fit: cover;
+    background-color: #ccc;
+    border: 2px solid #5FA8D3;
+    margin-top: 55px;
 }
 
-/* ===========================
-   多選小方塊（checkbox group）
-=========================== */
-.checkbox-group {
+.profile-details {
+    flex: 1;
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px 24px;
-    margin-top: 8px;
-}
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 18px;
-    background: #eaf4fb;
-    border-radius: 8px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-weight: 500;
-    margin-bottom: 8px;
-}
-.checkbox-label input[type="checkbox"] {
-    accent-color: #5FA8D3;
-    width: 18px;
-    height: 18px;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 20px;
 }
 
-/* ===========================
-   編輯彈窗樣式
-=========================== */
-.modal-bg {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.3);
-    justify-content: center;
-    align-items: center;
-}
-.modal-content {
-    background: #fff;
-    border-radius: 10px;
-    padding: 24px 32px;
-    min-width: 300px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    text-align: center;
-}
-.modal-content input[type="text"] {
-    width: 90%;
-    padding: 6px;
-    margin-bottom: 12px;
-}
-.modal-content button {
-    margin: 0 8px;
+.skills, .personality {
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: 20px;
 }
 
-/* ===========================
-   其他表單欄位、按鈕、訊息樣式
-=========================== */
-input[type="text"], input[type="file"], select, textarea {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.btn, .btn-primary {
-    background-color: #5FA8D3;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 20px;
-    font-size: 16px;
+.skills h3, .personality h3 {
+    font-size: 20px;
+    color: #1B4965;
     font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin: 5px;
-}
-.btn-primary:hover, .btn:hover {
-    background-color: #1B4965;
-}
-
-.error-message {
-    color: #d9534f;
-    background: #fff0f0;
-    padding: 8px 12px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-.success-message {
-    color: #155724;
-    background: #d4edda;
-    padding: 8px 12px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 /* ===========================
