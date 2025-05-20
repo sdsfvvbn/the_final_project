@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from myprofile.models import UserProfile, Skill, PersonalityTag, ClassType
+from myprofile.models import UserProfile, Skill, PersonalityTag, ClassType, SkillCategory
 
 # ==========================
 # 建立用戶個人資料（初次填寫）
@@ -19,7 +19,7 @@ def create_profile(request):
         skills_to_learn = request.POST.getlist('want_to_learn')
         skills_to_teach = request.POST.getlist('can_teach')
         personalities = request.POST.getlist('personality') # 多選：ManyToMany
-        class_type = request.POST.get('class_type')
+        class_type = request.POST.getlist('class_type')
         self_intro = request.POST.get('self_intro') 
 
         # 建立 UserProfile 物件（不包含多對多欄位）
@@ -28,7 +28,6 @@ def create_profile(request):
             avatar=avatar,
             instagram=instagram,
             city=city,
-            class_type=class_type,
             self_intro=self_intro
         )
 
@@ -44,7 +43,7 @@ def create_profile(request):
     skills = Skill.objects.all()
     tags = PersonalityTag.objects.all()  
     class_types = ClassType.objects.all()
-    categories = ["language", "art", "music", "sports", "cooking"]
+    categories = SkillCategory.objects.values_list('name', flat=True).distinct()
 
     return render(request, 'myprofile/create_profile.html', {
         'skills': skills,
@@ -92,12 +91,22 @@ def edit_profile(request):
 # ==========================
 @login_required
 def profile_view(request):
-    try:
-        # 嘗試取得目前登入使用者的 UserProfile
-        profile = request.user.userprofile
-    except UserProfile.DoesNotExist:
-        # 若尚未建立 UserProfile，導向建立頁面
-        return redirect('create_profile')
+    # 獲取要查看的用戶名
+    username = request.GET.get('username')
+    
+    if username:
+        # 如果提供了用戶名，顯示該用戶的資料
+        try:
+            profile = UserProfile.objects.get(user__username=username)
+        except UserProfile.DoesNotExist:
+            return redirect('homepage')
+    else:
+        # 否則顯示當前登入用戶的資料
+        try:
+            profile = request.user.userprofile
+        except UserProfile.DoesNotExist:
+            # 若尚未建立 UserProfile，導向建立頁面
+            return redirect('create_profile')
 
     # 取得使用者想學的技能
     skills_to_learn = profile.want_to_learn.all()

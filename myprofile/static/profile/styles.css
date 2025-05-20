@@ -280,6 +280,11 @@ header {
     color: #1B4965;
     font-weight: bold;
     margin-bottom: 10px; 
+    cursor: default;
+}
+
+.class-type input[type="checkbox"]:disabled {
+    accent-color: #5FA8D3;
 }
 
 /* 可上課時間區塊 */
@@ -334,7 +339,7 @@ header {
     margin-bottom: 20px;
 }
 
-.self-introduction textarea {
+.self-introduction p {
     background-color: #5FA8D3;
     color: #ffffff;
     padding: 15px;
@@ -446,4 +451,35 @@ input[type="text"], input[type="file"], select, textarea {
     padding: 8px 12px;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+/* ===================================================================
+   多選選單美化（Want to Learn, Can Teach, Personality, Class Type等）
+=====================================================================*/
+select[multiple] {
+    min-height: 120px;
+    max-height: 220px;
+    width: 320px;
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #b0c4de;
+    background: #f8fbff;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border 0.2s;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    z-index: auto !important;
+}
+
+select[multiple]:focus {
+    border: 2px solid #5fa8d3;
+    background: #e6f2fa;
+}
+
+select[multiple] option {
+    padding: 6px 10px;
+    font-size: 1rem;
 }

@@ -1,41 +1,11 @@
 from django.db import models
-from django.conf import settings
-from myprofile.models import UserProfile, Skill, PersonalityTag
+from myprofile.models import UserProfile
 
-# Create your models here.
-class Mentor(models.Model):
-    user_profile = models.OneToOneField(
-        UserProfile,
-        on_delete=models.CASCADE,
-        related_name='mentor_profile'
-    )
-    rating = models.DecimalField(max_digits=2, decimal_places=1, default=5.0)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    mode = models.CharField(max_length=50, default='Online')  # 'Online' or 'Physical'
-
-    def __str__(self):
-        return self.user_profile.user.username
-
-    @property
-    def name(self):
-        return self.user_profile.user.username
-
-    @property
-    def avatar(self):
-        return self.user_profile.avatar
-
-    @property
-    def title(self):
-        return ", ".join([skill.name for skill in self.user_profile.can_teach.all()])
-
-    @property
-    def location(self):
-        return self.user_profile.city or "Not specified"
-
-    @property
-    def personality(self):
-        return self.user_profile.personality.all()
-
-    @property
-    def skills(self):
-        return self.user_profile.can_teach.all()
+# 我們不需要額外的模型，直接使用 UserProfile
+# 因為 UserProfile 已經包含了所有我們需要的資訊：
+# - can_teach (技能)
+# - personality (個性標籤)
+# - class_type (上課方式)
+# - city (地點)
+# - avatar (頭像)
+# - self_intro (自我介紹)

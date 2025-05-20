@@ -1,5 +1,7 @@
+{% extends "myprofile/base.html" %}
 {% load static %}
 {% load i18n %}
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,154 +9,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" href= "{% static 'profile/styles.css' %}" />
+=======
 
-</head>
-<body>
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+{% endblock %}
+>>>>>>> 1f91e617c3b9f05bce4ca1d3d40a90ee3e71d661
+
+{% block body %}
+<main>
     <!-- =======================
-         頁首區塊：LOGO、登入資訊、導覽列
-         ======================= -->
-    <header>
-        <div class="top-nav">
-            <div class="logo">
-                <a href="{% url 'homepage' %}">
-                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="{% trans 'TalentSwap Logo' %}"style="width: 100px; height: auto;">
-                </a>
-            </div>
-            <div class="auth-links">
-                <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">{% trans "LOG IN | " %}</a>
-                <a href="{% url 'myapp:register' %}" class="btn custom-btn">{% trans "SIGN UP" %}</a>
-            </div>
-            <div class="user-info">
-                <span>{% trans "Hi, " %}{{ profile.user.username }}!</span>
-                <div class="user-avatar">
-                    <img src="{{ profile.avatar.url }}" alt="{% trans 'User Avatar' %}">
+        個人資料主區塊
+    ======================= -->
+    <section class="profile">
+        <h1>{% trans "Profile" %}
+        <!-- 編輯按鈕，連到 edit_profile 頁面 -->
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary" style="margin-left:10px;">
+                <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" style="width:20px;vertical-align:middle;">
+                {% trans "Edit" %}
+            </a>
+        </h1>
+        <div class="profile-card">
+            <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
+            <div class="profile-details">
+                <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                <p>
+                    {% if profile.instagram %}
+                        Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank">@{{ profile.instagram }}</a>
+                    {% else %}
+                        {% trans "No Instagram provided." %}
+                    {% endif %}
+                    |
+                    {% if profile.city %}
+                        {{ profile.city }}
+                    {% else %}
+                        {% trans "No city provided." %}
+                    {% endif %}
+                </p>
+
+                <!-- 技能區塊：想學與能教 -->
+                <div class="skills">
+                    <h3>{% trans "Want to Learn" %}</h3>
+                    {% for skill in profile.want_to_learn.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                    {% empty %}
+                        <span>{% trans "No skills selected." %}</span>
+                    {% endfor %}
+
+                    <h3>{% trans "Can Teach" %}</h3>
+                    {% for skill in profile.can_teach.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                    {% empty %}
+                        <span>{% trans "No teaching skills." %}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- 個性標籤區塊 -->
+                <div class="personality">
+                    <h3>{% trans "Personality" %}</h3>
+                    {% for trait in profile.personality.all %}
+                        <span class="tag">{{ trait.name }}</span>
+                    {% empty %}
+                        <span>{% trans "No traits specified." %}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- 上課型態與可上課時間 -->
+                <div class="availability-container">
+                    <div class="class-type">
+                        <h3>{% trans "Preferred Class Type" %}</h3>
+                        {% for ct in class_types %}
+                            {% if ct.name != "Both" %}
+                                <label>
+                                    <input type="checkbox" disabled
+                                        {% if ct in profile.class_type.all %}checked{% endif %}>
+                                    {{ ct.name }}
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="time-box">
+                        <h3>{% trans "Available Time" %}</h3>
+                        <ol id="available-time-list">
+                            {% for time in profile.available_time.splitlines %}
+                                <li>{{ time }}</li>
+                            {% empty %}
+                                <li>{% trans "No available time specified." %}</li>
+                            {% endfor %}
+                        </ol>
+                        <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
+                            {{ profile.available_time|default:""}}
+                        </textarea>
+                    </div>
+                </div>
+
+                <!-- 自我介紹區塊 -->
+                <div class="self-introduction">
+                    <h3>{% trans "Self Introduction" %}</h3>
+                    <h3>{% trans "Self Introduction" %}</h3>
+                    <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
                 </div>
             </div>
         </div>
-        <div class="divider"></div>
-        <!-- 下方導覽列，連結到首頁、分類、聊天室 -->
-        <nav class="bottom-nav">
-            <ul class="nav-links">
-                <li><a href="{% url 'homepage' %}">{% trans "HOMEPAGE" %}</a></li>
-                <li><a href="{% url 'category' %}">{% trans "CATEGORY" %}</a></li>
-                <li><a href="{% url 'message:message_page_without_username' %}">{% trans "CHAT" %}</a></li>
-            </ul>
-        </nav>
-    </header>
+    </section>
 
-    <main>
     <!-- =======================
-             個人資料主區塊
-             ======================= -->
-        <section class="profile">
-            <h1>{% trans "Profile" %}
-                <!-- 編輯按鈕，連到 edit_profile 頁面 -->
-                <a href="{% url 'edit_profile' %}" class="btn btn-primary" style="margin-left:10px;">
-                    <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" style="width:20px;vertical-align:middle;">
-                    {% trans "Edit" %}
-                </a>
-            </h1>
-            <div class="profile-card">
-                <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
-                <div class="profile-details">
-                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
-                    <p>
-                        {% if profile.instagram %}
-                            Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank">@{{ profile.instagram }}</a>
-                        {% else %}
-                            {% trans "No Instagram provided." %}
-                        {% endif %}
-                        |
-                        {% if profile.city %}
-                            {{ profile.city }}
-                        {% else %}
-                            {% trans "No city provided." %}
-                        {% endif %}
-                    </p>
-
-                    <!-- 技能區塊：想學與能教 -->
-                    <div class="skills">
-                        <h3>{% trans "Want to Learn" %}</h3>
-                        {% for skill in profile.want_to_learn.all %}
-                            <span class="tag">{{ skill.name }}</span>
-                        {% empty %}
-                            <span>{% trans "No skills selected." %}</span>
-                        {% endfor %}
-
-                        <h3>{% trans "Can Teach" %}</h3>
-                        {% for skill in profile.can_teach.all %}
-                            <span class="tag">{{ skill.name }}</span>
-                        {% empty %}
-                            <span>{% trans "No teaching skills." %}</span>
-                        {% endfor %}
-                    </div>
-
-                    <!-- 個性標籤區塊 -->
-                    <div class="personality">
-                        <h3>{% trans "Personality" %}</h3>
-                        {% for trait in profile.personality.all %}
-                            <span class="tag">{{ trait.name }}</span>
-                        {% empty %}
-                            <span>{% trans "No traits specified." %}</span>
-                        {% endfor %}
-                    </div>
-
-                    <!-- 上課型態與可上課時間 -->
-                    <div class="availability-container">
-                        <div class="class-type">
-                            <h3>{% trans "Preferred Class Type" %}</h3>
-                            {% for ct in profile.class_type.all %}
-                                <span class="tag">{{ ct.name }}</span>
-                            {% empty %}
-                                <span>{% trans "No class type specified." %}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="time-box">
-                            <h3>{% trans "Available Time" %}</h3>
-                            <ol id="available-time-list">
-                                {% for time in profile.available_time.splitlines %}
-                                    <li>{{ time }}</li>
-                                {% empty %}
-                                    <li>{% trans "No available time specified." %}</li>
-                                {% endfor %}
-                            </ol>
-                            <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
-                                {{ profile.available_time|default:""}}
-                            </textarea>
-                        </div>
-                    </div>
-
-                    <!-- 自我介紹區塊 -->
-                    <div class="self-introduction">
-                        <h3>{% trans "Self Introduction" %}</h3>
-                        <h3>{% trans "Self Introduction" %}</h3>
-                        <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
-                    </div>
-                </div>
+        推薦老師區塊
+    ======================= -->
+    <section class="suggested-teachers">
+        <h2>{% trans "Suggested Teachers" %}</h2>
+        <div class="teachers">
+            {% for teacher in suggested_teachers %}
+            <div class="teacher-card">
+                <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
+                <p>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</p>
+                <p>
+                    {% for skill in teacher.can_teach.all %}
+                        <span>{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
             </div>
-        </section>
-
-        <!-- =======================
-             推薦老師區塊
-             ======================= -->
-        <section class="suggested-teachers">
-            <h2>{% trans "Suggested Teachers" %}</h2>
-            <div class="teachers">
-                {% for teacher in suggested_teachers %}
-                <div class="teacher-card">
-                    <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
-                    <p>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</p>
-                    <p>
-                        {% for skill in teacher.can_teach.all %}
-                            <span>{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                </div>
-                {% empty %}
-                <p>{% trans "No suggested teachers available at the moment." %}</p>
-                {% endfor %}
-            </div>
-        </section>
-    </main>
-</body>
-</html>
+            {% empty %}
+            <p>{% trans "No suggested teachers available at the moment." %}</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}
