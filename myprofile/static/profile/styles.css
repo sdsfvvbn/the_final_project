@@ -1,111 +1,93 @@
 /* ===========================
-   技能/個性標籤樣式
+   多選小方塊（checkbox group）美化
 =========================== */
-.tag {
-    display: inline-block;              /* 讓標籤橫向排列 */
-    background-color: #5FA8D3;          /* 標籤底色 */
-    color: #fff;                        /* 文字顏色 */
-    padding: 5px 14px;                  /* 內距 */
-    border-radius: 20px;                /* 圓角 */
-    margin: 5px 8px 5px 0;              /* 外距 */
-    font-size: 18px;                    /* 字體大小 */
-    font-weight: bold;                  /* 字體加粗 */
-    vertical-align: middle;             /* 與加號 icon 垂直對齊 */
-}
-
-/* ===========================
-   加號 icon 外層連結樣式
-=========================== */
-.add-tag-link {
-    display: inline-block;              /* 讓加號 icon 跟標籤同一行 */
-    vertical-align: middle;             /* 垂直置中 */
-    margin-left: 8px;                   /* 與標籤間距 */
-    text-decoration: none;              /* 移除底線 */
-}
-
-/* ===========================
-   圓圈加號 icon 樣式
-=========================== */
-.circle-add {
-    display: inline-flex;               /* 讓內容置中 */
-    align-items: center;                /* 垂直置中 */
-    justify-content: center;            /* 水平置中 */
-    width: 28px;                        /* 圓圈寬度 */
-    height: 28px;                       /* 圓圈高度 */
-    border-radius: 50%;                 /* 圓形 */
-    background: #fff;                   /* 白色底 */
-    border: 2px solid #5FA8D3;          /* 藍色邊框 */
-    color: #5FA8D3;                     /* 加號顏色 */
-    font-size: 18px;                    /* 加號大小 */
-    transition: background 0.2s, color 0.2s; /* hover 動畫 */
-    cursor: pointer;                    /* 滑鼠變手指 */
-}
-.circle-add:hover {
-    background: #5FA8D3;                /* hover 時底色變藍 */
-    color: #fff;                        /* 加號變白 */
-}
-
-/* ===========================
-   其他常用樣式（可依需求保留）
-=========================== */
-.profile-card {
-    background-color: #fff;
-    border-radius: 25px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
+.checkbox-group {
     display: flex;
-    gap: 40px;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px 20px;                /* 上下左右間距 */
+    margin-top: 8px;
 }
 
-.profile-picture {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #ccc;
-    border: 2px solid #5FA8D3;
-    margin-top: 55px;
-}
-
-.profile-details {
-    flex: 1;
+.checkbox-label {
     display: flex;
-    flex-direction: column;
-    text-align: left;
-    padding-left: 20px;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    background: #5FA8D3;           /* 藍底 */
+    color: #fff;                   /* 白字 */
+    border-radius: 20px;
+    padding: 10px 22px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 8px;
+    transition: background 0.2s, color 0.2s;
+    user-select: none;
+    min-width: 120px;              /* 每個選項最小寬度，方便點選 */
 }
 
-.skills, .personality {
-    text-align: left;
-    margin-left: 0;
-    padding-left: 0;
-    margin-bottom: 20px;
+.checkbox-label input[type="checkbox"] {
+    accent-color: #fff;            /* 勾選時為白色 */
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
 }
 
-.skills h3, .personality h3 {
-    font-size: 20px;
-    color: #1B4965;
+.checkbox-label span {
+    /* 讓文字與勾選框分開，方便 hover 效果 */
+    pointer-events: none;
+}
+
+.checkbox-label input[type="checkbox"]:checked + span {
+    /* 勾選時可加強效果（例如加粗或加亮） */
     font-weight: bold;
-    margin-bottom: 20px;
+    text-shadow: 0 0 2px #fff, 0 0 4px #5FA8D3;
+}
+
+.checkbox-label:hover {
+    background: #1B4965;           /* hover 深藍 */
+    color: #fff;
 }
 
 /* ===========================
-   RWD 響應式設計
+   其他表單欄位、按鈕、訊息樣式
 =========================== */
-@media screen and (max-width: 768px) {
-    .profile-card {
-        flex-direction: column;
-        padding: 20px;
-        align-items: center;
-    }
-    .profile-details {
-        padding-left: 0;
-        width: 100%;
-    }
-    .profile-picture {
-        margin-top: 20px;
-    }
+input[type="text"], input[type="file"], select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn, .btn-primary {
+    background-color: #5FA8D3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 5px;
+}
+.btn-primary:hover, .btn:hover {
+    background-color: #1B4965;
+}
+
+.error-message {
+    color: #d9534f;
+    background: #fff0f0;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.success-message {
+    color: #155724;
+    background: #d4edda;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }

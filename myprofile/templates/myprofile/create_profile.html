@@ -47,6 +47,7 @@
                         <div class="form-group mb-3">
                             <label for="{{ form.self_intro.id_for_label }}">自我介紹</label>
                             {{ form.self_intro }}
+                            <small class="form-text text-muted">請簡單介紹自己，填寫完畢後請直接按下下方「建立個人資料」送出。</small>
                         </div>
 
                         <!-- 想學習的技能（多選小方塊） -->
@@ -56,7 +57,7 @@
                                 {% for skill in skills %}
                                     <label class="checkbox-label">
                                         <input type="checkbox" name="want_to_learn" value="{{ skill.id }}">
-                                        {{ skill.name }}
+                                        <span>{{ skill.name }}</span>
                                     </label>
                                 {% endfor %}
                             </div>
@@ -69,7 +70,7 @@
                                 {% for skill in skills %}
                                     <label class="checkbox-label">
                                         <input type="checkbox" name="can_teach" value="{{ skill.id }}">
-                                        {{ skill.name }}
+                                        <span>{{ skill.name }}</span>
                                     </label>
                                 {% endfor %}
                             </div>
@@ -82,7 +83,7 @@
                                 {% for tag in tags %}
                                     <label class="checkbox-label">
                                         <input type="checkbox" name="personality" value="{{ tag.id }}">
-                                        {{ tag.name }}
+                                        <span>{{ tag.name }}</span>
                                     </label>
                                 {% endfor %}
                             </div>
@@ -96,7 +97,7 @@
                                     {% if ct.name != "Both" %}
                                         <label class="checkbox-label tag-option">
                                             <input type="checkbox" name="class_type" value="{{ ct.id }}">
-                                            {{ ct.name }}
+                                            <span>{{ ct.name }}</span>
                                         </label>
                                     {% endif %}
                                 {% endfor %}
