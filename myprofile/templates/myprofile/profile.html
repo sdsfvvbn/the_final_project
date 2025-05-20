@@ -20,11 +20,22 @@
             </a>
         </h1>
         <div class="profile-card">
-            {% if profile.avatar and profile.avatar.url %}
-                <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
-            {% else %}
-                <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
-            {% endif %}
+            <div>
+                {# 頭像區塊 #}
+                {% if profile.avatar and profile.avatar.url %}
+                    <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
+                {% else %}
+                    <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
+                {% endif %}
+
+                {# Chat Icon 區塊 #}
+                <div class="chat-icon-container">
+                    <a href="{% url 'chat' %}" title="{% trans 'Chat' %}">
+                        <i class="fa-solid fa-comments chat-icon"></i>
+                    </a>
+                </div>
+            </div>
+            
             <div class="profile-details">
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>

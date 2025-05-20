@@ -163,6 +163,28 @@ header {
     margin-top: 55px;
 }
 
+/* chat-icon */
+.chat-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.chat-icon {
+    font-size: 2.2rem;
+    color: #5FA8D3;
+    background: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(90,168,211,0.12);
+    transition: background 0.2s, color 0.2s;
+}
+
+.chat-icon:hover {
+    background: #5FA8D3;
+    color: #fff;
+}
+
 /* 個人資料細節區塊 */
 .profile-details {
     flex: 1;
