@@ -125,22 +125,12 @@
                     </div>
                     <div class="time-box">
                         <h3>{% trans "Available Time" %}</h3>
-                        <ol id="available-time-list">
-                            {% for time in profile.available_time.splitlines %}
-                                <li>{{ time }}</li>
-                            {% empty %}
-                                <li>{% trans "No available time specified." %}</li>
-                            {% endfor %}
-                        </ol>
-                        <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
-                            {{ profile.available_time|default:""}}
-                        </textarea>
+                        <p>{{ profile.available_time|default:_("No available time provided.") }}</p>
                     </div>
                 </div>
 
                 <!-- 自我介紹區塊 -->
                 <div class="self-introduction">
-                    <h3>{% trans "Self Introduction" %}</h3>
                     <h3>{% trans "Self Introduction" %}</h3>
                     <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
                 </div>
