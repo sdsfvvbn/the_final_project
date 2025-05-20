@@ -1,4 +1,241 @@
 /* ===========================
+   General Styles
+=========================== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+    background-color: #CAE9FF;
+    color: #1B4965;
+}
+
+/* ===========================
+   Header
+=========================== */
+header {
+    background-color: #5FA8D3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    color: #ffffff;
+    font-size: 14px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    height: 150px;
+    width: 150px;
+}
+
+/* 登入/註冊連結區塊 */
+.auth-links {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    color: #1B4864;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.auth-links a {
+    color: #1B4864;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+/* 分隔線 */
+.divider {
+    height: 3px;
+    background-color: #1B4864;
+    margin: 0;
+}
+
+/* ===========================
+   導覽列
+=========================== */
+.bottom-nav {
+    background-color: #5FA8D3;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-links li a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ===========================
+   User Info 區塊
+=========================== */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 50px;
+    font-size: 18px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ===========================
+   Profile 主區塊
+=========================== */
+.profile {
+    padding: 20px 20px;
+    text-align: center;
+}
+
+.profile h1 {
+    margin: 0;
+    font-size: 47px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+/* 個人資料卡片 */
+.profile-card {
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: left;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ccc;
+    border: 2px solid #5FA8D3;
+    margin-top: 55px;
+}
+
+.profile-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.skills, .personality {
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+
+.skills h3, .personality h3 {
+    font-size: 20px;
+    color: #1B4965;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ===========================
+   技能/個性標籤樣式
+=========================== */
+.tag {
+    display: inline-block;              /* 讓標籤橫向排列 */
+    background-color: #5FA8D3;          /* 標籤底色 */
+    color: #fff;                        /* 文字顏色 */
+    padding: 5px 14px;                  /* 內距 */
+    border-radius: 20px;                /* 圓角 */
+    margin: 5px 8px 5px 0;              /* 外距 */
+    font-size: 18px;                    /* 字體大小 */
+    font-weight: bold;                  /* 字體加粗 */
+    vertical-align: middle;             /* 與加號 icon 垂直對齊 */
+}
+
+/* ===========================
+   加號 icon 外層連結樣式
+=========================== */
+.add-tag-link {
+    display: inline-block;              /* 讓加號 icon 跟標籤同一行 */
+    vertical-align: middle;             /* 垂直置中 */
+    margin-left: 8px;                   /* 與標籤間距 */
+    text-decoration: none;              /* 移除底線 */
+}
+
+/* ===========================
+   圓圈加號 icon 樣式
+=========================== */
+.circle-add {
+    display: inline-flex;               /* 讓內容置中 */
+    align-items: center;                /* 垂直置中 */
+    justify-content: center;            /* 水平置中 */
+    width: 28px;                        /* 圓圈寬度 */
+    height: 28px;                       /* 圓圈高度 */
+    border-radius: 50%;                 /* 圓形 */
+    background: #fff;                   /* 白色底 */
+    border: 2px solid #5FA8D3;          /* 藍色邊框 */
+    color: #5FA8D3;                     /* 加號顏色 */
+    font-size: 18px;                    /* 加號大小 */
+    transition: background 0.2s, color 0.2s; /* hover 動畫 */
+    cursor: pointer;                    /* 滑鼠變手指 */
+}
+.circle-add:hover {
+    background: #5FA8D3;                /* hover 時底色變藍 */
+    color: #fff;                        /* 加號變白 */
+}
+
+/* ===========================
    多選小方塊（checkbox group）美化
 =========================== */
 .checkbox-group {
@@ -33,12 +270,10 @@
 }
 
 .checkbox-label span {
-    /* 讓文字與勾選框分開，方便 hover 效果 */
     pointer-events: none;
 }
 
 .checkbox-label input[type="checkbox"]:checked + span {
-    /* 勾選時可加強效果（例如加粗或加亮） */
     font-weight: bold;
     text-shadow: 0 0 2px #fff, 0 0 4px #5FA8D3;
 }
@@ -90,4 +325,22 @@ input[type="text"], input[type="file"], select, textarea {
     padding: 8px 12px;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+/* ===========================
+   RWD 響應式設計
+=========================== */
+@media screen and (max-width: 768px) {
+    .profile-card {
+        flex-direction: column;
+        padding: 20px;
+        align-items: center;
+    }
+    .profile-details {
+        padding-left: 0;
+        width: 100%;
+    }
+    .profile-picture {
+        margin-top: 20px;
+    }
 }
