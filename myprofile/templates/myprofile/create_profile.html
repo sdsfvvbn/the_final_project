@@ -49,30 +49,39 @@
                         <!-- 技能選擇 -->
                         <div class="form-group mb-3">
                             <label>想學習的技能</label>
-                            <select name="want_to_learn" class="form-control" multiple>
+                            <div class="checkbox-group">
                                 {% for skill in skills %}
-                                    <option value="{{ skill.id }}">{{ skill.name }}</option>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="want_to_learn" value="{{ skill.id }}">
+                                        {{ skill.name }}
+                                    </label>
                                 {% endfor %}
-                            </select>
-                        </div>
+                                </div>
+                            </div>
 
                         <div class="form-group mb-3">
                             <label>可以教授的技能</label>
-                            <select name="can_teach" class="form-control" multiple>
+                            <div class="checkbox-group">
                                 {% for skill in skills %}
-                                    <option value="{{ skill.id }}">{{ skill.name }}</option>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="can_teach" value="{{ skill.id }}">
+                                        {{ skill.name }}
+                                    </label>
                                 {% endfor %}
-                            </select>
+                            </div>
                         </div>
 
                         <!-- 個性標籤 -->
                         <div class="form-group mb-3">
                             <label>個性特質</label>
-                            <select name="personality" class="form-control" multiple>
+                            <div class="checkbox-group">
                                 {% for tag in tags %}
-                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="personality" value="{{ tag.id }}">
+                                        {{ tag.name }}
+                                    </label>
                                 {% endfor %}
-                            </select>
+                            </div>
                         </div>
 
                         <!-- 課程類型 -->

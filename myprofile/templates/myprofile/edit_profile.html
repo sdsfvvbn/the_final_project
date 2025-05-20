@@ -7,16 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% trans "Edit Profile" %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}" />
+    <!-- Font Awesome CDN for + icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <!-- =======================
-             個人資料主區塊
-             ======================= -->
+         Header 與導覽列
+    ======================= -->
     <header>
         <div class="top-nav">
             <div class="logo">
                 <a href="{% url 'homepage' %}">
-                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="{% trans 'TalentSwap Logo' %}"style="width: 100px; height: auto;">
+                    <img src="{% static 'homepage/assets/Logo.png' %}" alt="{% trans 'TalentSwap Logo' %}" style="width: 100px; height: auto;">
                 </a>
             </div>
             <div class="user-info">
@@ -62,37 +64,56 @@
                     <label for="city">{% trans "City" %}：</label>
                     <input type="text" id="city" name="city" value="{{ profile.city }}"><br>
 
-                    <!-- 想學技能（多選） -->
-                    <label for="want_to_learn">{% trans "Want to Learn" %}：</label>
-                    <select id="want_to_learn" name="want_to_learn" multiple>
+                    <!-- 想學技能（多選小方塊+可編輯） -->
+                    <label>{% trans "Want to Learn" %}：</label>
+                    <div class="checkbox-group">
                         {% for skill in skills %}
-                            <option value="{{ skill.id }}" {% if skill in profile.want_to_learn.all %}selected{% endif %}>{{ skill.name }}</option>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="want_to_learn" value="{{ skill.id }}"
+                                    {% if skill in profile.want_to_learn.all %}checked{% endif %}>
+                                <span class="editable-label" data-type="skill" data-id="{{ skill.id }}">{{ skill.name }}</span>
+                                <i class="fa fa-plus add-icon" title="{% trans 'Edit this skill' %}" onclick="openEditModal('skill', {{ skill.id }}, '{{ skill.name }}')"></i>
+                            </label>
                         {% endfor %}
-                    </select><br>
+                    </div><br>
 
-                    <!-- 能教技能（多選） -->
-                    <label for="can_teach">{% trans "Can Teach" %}：</label>
-                    <select id="can_teach" name="can_teach" multiple>
+                    <!-- 能教技能（多選小方塊+可編輯） -->
+                    <label>{% trans "Can Teach" %}：</label>
+                    <div class="checkbox-group">
                         {% for skill in skills %}
-                            <option value="{{ skill.id }}" {% if skill in profile.can_teach.all %}selected{% endif %}>{{ skill.name }}</option>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="can_teach" value="{{ skill.id }}"
+                                    {% if skill in profile.can_teach.all %}checked{% endif %}>
+                                <span class="editable-label" data-type="skill" data-id="{{ skill.id }}">{{ skill.name }}</span>
+                                <i class="fa fa-plus add-icon" title="{% trans 'Edit this skill' %}" onclick="openEditModal('skill', {{ skill.id }}, '{{ skill.name }}')"></i>
+                            </label>
                         {% endfor %}
-                    </select><br>
+                    </div><br>
 
-                    <!-- 個性標籤（多選） -->
-                    <label for="personality">{% trans "Personality" %}：</label>
-                    <select id="personality" name="personality" multiple>
+                    <!-- 個性標籤（多選小方塊+可編輯） -->
+                    <label>{% trans "Personality" %}：</label>
+                    <div class="checkbox-group">
                         {% for tag in tags %}
-                            <option value="{{ tag.id }}" {% if tag in profile.personality.all %}selected{% endif %}>{{ tag.name }}</option>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="personality" value="{{ tag.id }}"
+                                    {% if tag in profile.personality.all %}checked{% endif %}>
+                                <span class="editable-label" data-type="tag" data-id="{{ tag.id }}">{{ tag.name }}</span>
+                                <i class="fa fa-plus add-icon" title="{% trans 'Edit this tag' %}" onclick="openEditModal('tag', {{ tag.id }}, '{{ tag.name }}')"></i>
+                            </label>
                         {% endfor %}
-                    </select><br>
+                    </div><br>
 
-                    <!-- 上課型態（多選） -->
-                    <label for="class_type">{% trans "Preferred Class Type" %}：</label>
-                    <select id="class_type" name="class_type" multiple>
+                    <!-- 上課型態（多選小方塊） -->
+                    <label>{% trans "Preferred Class Type" %}：</label>
+                    <div class="checkbox-group">
                         {% for ct in class_types %}
-                            <option value="{{ ct.id }}" {% if ct in profile.class_type.all %}selected{% endif %}>{{ ct.name }}</option>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="class_type" value="{{ ct.id }}"
+                                    {% if ct in profile.class_type.all %}checked{% endif %}>
+                                {{ ct.name }}
+                            </label>
                         {% endfor %}
-                    </select><br>
+                    </div><br>
 
                     <!-- 可上課時間 -->
                     <label for="available_time">{% trans "Available Time" %}：</label>
@@ -108,5 +129,50 @@
             </div>
         </section>
     </main>
+
+    <!-- 編輯彈窗（點 + 號會出現） -->
+    <div class="modal-bg" id="editModal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <input type="text" id="editInput" />
+            <div>
+                <button type="button" onclick="saveEdit()">OK</button>
+                <button type="button" onclick="closeEditModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 彈窗資料
+        let currentEditType = '';
+        let currentEditId = '';
+        let currentLabelElem = null;
+
+        // 開啟編輯彈窗
+        function openEditModal(type, id, name) {
+            currentEditType = type;
+            currentEditId = id;
+            // 找到對應的 label 元素
+            currentLabelElem = document.querySelector(
+                '.editable-label[data-type="' + type + '"][data-id="' + id + '"]'
+            );
+            document.getElementById('modalTitle').innerText = (type === 'skill' ? '編輯技能名稱' : '編輯個性名稱');
+            document.getElementById('editInput').value = name;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+        // 關閉彈窗
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+        // 儲存編輯（僅前端示範，實際應送 AJAX 到後端）
+        function saveEdit() {
+            const newName = document.getElementById('editInput').value;
+            if (currentLabelElem && newName.trim() !== '') {
+                currentLabelElem.innerText = newName;
+            }
+            closeEditModal();
+            // 實際專案應該用 AJAX 將新名稱送到後端並更新資料庫
+        }
+    </script>
 </body>
 </html>
