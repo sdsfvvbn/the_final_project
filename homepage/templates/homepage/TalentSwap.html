@@ -67,18 +67,22 @@
             <h2 class="fw-bold text-dark">Join Our Community</h2>
             <p class="text-muted">Connect with mentors and learners around the world.</p>
             <p class="text-muted">Share your skills and learn from others.</p>
-            <div class="target-icon-grid">
+            <div class="target-icon-grid" style="display: flex; justify-content: center; gap: 50px; flex-wrap: wrap">
                 <div class="target-icon">
-                    <img src="{% static 'homepage/assets/target1.png' %}" alt="Students">
+                    <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target1.png' %}" alt="Students">
+                    <p>Students</p>
                 </div>
                 <div class="target-icon">
-                    <img src="{% static 'homepage/assets/target2.png' %}" alt="Parents">
+                    <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target2.png' %}" alt="Parents">
+                    <p>Parents</p>
                 </div>
-                <div class="target-icon">
-                    <img src="{% static 'homepage/assets/target3.png' %}" alt="Lifelong Learners">
+                <div class="target-icon">   
+                    <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target3.png' %}" alt="Lifelong Learners">
+                    <p>Lifelong Learners</p>
                 </div>
-                <div class="target-icon">
-                    <img src="{% static 'homepage/assets/target4.png' %}" alt="Community Helpers">
+                <div class="target-icon">   
+                    <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target4.png' %}" alt="Community Helpers">
+                    <p>Community Helpers</p>
                 </div>
             </div>
             <a href="{% url 'myapp:login' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Join Now!</a>
