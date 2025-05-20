@@ -20,9 +20,15 @@ from homepage import views as homepage_views
 from category import views as category_views
 from django.urls import path
 from django.urls import include
+from django.conf import settings
+from django.conf.urls.static import static
 
 import message
 from homepage import views
+import uuid
+import os
+from django.db import models
+
 urlpatterns = [
     path('', homepage_views.home, name='homepage'),
     path('admin/', admin.site.urls),
@@ -34,3 +40,6 @@ urlpatterns = [
     path('', homepage_views.home, name='homepage'),
     path('category/', category_views.category, name='category')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,8 +4,8 @@ function filterByCategory() {
 }
 
 function filterBySkill() {
-    const mode = document.getElementById('skillFilter').value;
-    updateFilters('skill', skill);
+    const skill = document.getElementById('skillFilter').value;
+    updateFilters('skillFilter', skill);
 }
 
 function filterByPersonality() {

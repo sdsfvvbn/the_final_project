@@ -13,10 +13,10 @@
                     </option>
                 {% endfor %}
             </select>
-            <select id="skillFilter" class="form-select" onchange="filterBySkills()">
+            <select id="skillFilter" class="form-select" onchange="filterBySkill()">
                 <option value="">ALL SKILLS</option>
                 {% for skill in skills %}
-                    <option value="{{ skill.name }}" {% if current_skill == skill.name %}selected{% endif %}>
+                    <option value="{{ skill.name }}" {% if skill_filter == skill.name %}selected{% endif %}>
                         {{ skill.name }}
                     </option>
                 {% endfor %}

@@ -30,7 +30,11 @@
             </a>
         </h1>
         <div class="profile-card">
-            <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
+            {% if profile.avatar and profile.avatar.url %}
+                <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
+            {% else %}
+                <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
+            {% endif %}
             <div class="profile-details">
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>
