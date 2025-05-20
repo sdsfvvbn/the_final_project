@@ -30,7 +30,7 @@
 
                 {# Chat Icon 區塊 #}
                 <div class="chat-icon-container">
-                    <a href="{% url 'chat' %}" title="{% trans 'Chat' %}">
+                    <a href="{% url 'message:add_contact' username=profile.user%}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>
                     </a>
                 </div>
