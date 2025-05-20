@@ -188,6 +188,19 @@ header {
     margin-bottom: 20px;
 }
 
+.available-time-paragraph {
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+    display: inline-block;
+    min-width: 180px;
+    white-space: pre-line; /* 保留換行 */
+}
+
 /* ===========================
    技能/個性標籤樣式
 =========================== */
