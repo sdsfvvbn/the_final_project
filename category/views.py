@@ -10,6 +10,7 @@ def category(request):
     # 獲取過濾參數
     category_filter = request.GET.get('category', '')
     personality_filter = request.GET.get('personality', '')
+    skill_filter = request.GET.get('skill', '')
     mode_filter = request.GET.get('mode', '')
     search_query = request.GET.get('search', '')
     
@@ -19,6 +20,9 @@ def category(request):
     
     if personality_filter:
         mentors = mentors.filter(personality__name=personality_filter)
+        
+    if skill_filter:
+        mentors = mentors.filter(skill__name=skill_filter)
     
     if mode_filter:
         mentors = mentors.filter(class_type__name=mode_filter)
@@ -35,13 +39,16 @@ def category(request):
     categories = SkillCategory.objects.all()
     personality_tags = PersonalityTag.objects.all()
     class_types = ClassType.objects.all()
+    skills = Skill.objects.all()
     
     context = {
         'mentors': mentors,
         'categories': categories,
         'personality_tags': personality_tags,
         'class_types': class_types,
+        'skills': skills,
         'current_category': category_filter,
+        'current_skills': skill_filter,
         'current_personality': personality_filter,
         'current_mode': mode_filter,
         'search_query': search_query,
