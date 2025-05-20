@@ -154,7 +154,7 @@ import os
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env.int('EMAIL_PORT')  # 注意型別要轉成 int
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS')  # 轉成布林值
