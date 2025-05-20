@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+import uuid
+import os
 
 # ========================
 # 技能分類模型（Skill 類別）
@@ -48,6 +50,11 @@ class ClassType(models.Model):
     def __str__(self):
         return self.name
 
+def user_avatar_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join('avatars', filename)
+
 # ========================
 # 使用者個人資料擴充（UserProfile）
 # ========================
@@ -58,7 +65,7 @@ class UserProfile(models.Model):
     )  # 與內建 User 模型一對一關聯
 
     avatar = models.ImageField(
-        upload_to='avatars/',
+        upload_to=user_avatar_path,
         default='avatars/default.png'
     )  # 上傳頭像圖片，預設圖也可用
 

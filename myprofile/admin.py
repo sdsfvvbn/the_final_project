@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import UserProfile, SkillCategory, Skill, PersonalityTag, ClassType
+from django.utils.html import format_html
 
 # ============================================
 # UserProfile 模型的後台管理設定
@@ -7,7 +8,7 @@ from .models import UserProfile, SkillCategory, Skill, PersonalityTag, ClassType
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     # 在 admin 列表中顯示的欄位
-    list_display = ('user', 'instagram', 'city')
+    list_display = ('user', 'avatar_tag', 'instagram', 'city')
 
     # 提供搜尋功能，支援模糊查詢 username、IG、城市
     search_fields = ('user__username', 'instagram', 'city')
@@ -17,6 +18,12 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     # 可過濾的欄位
     list_filter = ('class_type', 'city')
+
+    def avatar_tag(self, obj):
+        if obj.avatar:
+            return format_html('<img src="{}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />', obj.avatar.url)
+        return "-"
+    avatar_tag.short_description = 'Avatar'
 
 # ============================================
 # SkillCategory 模型的後台管理設定
