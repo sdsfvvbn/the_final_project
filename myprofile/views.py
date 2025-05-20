@@ -87,12 +87,22 @@ def edit_profile(request):
 # ==========================
 @login_required
 def profile_view(request):
-    try:
-        # 嘗試取得目前登入使用者的 UserProfile
-        profile = request.user.userprofile
-    except UserProfile.DoesNotExist:
-        # 若尚未建立 UserProfile，導向建立頁面
-        return redirect('create_profile')
+    # 獲取要查看的用戶名
+    username = request.GET.get('username')
+    
+    if username:
+        # 如果提供了用戶名，顯示該用戶的資料
+        try:
+            profile = UserProfile.objects.get(user__username=username)
+        except UserProfile.DoesNotExist:
+            return redirect('homepage')
+    else:
+        # 否則顯示當前登入用戶的資料
+        try:
+            profile = request.user.userprofile
+        except UserProfile.DoesNotExist:
+            # 若尚未建立 UserProfile，導向建立頁面
+            return redirect('create_profile')
 
     # 取得使用者想學的技能
     skills_to_learn = profile.want_to_learn.all()
