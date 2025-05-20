@@ -241,25 +241,31 @@ header {
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px 28px;                /* 上下左右間距 */
+    gap: 24px 36px;
     margin-top: 10px;
 }
 
 .checkbox-label {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     font-size: 18px;
-    background: #5FA8D3;           /* 藍底 */
-    color: #fff;                   /* 白字 */
+    background: #5FA8D3;
+    color: #fff;
     border-radius: 20px;
-    padding: 12px 26px;
+    padding: 14px 30px;
     cursor: pointer;
     font-weight: 500;
     margin-bottom: 8px;
     transition: background 0.2s, color 0.2s;
     user-select: none;
-    min-width: 120px;              /* 每個選項最小寬度，方便點選 */
+    min-width: 140px;
+}
+
+.checkbox-label:hover {
+    background: #1B4965;
+    color: #fff;
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -276,11 +282,6 @@ header {
 .checkbox-label input[type="checkbox"]:checked + span {
     font-weight: bold;
     text-shadow: 0 0 2px #fff, 0 0 4px #5FA8D3;
-}
-
-.checkbox-label:hover {
-    background: #1B4965;           /* hover 深藍 */
-    color: #fff;
 }
 
 /* ===========================
