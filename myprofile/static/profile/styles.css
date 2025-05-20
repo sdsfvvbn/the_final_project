@@ -241,8 +241,8 @@ header {
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px 20px;                /* 上下左右間距 */
-    margin-top: 8px;
+    gap: 20px 28px;                /* 上下左右間距 */
+    margin-top: 10px;
 }
 
 .checkbox-label {
@@ -253,7 +253,7 @@ header {
     background: #5FA8D3;           /* 藍底 */
     color: #fff;                   /* 白字 */
     border-radius: 20px;
-    padding: 10px 22px;
+    padding: 12px 26px;
     cursor: pointer;
     font-weight: 500;
     margin-bottom: 8px;
