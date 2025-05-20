@@ -1,212 +1,76 @@
 /* ===========================
-   General Styles
+   技能/個性標籤樣式
 =========================== */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #CAE9FF;
-    color: #1B4965;
-}
-
-/* ===========================
-   Header
-=========================== */
-header {
+.tag {
+    display: inline-block;
     background-color: #5FA8D3;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.top-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 30px;
-    color: #ffffff;
-    font-size: 14px;
-    position: relative;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.logo img {
-    height: 150px;
-    width: 150px;
-}
-
-/* 登入/註冊連結區塊 */
-.auth-links {
-    position: absolute;
-    right: 30px;
-    top: 25px;
-    color: #1B4864;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.auth-links a {
-    color: #1B4864;
-    font-weight: bold;
-    text-decoration: none;
-    margin: 0 5px;
-}
-
-/* 分隔線 */
-.divider {
-    height: 3px;
-    background-color: #1B4864;
-    margin: 0;
-}
-
-/* ===========================
-   導覽列
-=========================== */
-.bottom-nav {
-    background-color: #5FA8D3;
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    gap: 40px;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-links li {
-    flex: 1;
-    text-align: center;
-}
-
-.nav-links li a {
-    color: #ffffff;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* ===========================
-   User Info 區塊
-=========================== */
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: #ffffff;
-    font-weight: bold;
-    margin-top: 50px;
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin: 5px 8px 5px 0;
     font-size: 18px;
-}
-
-.user-avatar {
-    width: 50px;
-    height: 50px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    overflow: hidden;
-}
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+    font-weight: bold;
+    vertical-align: middle;
 }
 
 /* ===========================
-   Profile 主區塊
+   加號 icon 樣式
 =========================== */
-.profile {
-    padding: 20px 20px;
-    text-align: center;
+.add-tag-link {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+    text-decoration: none;
 }
-
-.profile h1 {
-    margin: 0;
-    font-size: 47px;
-    color: #1B4965;
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 30px;
+.add-icon {
+    color: #5FA8D3;
+    font-size: 20px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 4px 6px;
+    transition: color 0.2s, background 0.2s;
 }
-
-/* 個人資料卡片 */
-.profile-card {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    gap: 40px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-radius: 25px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    text-align: left;
-    align-items: flex-start;
+.add-icon:hover {
+    color: #fff;
+    background: #5FA8D3;
 }
 
 /* ===========================
    多選小方塊（checkbox group）
 =========================== */
-/* 多選方塊群組的外層容器，讓所有 checkbox 橫向排列並自動換行 */
 .checkbox-group {
-    display: flex;              /* 使用 flex 排列 */
-    flex-wrap: wrap;            /* 超出寬度時自動換行 */
-    gap: 12px 24px;             /* 每個方塊間的間距（上下12px，左右24px） */
-    margin-top: 8px;            /* 與上方標題的距離 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin-top: 8px;
 }
-
-/* 單一 checkbox 與文字的包裝，讓每個選項有圓角背景與間距 */
 .checkbox-label {
-    display: flex;              /* 讓 checkbox 與文字水平排列 */
-    align-items: center;        /* 垂直置中 */
-    gap: 6px;                   /* checkbox 與文字間距 */
-    font-size: 18px;            /* 文字大小 */
-    background: #eaf4fb;        /* 淡藍色背景 */
-    border-radius: 8px;         /* 圓角 */
-    padding: 6px 12px;          /* 內距，讓區塊更大更好點 */
-    cursor: pointer;            /* 滑鼠移上去變成手指 */
-    font-weight: 500;           /* 文字稍微加粗 */
-    margin-bottom: 8px;         /* 每個選項下方間距 */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+    background: #eaf4fb;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 8px;
 }
 .checkbox-label input[type="checkbox"] {
-    accent-color: #5FA8D3;      /* 勾選時的主題色 */
-    width: 18px;                /* checkbox 寬度 */
-    height: 18px;               /* checkbox 高度 */
-}
-
-/* + 號 icon 樣式 */
-.add-icon {
-    color: #5FA8D3;           /* 主題藍色 */
-    margin-left: 6px;         /* 與文字間距 */
-    cursor: pointer;          /* 滑鼠移上去變小手 */
-    font-size: 18px;          /* icon 大小 */
-    transition: color 0.2s;   /* 滑鼠移上去顏色漸變 */
-}
-.add-icon:hover {
-    color: #1B4965;           /* 滑鼠移上去變深藍 */
+    accent-color: #5FA8D3;
+    width: 18px;
+    height: 18px;
 }
 
 /* ===========================
    編輯彈窗樣式
 =========================== */
 .modal-bg {
-    display: none;                /* 預設隱藏 */
+    display: none;
     position: fixed;
     z-index: 9999;
     left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.3);  /* 半透明黑底 */
+    background: rgba(0,0,0,0.3);
     justify-content: center;
     align-items: center;
 }
@@ -269,4 +133,22 @@ input[type="text"], input[type="file"], select, textarea {
     padding: 8px 12px;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+/* ===========================
+   RWD 響應式設計
+=========================== */
+@media screen and (max-width: 768px) {
+    .profile-card {
+        flex-direction: column;
+        padding: 20px;
+        align-items: center;
+    }
+    .profile-details {
+        padding-left: 0;
+        width: 100%;
+    }
+    .profile-picture {
+        margin-top: 20px;
+    }
 }

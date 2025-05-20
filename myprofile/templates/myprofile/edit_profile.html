@@ -64,45 +64,45 @@
                     <label for="city">{% trans "City" %}：</label>
                     <input type="text" id="city" name="city" value="{{ profile.city }}"><br>
 
-                    <!-- 想學技能（多選小方塊+可編輯） -->
-                    <label>{% trans "Want to Learn" %}：</label>
-                    <div class="checkbox-group">
-                        {% for skill in skills %}
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="want_to_learn" value="{{ skill.id }}"
-                                    {% if skill in profile.want_to_learn.all %}checked{% endif %}>
-                                <span class="editable-label" data-type="skill" data-id="{{ skill.id }}">{{ skill.name }}</span>
-                                <i class="fa fa-plus add-icon" title="{% trans 'Edit this skill' %}" onclick="openEditModal('skill', {{ skill.id }}, '{{ skill.name }}')"></i>
-                            </label>
+                    <!-- 想學技能 -->
+                    <div class="skills">
+                        <h3>{% trans "Want to Learn" %}</h3>
+                        {% for skill in profile.want_to_learn.all %}
+                            <span class="tag">{{ skill.name }}</span>
+                        {% empty %}
+                            <span>{% trans "No skills selected." %}</span>
                         {% endfor %}
-                    </div><br>
+                        <!-- 區塊最後加一個加號，連到編輯頁 -->
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <i class="fa fa-plus add-icon"></i>
+                        </a>
+                    </div>
 
-                    <!-- 能教技能（多選小方塊+可編輯） -->
-                    <label>{% trans "Can Teach" %}：</label>
-                    <div class="checkbox-group">
-                        {% for skill in skills %}
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="can_teach" value="{{ skill.id }}"
-                                    {% if skill in profile.can_teach.all %}checked{% endif %}>
-                                <span class="editable-label" data-type="skill" data-id="{{ skill.id }}">{{ skill.name }}</span>
-                                <i class="fa fa-plus add-icon" title="{% trans 'Edit this skill' %}" onclick="openEditModal('skill', {{ skill.id }}, '{{ skill.name }}')"></i>
-                            </label>
+                    <!-- 能教技能 -->
+                    <div class="skills">
+                        <h3>{% trans "Can Teach" %}</h3>
+                        {% for skill in profile.can_teach.all %}
+                            <span class="tag">{{ skill.name }}</span>
+                        {% empty %}
+                            <span>{% trans "No teaching skills." %}</span>
                         {% endfor %}
-                    </div><br>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <i class="fa fa-plus add-icon"></i>
+                        </a>
+                    </div>
 
-                    <!-- 個性標籤（多選小方塊+可編輯） -->
-                    <label>{% trans "Personality" %}：</label>
-                    <div class="checkbox-group">
-                        {% for tag in tags %}
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="personality" value="{{ tag.id }}"
-                                    {% if tag in profile.personality.all %}checked{% endif %}>
-                                <span class="editable-label" data-type="tag" data-id="{{ tag.id }}">{{ tag.name }}</span>
-                                <i class="fa fa-plus add-icon" title="{% trans 'Edit this tag' %}" onclick="openEditModal('tag', {{ tag.id }}, '{{ tag.name }}')"></i>
-                            </label>
+                    <!-- 個性標籤 -->
+                    <div class="personality">
+                        <h3>{% trans "Personality" %}</h3>
+                        {% for trait in profile.personality.all %}
+                            <span class="tag">{{ trait.name }}</span>
+                        {% empty %}
+                            <span>{% trans "No traits specified." %}</span>
                         {% endfor %}
-                    </div><br>
-
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                            <i class="fa fa-plus add-icon"></i>
+                        </a>
+                    </div>
                     <!-- 上課型態（多選小方塊） -->
                     <label>{% trans "Preferred Class Type" %}：</label>
                     <div class="checkbox-group">
