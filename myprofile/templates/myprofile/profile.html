@@ -15,9 +15,7 @@
         <h1>
             {% trans "Profile" %}
             <!-- 編輯按鈕，連到 edit_profile 頁面 -->
-            <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
-                <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg">
-            </a>
+            <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}"></a>
         </h1>
         <div class="profile-card">
             <div>
@@ -127,14 +125,13 @@
                 <div class="availability-container">
                     <div class="class-type">
                         <h3>{% trans "Preferred Class Type" %}</h3>
-                        {% for ct in class_types %}
-                            {% if ct.name != "Both" %}
-                                <label>
-                                    <input type="checkbox" disabled
-                                        {% if ct in profile.class_type.all %}checked{% endif %}>
-                                    {{ ct.name }}
-                                </label>
-                            {% endif %}
+                        {% for ct in profile.class_type.all %}
+                            <label>
+                                <input type="checkbox" disabled checked>
+                                {{ ct.name }}
+                            </label>
+                        {% empty %}
+                            <p>{% trans "No preferred class type specified." %}</p>
                         {% endfor %}
                     </div>
                     <div class="time-box">

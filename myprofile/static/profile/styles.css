@@ -31,24 +31,17 @@ body {
     margin-bottom: 30px;
 }
 
-/* 編輯按鈕（鉛筆 icon）共用 */
+/* 編輯按鈕 共用 */
 .edit-btn {
     display: inline-block;
-    margin-left: 16px;
+    font-size: 14px;
+    padding: 6px 12px;
+    margin-left: 12px;
     vertical-align: middle;
     text-decoration: none;
 }
 
-.edit-icon-svg {
-    width: 28px;
-    height: 28px;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: filter 0.2s, transform 0.2s;
-}
-
-.edit-btn:hover .edit-icon-svg,
-.edit-icon-svg:hover {
+.edit-btn:hover {
     filter: brightness(0.7);
     transform: scale(1.12);
 }
@@ -338,7 +331,7 @@ body {
 .self-introduction p {
     font-size: 16px;
     color: #222;
-    background: #f7fbff;
+    background: #5FA8D3;
     border-radius: 16px;
     padding: 18px 22px;
     line-height: 1.7;
