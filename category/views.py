@@ -42,7 +42,6 @@ def category(request):
     categories = SkillCategory.objects.all()
     personality_tags = PersonalityTag.objects.all()
     class_types = ClassType.objects.all()
-
     skills = Skill.objects.all()
     context = {
         'mentors': mentors,

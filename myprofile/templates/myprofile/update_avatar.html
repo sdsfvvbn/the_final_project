@@ -27,9 +27,9 @@
                         {% csrf_token %}
                         <div class="text-center mb-4">
                             {% if profile.avatar %}
-                                <img src="{{ profile.avatar.url }}" alt="當前頭像" class="img-thumbnail" style="max-width: 200px;">
+                                <img src="{{ profile.avatar.url }}" alt="Current Avatar" class="img-thumbnail" style="max-width: 200px;">
                             {% else %}
-                                <img src="/media/avatars/default.png" alt="預設頭像" class="img-thumbnail" style="max-width: 200px;">
+                                <img src="/media/avatars/default.png" alt="Preset Avatar" class="img-thumbnail" style="max-width: 200px;">
                             {% endif %}
                         </div>
                         <div class="form-group">
@@ -37,8 +37,8 @@
                             {{ form.avatar }}
                         </div>
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">更新頭像</button>
-                            <a href="{% url 'profile_view' %}" class="btn btn-secondary">返回個人資料</a>
+                            <button type="submit" class="btn btn-primary">Update avatar</button>
+                            <a href="{% url 'profile_view' %}" class="btn btn-secondary">Return to Profile</a>
                         </div>
                     </form>
                 </div>
