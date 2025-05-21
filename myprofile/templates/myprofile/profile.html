@@ -89,7 +89,7 @@
                     <h3>{% trans "Want to Learn" %}</h3>
                     {% for skill in profile.want_to_learn.all %}
                         <span class="tag">{{ skill.name }}</span>
-                        {% if forloop.last %}
+                        {% if forloop.last and is_own_profile %}
                             <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
                                 <span class="circle-add"><i class="fa fa-plus"></i></span>
                             </a>
@@ -109,7 +109,7 @@
                     <h3>{% trans "Can Teach" %}</h3>
                     {% for skill in profile.can_teach.all %}
                         <span class="tag">{{ skill.name }}</span>
-                        {% if forloop.last %}
+                        {% if forloop.last and is_own_profile %}
                             <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
                                 <span class="circle-add"><i class="fa fa-plus"></i></span>
                             </a>
@@ -129,7 +129,7 @@
                     <h3>{% trans "Personality" %}</h3>
                     {% for trait in profile.personality.all %}
                         <span class="tag">{{ trait.name }}</span>
-                        {% if forloop.last %}
+                        {% if forloop.last and is_own_profile %}
                             <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
                                 <span class="circle-add"><i class="fa fa-plus"></i></span>
                             </a>
@@ -197,8 +197,8 @@
         </div>
     </section>
     {% else %}
-    <div class="show-comments">
-        <div class="card comment-card" style="border-radius: 20px; box-shadow: 0 4px 16px rgba(30,80,140,0.10);">
+    <div class="show-comments" style="display: flex; justify-content: center;">
+        <div class="card comment-card" style="border-radius: 20px; box-shadow: 0 4px 16px rgba(30,80,140,0.10); width: 90%; max-width: 1200px; margin: 0 auto;">
             <div class="card-header" style="border-radius: 20px 20px 0 0; background: #5FA8D3; text-align: center;">
                 <h1 style="margin: 0; color: #fff; font-size: 2.2rem; letter-spacing: 1px;">{% trans "History Comments" %}</h1>
             </div>

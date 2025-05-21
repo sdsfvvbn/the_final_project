@@ -569,7 +569,7 @@ input[type="text"], input[type="file"], select, textarea {
 }
 
 @media screen and (max-width: 768px) {
-    .profile-card {
+    .profile-card ,.comment-card{
         flex-direction: column;
         padding: 20px;
         align-items: center;
@@ -584,4 +584,5 @@ input[type="text"], input[type="file"], select, textarea {
     .card-body {
         padding: 18px 8px 12px 8px;
     }
+
 }

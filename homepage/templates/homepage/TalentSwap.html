@@ -7,8 +7,8 @@
             <div class="col-md-6 text-center text-md-start">
               <h1 class="fw-bold text-dark">Ready to Learn<br>New Skill?</h1>
               <form class="mt-4" onsubmit="return redirectSearch();">
-                <input type="text" id="materialSearch" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm" 
-                       placeholder="What you want to learn?" 
+                <input type="text" id="materialSearch" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm"
+                       placeholder="What you want to learn?"
                        style="background-color: #64b9d8; color: white">
               </form>
             </div>
@@ -60,7 +60,7 @@
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
-    </div> 
+    </div>
 
     <section class="py-5 bg-light">
         <div class="container text-center">
@@ -76,17 +76,21 @@
                     <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target2.png' %}" alt="Parents">
                     <p>Parents</p>
                 </div>
-                <div class="target-icon">   
+                <div class="target-icon">
                     <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target3.png' %}" alt="Lifelong Learners">
                     <p>Lifelong Learners</p>
                 </div>
-                <div class="target-icon">   
+                <div class="target-icon">
                     <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target4.png' %}" alt="Community Helpers">
                     <p>Community Helpers</p>
                 </div>
             </div>
             <p>And many more!</p>
-            <a href="{% url 'myapp:login' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Join Now!</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'category' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Start searching!</a>
+            {% else %}
+                <a href="{% url 'myapp:login' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Join Now!</a>
+            {% endif %}
             <p class="section-subtitle mt-4">
                 For anyone who wants to learn, share, and support each other in the journey of personal growth.
             </p>
@@ -94,7 +98,7 @@
     </section>
 
     <!-- TAB COMPONENT -->
-    <div class="container my-5">    
+    <div class="container my-5">
         <!-- Tab navigation bar -->
         <nav>
             <ul class="nav nav-tabs" id="myTab">
@@ -104,14 +108,14 @@
                     Art
                     </button>
                 </li>
-    
+
                 <!-- Tab button: IT & Computer -->
                 <li class="nav-item">
                     <button class="nav-link" id="itcomp-tab" data-bs-toggle="tab" data-bs-target="#itcomp" type="button">
                     IT & Computer
                     </button>
                 </li>
-    
+
                 <!-- Tab button: Language -->
                 <li class="nav-item">
                     <button class="nav-link" id="language-tab" data-bs-toggle="tab" data-bs-target="#language" type="button">
@@ -148,7 +152,7 @@
                 </li>
             </ul>
         </nav>
-    
+
         <!-- Tab content area -->
         <div class="tab-content p-3" id="myTabContent">
             <!-- Tab panel: Art -->
@@ -182,7 +186,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <!-- Tab panel: IT & Computer -->
             <div class="tab-pane fade" id="itcomp">
                 <!-- CAROUSEL HORIZONTAL -->
@@ -246,7 +250,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Tab panel: Music -->
             <div class="tab-pane fade" id="music">
                 <!-- CAROUSEL HORIZONTAL -->
