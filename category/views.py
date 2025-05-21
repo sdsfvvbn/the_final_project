@@ -44,7 +44,6 @@ def category(request):
     class_types = ClassType.objects.all()
 
     skills = Skill.objects.all()
-
     context = {
         'mentors': mentors,
         'categories': categories,

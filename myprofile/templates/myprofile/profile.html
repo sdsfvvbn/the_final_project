@@ -24,7 +24,6 @@
             {% if is_own_profile %}
                 Profile
                 <a href="{% url 'edit_profile' %}" class="edit-btn " title="{% trans 'Edit Profile' %}">
-
                     <i class="fas fa-edit mx-2" style="color: #5FA8D3;"></i>
                 </a>
                 <div class="publish-toggle">
@@ -57,7 +56,7 @@
                 {# Chat Icon 區塊 #}
                 {%if not is_own_profile%}
                 <div class="chat-icon-container">
-                    <a href="{% url 'message:add_contact' username=profile.user %}" title="{% trans 'Chat' %}">
+                    <a href="{% url 'message:add_contact' username=profile.user.username %}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>
                     </a>
                 </div>
