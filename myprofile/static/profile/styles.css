@@ -392,12 +392,13 @@ body {
     padding: 0 10px;
 }
 
-.suggested-teachers h2 {
-    font-size: 2rem;
+.suggested-teachers h1 {
+     margin: 0;
+    font-size: 47px;
     color: #1B4965;
     font-weight: bold;
-    margin-bottom: 24px;
-    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .teachers {
