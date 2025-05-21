@@ -1,20 +1,16 @@
+{% extends "myprofile/base.html" %}
 {% load static %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% trans "Edit Profile" %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}" />
-    <!-- Font Awesome CDN for + icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-</head>
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{% endblock %}
 
-<body>
+{% block body %}
+<main>
     <!-- =======================
-         Header 與導覽列
+        編輯個人資料主區塊
     ======================= -->
     <header>
         <div class="top-nav">
@@ -29,17 +25,68 @@
                 <div class="user-avatar">
                     <img src="{{ profile.avatar.url }}" alt="{% trans 'User Avatar' %}">
                 </div>
-            </div>
+
+                <!-- =======================
+                    技能區塊：能教技能
+                ======================= -->
+                <div class="skills">
+                    <h3>{% trans "Can Teach" %}</h3>
+                    {% for skill in profile.can_teach.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                    {% empty %}
+                        <span>{% trans "No teaching skills." %}</span>
+                    {% endfor %}
+                    <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                        <i class="fa fa-plus add-icon"></i>
+                    </a>
+                </div>
+
+                <!-- =======================
+                    個性標籤區塊
+                ======================= -->
+                <div class="personality">
+                    <h3>{% trans "Personality" %}</h3>
+                    {% for trait in profile.personality.all %}
+                        <span class="tag">{{ trait.name }}</span>
+                    {% empty %}
+                        <span>{% trans "No traits specified." %}</span>
+                    {% endfor %}
+                    <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                        <i class="fa fa-plus add-icon"></i>
+                    </a>
+                </div>
+
+                <!-- =======================
+                    上課型態（多選小方塊）
+                ======================= -->
+                <label>{% trans "Preferred Class Type" %}：</label>
+                <div class="checkbox-group">
+                {% for ct in class_types %}
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="class_type" value="{{ ct.id }}"
+                            {% if ct in profile.class_type.all %}checked{% endif %}>
+                        {{ ct.name }}
+                    </label>
+                {% endfor %}
+                </div><br>
+
+                <!-- =======================
+                    可上課時間
+                ======================= -->
+                <label for="available_time">{% trans "Available Time" %}：</label>
+                <textarea id="available_time" name="available_time" rows="3">{{ profile.available_time }}</textarea><br>
+
+                <!-- =======================
+                    自我介紹
+                ======================= -->
+                <label for="self_intro">{% trans "Self Introduction" %}：</label>
+                <textarea id="self_intro" name="self_intro" rows="5">{{ profile.self_intro }}</textarea><br>
+
+                <button type="submit" class="btn">{% trans "Save" %}</button>
+            </form>
         </div>
-        <div class="divider"></div>
-        <nav class="bottom-nav">
-            <ul class="nav-links">
-                <li><a href="{% url 'homepage' %}">{% trans "HOMEPAGE" %}</a></li>
-                <li><a href="{% url 'category' %}">{% trans "CATEGORY" %}</a></li>
-                <li><a href="{% url 'message:message_page_without_username' %}">{% trans "CHAT" %}</a></li>
-            </ul>
-        </nav>
-    </header>
+    </section>
+</main>
 
     <main>
         <section class="profile">
@@ -150,7 +197,7 @@
         </section>
     </main>
 
-    <!-- 編輯彈窗（點 + 號會出現） -->
+    <!-- 編輯彈窗（點 + 號會出現）
     <div class="modal-bg" id="editModal">
         <div class="modal-content">
             <h3 id="modalTitle"></h3>
@@ -160,25 +207,36 @@
                 <button type="button" onclick="closeEditModal()">Cancel</button>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <script>
-        // 彈窗資料
-        let currentEditType = '';
-        let currentEditId = '';
-        let currentLabelElem = null;
 
-        // 開啟編輯彈窗
-        function openEditModal(type, id, name) {
-            currentEditType = type;
-            currentEditId = id;
-            // 找到對應的 label 元素
-            currentLabelElem = document.querySelector(
-                '.editable-label[data-type="' + type + '"][data-id="' + id + '"]'
-            );
-            document.getElementById('modalTitle').innerText = (type === 'skill' ? '編輯技能名稱' : '編輯個性名稱');
-            document.getElementById('editInput').value = name;
-            document.getElementById('editModal').style.display = 'flex';
+<script>
+    // 彈窗資料
+    let currentEditType = '';
+    let currentEditId = '';
+    let currentLabelElem = null;
+
+    // 開啟編輯彈窗
+    function openEditModal(type, id, name) {
+        currentEditType = type;
+        currentEditId = id;
+        // 找到對應的 label 元素
+        currentLabelElem = document.querySelector(
+            '.editable-label[data-type="' + type + '"][data-id="' + id + '"]'
+        );
+        document.getElementById('modalTitle').innerText = (type === 'skill' ? '編輯技能名稱' : '編輯個性名稱');
+        document.getElementById('editInput').value = name;
+        document.getElementById('editModal').style.display = 'flex';
+    }
+    // 關閉彈窗
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+    // 儲存編輯（僅前端示範，實際應送 AJAX 到後端）
+    function saveEdit() {
+        const newName = document.getElementById('editInput').value;
+        if (currentLabelElem && newName.trim() !== '') {
+            currentLabelElem.innerText = newName;
         }
         // 關閉彈窗
         function closeEditModal() {
@@ -193,7 +251,9 @@
             closeEditModal();
             // 實際專案應該用 AJAX 將新名稱送到後端並更新資料庫
         }
-    </script>
-</body>
 
-</html>
+        closeEditModal();
+        // 實際專案應該用 AJAX 將新名稱送到後端並更新資料庫
+    }
+</script>
+{% endblock %}

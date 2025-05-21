@@ -4,6 +4,14 @@
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+<!-- Font Awesome CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-papFjzXz7B3NaaK2lEjaT+6kz8VJ+lwSBOU78HRZ2gY9fXFXqThIEPIBLMZmh0Gn4QXSnHwD1pEK7sTdtS+hzA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
 {% endblock %}
 
 {% block body %}
@@ -37,7 +45,9 @@
         </h1>
         <div class="profile-card">
             <div>
-                {# 頭像區塊 #}
+                <!-- =======================
+                    頭像區塊
+                ======================= -->
                 {% if profile.avatar and profile.avatar.url %}
                     <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
                 {% else %}
@@ -47,14 +57,17 @@
                 {# Chat Icon 區塊 #}
                 {%if not is_own_profile%}
                 <div class="chat-icon-container">
-                    <a href="{% url 'message:add_contact' username=profile.user%}" title="{% trans 'Chat' %}">
+                    <a href="{% url 'message:add_contact' username=profile.user %}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>
                     </a>
                 </div>
-                {%endif%}
+                {% endif %}
             </div>
 
             <div class="profile-details">
+                <!-- =======================
+                    使用者名稱與基本資訊
+                ======================= -->
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>
                     {% if profile.instagram %}
@@ -70,9 +83,10 @@
                     {% endif %}
                 </p>
 
-                <!-- 技能區塊：想學與能教 -->
+                <!-- =======================
+                    技能區塊：想學技能
+                ======================= -->
                 <div class="skills">
-                    <!-- 想學技能 -->
                     <h3>{% trans "Want to Learn" %}</h3>
                     {% for skill in profile.want_to_learn.all %}
                         <span class="tag">{{ skill.name }}</span>
@@ -89,7 +103,9 @@
                     {% endfor %}
                 </div>
 
-                <!-- 能教技能 -->
+                <!-- =======================
+                    技能區塊：能教技能
+                ======================= -->
                 <div class="skills">
                     <h3>{% trans "Can Teach" %}</h3>
                     {% for skill in profile.can_teach.all %}
@@ -107,7 +123,9 @@
                     {% endfor %}
                 </div>
 
-                <!-- 個性特質 -->
+                <!-- =======================
+                    個性標籤區塊
+                ======================= -->
                 <div class="personality">
                     <h3>{% trans "Personality" %}</h3>
                     {% for trait in profile.personality.all %}
@@ -125,18 +143,19 @@
                     {% endfor %}
                 </div>
 
-                <!-- 上課型態與可上課時間 -->
+                <!-- =======================
+                    上課型態與可上課時間
+                ======================= -->
                 <div class="availability-container">
                     <div class="class-type">
                         <h3>{% trans "Preferred Class Type" %}</h3>
-                        {% for ct in class_types %}
-                            {% if ct.name != "Both" %}
-                                <label>
-                                    <input type="checkbox" disabled
-                                        {% if ct in profile.class_type.all %}checked{% endif %}>
-                                    {{ ct.name }}
-                                </label>
-                            {% endif %}
+                        {% for ct in profile.class_type.all %}
+                            <label>
+                                <input type="checkbox" disabled checked>
+                                {{ ct.name }}
+                            </label>
+                        {% empty %}
+                            <p>{% trans "No preferred class type specified." %}</p>
                         {% endfor %}
                     </div>
                     <div class="time-box">
@@ -145,7 +164,9 @@
                     </div>
                 </div>
 
-                <!-- 自我介紹區塊 -->
+                <!-- =======================
+                    自我介紹區塊
+                ======================= -->
                 <div class="self-introduction">
                     <h3>{% trans "Self Introduction" %}</h3>
                     <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
@@ -158,7 +179,7 @@
         推薦老師區塊
     ======================= -->
     <section class="suggested-teachers">
-        <h2>{% trans "Suggested Teachers" %}</h2>
+        <h1>{% trans "Suggested Teachers" %}</h1>
         <div class="teachers">
             {% for teacher in suggested_teachers %}
             <div class="teacher-card">
