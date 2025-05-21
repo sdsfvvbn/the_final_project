@@ -130,7 +130,7 @@ def update_avatar(request):
         form = ProfileAvatarForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            messages.success(request, '頭像已成功更新！')
+            messages.success(request, 'Avatar has been updated successfully!')
             return redirect('profile_view')
     else:
         form = ProfileAvatarForm(instance=profile)
