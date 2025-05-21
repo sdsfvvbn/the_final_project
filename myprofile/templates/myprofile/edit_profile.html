@@ -10,13 +10,16 @@
 {% block body %}
     <main>
         <section class="profile">
+            <h1>
+                {% trans "Edit Profile" %}
+            </h1>
             <div class="profile-card">
                 <!-- 編輯表單開始 -->
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- 頭像上傳 -->
+                    <h3>{% trans "Avatar" %}：</h3>
                     <div class="skill-category-block">
-                        <h3>{% trans "Avatar" %}：</h3>
                         <input type="file" id="avatar" name="avatar"><br>
                         {% if profile.avatar %}
                         <img src="{{ profile.avatar.url }}" alt="{% trans 'Current Avatar' %}" width="80">
@@ -24,55 +27,51 @@
                     </div>
 
                     <!-- Instagram -->
-                    <div class="skill-category-block">
-                        <h3>{% trans "Instagram" %}：</h3>
-                        <input type="text" id="instagram" name="instagram" value="{{ profile.instagram }}" class="profile-input"><br>
-                    </div>
-
+                    <h3>{% trans "Instagram" %}：</h3>
+                    <input type="text" id="instagram" name="instagram" value="{{ profile.instagram }}" class="profile-input"><br>
+                    
                     <!-- 城市 -->
-                    <div class="skill-category-block">
-                        <h3>{% trans "City" %}：</h3>
-                        <input type="text" id="city" name="city" value="{{ profile.city }}" class="profile-input"><br>
-                    </div>
+                    <h3>{% trans "City" %}：</h3>
+                    <input type="text" id="city" name="city" value="{{ profile.city }}" class="profile-input"><br>
 
                     <!-- 想學技能 -->
                     <h3>{% trans "Want to Learn：" %}</h3>
-                    {% for category in skill_categories %}
                     <div class="skill-category-block">
-                        <h4>{{ category.name }}</h4>
-                        <div class="skill-checkbox-group">
-                            {% for skill in category.skills.all %}
-                            <label class="skill-checkbox">
-                                <input type="checkbox" name="want_to_learn" value="{{ skill.id }}" {% if skill in profile.want_to_learn.all %}checked{% endif %}>
-                                {{ skill.name }}
-                            </label>
-                            {% empty %}
-                            <p>{% trans "No skills in this category." %}</p>
-                            {% endfor %}
-                        </div>
+                        {% for category in skill_categories %}
+                            <h4>{{ category.name }}</h4>
+                            <div class="skill-checkbox-group">
+                                {% for skill in category.skills.all %}
+                                <label class="skill-checkbox">
+                                    <input type="checkbox" name="want_to_learn" value="{{ skill.id }}" {% if skill in profile.want_to_learn.all %}checked{% endif %}>
+                                    {{ skill.name }}
+                                </label>
+                                {% empty %}
+                                <p>{% trans "No skills in this category." %}</p>
+                                {% endfor %}
+                            </div>
+                            <br>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
 
                     <!-- 可以教技能 -->
                     <h3>{% trans "Can Teach：" %}</h3>
-                    {% for category in skill_categories %}
                     <div class="skill-category-block">
-                        <h4>{{ category.name }}</h4>
-                        <div class="skill-checkbox-group">
-                            {% for skill in category.skills.all %}
-                            <label class="skill-checkbox">
-                                <input type="checkbox" name="can_teach" value="{{ skill.id }}" 
-                                    {% if skill in profile.can_teach.all %}checked{% endif %}>
-                                {{ skill.name }}
-                            </label>
-                            {% empty %}
-                            <p>{% trans "No skills in this category." %}</p>
-                            {% endfor %}
-                        </div>
+                        {% for category in skill_categories %}
+                            <h4>{{ category.name }}</h4>
+                            <div class="skill-checkbox-group">
+                                {% for skill in category.skills.all %}
+                                <label class="skill-checkbox">
+                                    <input type="checkbox" name="can_teach" value="{{ skill.id }}" {% if skill in profile.can_teach.all %}checked{% endif %}>
+                                    {{ skill.name }}
+                                </label>
+                                {% empty %}
+                                <p>{% trans "No skills in this category." %}</p>
+                                {% endfor %}
+                            </div>
+                            <br>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-
-
+                    <br>
 
                     <!-- 個性標籤 -->
                     <h3>{% trans "Personality：" %}</h3>
@@ -87,7 +86,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <br><br>
+                    <br>
 
                     <!-- 上課型態（多選小方塊） -->
                     <h3>{% trans "Preferred Class Type" %}：</h3>
@@ -103,16 +102,14 @@
                         </div>
                     </div>
                     <br>
-                    <br><br>
 
                     <!-- 可上課時間 -->
                     <h3>{% trans "Available Time" %}：</h3>
                     <textarea id="available_time" name="available_time"
-                        rows="3">{{ profile.available_time }}</textarea><br>
-
+                        rows="3">{{ profile.available_time }}</textarea><br><br>
                     <!-- 自我介紹 -->
                     <h3>{% trans "Self Introduction" %}：</h3>
-                    <textarea id="self_intro" name="self_intro" rows="5">{{ profile.self_intro }}</textarea><br>
+                    <textarea id="self_intro" name="self_intro" rows="5">{{ profile.self_intro }}</textarea><br><br>
 
                     <button type="submit" class="btn">{% trans "Save" %}</button>
                 </form>

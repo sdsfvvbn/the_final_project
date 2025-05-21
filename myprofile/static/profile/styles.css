@@ -180,6 +180,22 @@ h3 {
     margin-bottom: 10px;
 }
 
+input#avatar,
+input#instagram,
+input#city {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #5FA8D3;
+    border-radius: 8px;
+    background: #f7fbff;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(95, 168, 211, 0.08);
+    transition: border-color 0.2s;
+}
+
 /* ===========================
    7. 技能/標籤/加號（共用）
 =========================== */
@@ -244,9 +260,9 @@ h3 {
 .skill-category-block input[type="file"] {
     width: 100%;
     padding: 8px 12px;
-    border: 1.5px solid #5FA8D3;
+    border: 1px solid #5FA8D3;
     border-radius: 8px;
-    background: #eaf6fb;
+    background: #f7fbff;
     font-size: 16px;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -331,12 +347,12 @@ h3 {
 
 /* 單個 checkbox 樣式 */
 .skill-checkbox {
-    background: #5FA8D3;
+    background: #CAE9FF;
     border: 1px solid #5FA8D3;
     border-radius: 20px;
     padding: 0.3rem 0.75rem;
     font-size: 0.9rem;
-    color:#fff;
+    color:#1B4965;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -448,6 +464,11 @@ h3 {
     min-width: 320px;
     max-width: 90vw;
     text-align: center;
+}
+
+#self_intro,
+#available_time{
+    background-color: #f7fbff;
 }
 
 /* ===========================
