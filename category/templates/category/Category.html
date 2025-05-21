@@ -31,7 +31,7 @@
             </select>
         </div>
     </div>
-    
+
     <div class="container py-4 px-0">
         <div class="row justify-content-center g-4" id="mentorCards">
             {% for mentor in mentors %}
@@ -48,7 +48,7 @@
                                     {% endfor %}
                                 </div>
                                 <div class="mentor-location text-muted small">
-                                    📍 {{ mentor.city|default:"No Specified" }} | 
+                                    📍 {{ mentor.city|default:"No Specified" }} |
                                     {% for type in mentor.class_type.all %}
                                         {{ type.name }}{% if not forloop.last %}, {% endif %}
                                     {% endfor %}

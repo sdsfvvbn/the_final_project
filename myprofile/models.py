@@ -79,6 +79,12 @@ class UserProfile(models.Model):
         blank=True, null=True
     )  # 居住城市，可留空
 
+    # 是否發布到 category 頁面
+    is_published = models.BooleanField(
+        default=False,
+        help_text="是否要在 category 頁面顯示"
+    )
+
     # 想學習的技能（多對多）
     want_to_learn = models.ManyToManyField(
         Skill,

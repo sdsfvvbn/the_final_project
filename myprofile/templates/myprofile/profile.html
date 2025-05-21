@@ -12,11 +12,27 @@
         個人資料主區塊
     ======================= -->
     <section class="profile">
-        <h1>{% trans "Profile" %}
-        <!-- 編輯按鈕，連到 edit_profile 頁面 -->
-            <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
-                <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg">
-            </a>
+        <h1>
+            {% if is_own_profile %}
+                Profile
+                <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
+                    <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg">
+                </a>
+                <div class="publish-toggle">
+                    <form method="post" action="{% url 'toggle_publish' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn {% if profile.is_published %}btn-success{% else %}btn-secondary{% endif %}">
+                            {% if profile.is_published %}
+                                <i class="fas fa-eye"></i> Published
+                            {% else %}
+                                <i class="fas fa-eye-slash"></i> Unpublished
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                {{ profile.user.username }}'s Profile
+            {% endif %}
         </h1>
         <div class="profile-card">
             <div>
@@ -36,7 +52,7 @@
                 </div>
                 {%endif%}
             </div>
-            
+
             <div class="profile-details">
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from myprofile.models import UserProfile, Skill, PersonalityTag, ClassType, SkillCategory
 from .forms import CreateProfileForm, ProfileAvatarForm
 from django.contrib import messages
+from django.http import JsonResponse
 
 # ==========================
 # 建立用戶個人資料（初次填寫）
@@ -87,13 +88,18 @@ def edit_profile(request):
 def profile_view(request):
     # 獲取要查看的用戶名
     username = request.GET.get('username')
-    
+
     if username:
         # 如果提供了用戶名，顯示該用戶的資料
         try:
             profile = UserProfile.objects.get(user__username=username)
+            # 檢查該用戶是否已發布個人資料
+            if not profile.is_published and profile.user != request.user:
+                messages.warning(request, '該用戶的個人資料尚未發布')
+                return redirect('category')
         except UserProfile.DoesNotExist:
-            return redirect('homepage')
+            messages.error(request, '找不到該用戶的個人資料')
+            return redirect('category')
     else:
         # 否則顯示當前登入用戶的資料
         try:
@@ -106,13 +112,15 @@ def profile_view(request):
     skills_to_learn = profile.want_to_learn.all()
     # 根據這些技能找出能教的人（排除自己）
     suggested_teachers = UserProfile.objects.filter(
-        can_teach__in=skills_to_learn
+        can_teach__in=skills_to_learn,
+        is_published=True  # 只顯示已發布的教師
     ).exclude(id=profile.id).distinct()
 
     return render(request, 'myprofile/profile.html', {
         'profile': profile,
         'suggested_teachers': suggested_teachers,
-        'is_own_profile': profile.user == request.user 
+        'is_own_profile': profile.user == request.user,
+        'class_types': ClassType.objects.all()  # 添加 class_types 到上下文
     })
 
 @login_required
@@ -131,3 +139,15 @@ def update_avatar(request):
         'form': form,
         'profile': profile
     })
+
+@login_required
+def toggle_publish(request):
+    if request.method == 'POST':
+        profile = get_object_or_404(UserProfile, user=request.user)
+        profile.is_published = not profile.is_published
+        profile.save()
+
+        messages.success(request,
+            '您的個人資料已{}'.format('發布' if profile.is_published else '隱藏'))
+        return redirect('profile_view')
+    return redirect('profile_view')
