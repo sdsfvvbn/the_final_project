@@ -197,6 +197,31 @@
             {% endfor %}
         </div>
     </section>
-    {% endif %}
+    {% else %}
+    <div class="show-comments">
+        <div class="card comment-card">
+            <div class="card-header">
+                <h1>{% trans "History Comments" %}</h1>
+            </div>
+            <div class="comments card-body">
+                {%if received_reviews%}
+                        {%for r in received_reviews%}
+                        <div class="feedback form-control">
+                        <span>From: {{r.reviewer}}</span>
+                        <span>Rating: {{r.rating}}</span>
+                        <span>Comments: {{r.comment}}</span>
+                        <span>{{r.created_at}}</span>
+                       </div>
+                       {%endfor%}
+                         {%else%}
+                        <div class="feedback form-control text">
+                        <span>No history available.</span>
+                        </div>
+                        {%endif%}
+            </div>
+        </div>
+
+    </div>
+    {%endif%}
 </main>
 {% endblock %}

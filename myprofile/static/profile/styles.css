@@ -536,6 +536,23 @@ input[type="text"], input[type="file"], select, textarea {
     margin-bottom: 10px;
 }
 
+.comment-card{
+    background-color: #fff;
+    gap: 40px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+.card-header{
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 25px;
+    padding: 18px 0;
+}
+
 /* ===========================
    14. RWD 響應式設計（共用）
 =========================== */
