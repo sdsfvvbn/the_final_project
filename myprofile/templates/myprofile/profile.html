@@ -5,13 +5,11 @@
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
 <!-- Font Awesome CDN -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  integrity="sha512-papFjzXz7B3NaaK2lEjaT+6kz8VJ+lwSBOU78HRZ2gY9fXFXqThIEPIBLMZmh0Gn4QXSnHwD1pEK7sTdtS+hzA=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-papFjzXz7B3NaaK2lEjaT+6kz8VJ+lwSBOU78HRZ2gY9fXFXqThIEPIBLMZmh0Gn4QXSnHwD1pEK7sTdtS+hzA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"/>
 {% endblock %}
 
 {% block body %}
@@ -20,13 +18,15 @@
         個人資料主區塊
     ======================= -->
     <section class="profile">
+        <!-- 標題與編輯按鈕 -->
         <h1>
             {% if is_own_profile %}
                 Profile
-                <a href="{% url 'edit_profile' %}" class="edit-btn " title="{% trans 'Edit Profile' %}">
-                    
+                <!-- 編輯按鈕 -->
+                <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
                     <i class="fas fa-edit mx-2" style="color: #5FA8D3; font-size: 32px; margin-bottom: 15px"></i>
                 </a>
+                <!-- 發布/隱藏切換按鈕 -->
                 <div class="publish-toggle">
                     <form method="post" action="{% url 'toggle_publish' %}" class="d-inline">
                         {% csrf_token %}
@@ -43,19 +43,20 @@
                 {{ profile.user.username }}'s Profile
             {% endif %}
         </h1>
+
         <div class="profile-card">
+            <!-- =======================
+                頭像與聊天按鈕
+            ======================= -->
             <div>
-                <!-- =======================
-                    頭像區塊
-                ======================= -->
                 {% if profile.avatar and profile.avatar.url %}
                     <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
                 {% else %}
                     <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
                 {% endif %}
 
-                {# Chat Icon 區塊 #}
-                {%if not is_own_profile%}
+                <!-- 聊天按鈕（非本人時顯示） -->
+                {% if not is_own_profile %}
                 <div class="chat-icon-container">
                     <a href="{% url 'message:add_contact' username=profile.user %}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>
@@ -66,7 +67,7 @@
 
             <div class="profile-details">
                 <!-- =======================
-                    使用者名稱與基本資訊
+                    基本資訊（姓名、Instagram、城市）
                 ======================= -->
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>
@@ -91,6 +92,7 @@
                     {% for skill in profile.want_to_learn.all %}
                         <span class="tag">{{ skill.name }}</span>
                         {% if forloop.last %}
+                            <!-- 編輯技能連結 -->
                             <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
                                 <span class="circle-add"><i class="fa fa-plus"></i></span>
                             </a>
@@ -160,7 +162,9 @@
                     </div>
                     <div class="time-box">
                         <h3>{% trans "Available Time" %}</h3>
-                        <p class="available-time-paragraph">{{ profile.available_time|default:_("No available time provided.") }}</p>
+                        <p class="available-time-paragraph">
+                            {{ profile.available_time|default:_("No available time provided.") }}
+                        </p>
                     </div>
                 </div>
 
@@ -176,9 +180,9 @@
     </section>
 
     <!-- =======================
-        推薦老師區塊
+        推薦老師區塊（僅本人可見）
     ======================= -->
-    {%if is_own_profile%}
+    {% if is_own_profile %}
     <section class="suggested-teachers">
         <h1>{% trans "Suggested Teachers" %}</h1>
         <div class="teachers">
