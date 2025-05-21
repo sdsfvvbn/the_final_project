@@ -3,6 +3,11 @@ function filterByCategory() {
     updateFilters('category', category);
 }
 
+function filterBySkill() {
+    const skill = document.getElementById('skillFilter').value;
+    updateFilters('skillFilter', skill);
+}
+
 function filterByPersonality() {
     const personality = document.getElementById('personalityFilter').value;
     updateFilters('personality', personality);

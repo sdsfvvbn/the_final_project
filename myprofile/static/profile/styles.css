@@ -3,15 +3,83 @@
 =========================== */
 body {
     margin: 0;
+<<<<<<< HEAD
     font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+=======
+    font-family: "Font Tex Bold";
+>>>>>>> 2f353cd5aaec7cda2fc41d7a81aba32c03fb83f1
     background-color: #CAE9FF;
     color: #1B4965;
 }
 
+<<<<<<< HEAD
 /* Bootstrap 容器微調（create_profile.html 專用） */
 .container {
     margin-top: 32px;
     margin-bottom: 32px;
+=======
+/* ===========================
+   Header
+=========================== */
+header {
+    background-color: #5FA8D3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@font-face {
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    color: #ffffff;
+    font-size: 14px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    height: 150px;
+    width: 150px;
+}
+
+/* 登入/註冊連結區塊 */
+.auth-links {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    color: #1B4864;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.auth-links a {
+    color: #1B4864;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+/* 分隔線 */
+.divider {
+    height: 3px;
+    background-color: #1B4864;
+    margin: 0;
+>>>>>>> 2f353cd5aaec7cda2fc41d7a81aba32c03fb83f1
 }
 
 /* ===========================
