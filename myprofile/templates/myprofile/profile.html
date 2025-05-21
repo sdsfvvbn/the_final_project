@@ -23,7 +23,9 @@
         <h1>
             {% trans "Profile" %}
             <!-- 編輯按鈕，連到 edit_profile 頁面 -->
-            <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}"></a>
+            <a href="{% url 'edit_profile' %}" class="edit-btn">
+                <i class="fa fa-pencil"></i> Edit
+            </a>
         </h1>
         <div class="profile-card">
             <div>

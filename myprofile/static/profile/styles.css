@@ -29,6 +29,7 @@ body {
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 /* 編輯按鈕 共用 */
@@ -393,12 +394,13 @@ body {
 }
 
 .suggested-teachers h1 {
-     margin: 0;
+    margin: 0;
     font-size: 47px;
     color: #1B4965;
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .teachers {
