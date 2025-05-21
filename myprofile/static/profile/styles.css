@@ -2,17 +2,99 @@
    1. General & Layout（共用）
    適用於所有頁面
 =========================== */
+header,
+nav {
+    background-color: #5FA8D3;
+    color: white;
+    font-family: "Montserrat Bold", "Font Tex Bold", sans-serif;
+}
+
 body {
     margin: 0;
-    font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+    font-family: "Montserrat Regular", "Font Tex Regular", sans-serif;
     background-color: #CAE9FF;
     color: #1B4965;
 }
 
-.container {
-    margin-top: 32px;
-    margin-bottom: 32px;
+@font-face {
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
 }
+
+@font-face {
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Montserrat Bold";
+    src: url("fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Monrserrat Regular";
+    src: url("fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
+
+
+.nav-link {
+    color: white;
+}
+
+.nav-tabs {
+    background-color: white;
+    justify-content: space-between;
+    border-bottom: none;
+}
+
+.nav-tabs .nav-link {
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #BEE9E8;
+    border-bottom: 3px solid #1B4965;
+    color: #000;
+}
+
+.tab-content {
+    background-color: #BEE9E8;
+}
+
+.navbar {
+    background-color: #5FA8D3 !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.navbar .nav-link {
+    color: white !important;
+    font-weight: 600;
+    text-transform: none;
+    transition: font-size 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #1B4965 !important;
+    font-size: 1.2em;
+}
+
+.navbar-brand img {
+    height: auto;
+    width: 100px;
+}
+
+/* Bootstrap 容器微調（create_profile.html 專用） */
+
 
 h3 {
     font-size: 20px;
@@ -274,7 +356,7 @@ input#city {
 }
 
 .checkbox-group {
-    flex-direction: column;   
+    flex-direction: column;
     gap: 12px;
     align-items: flex-start;
     margin-top: 10px;
@@ -320,9 +402,9 @@ input#city {
     border: 1px solid #5FA8D3;
     border-radius: 12px;
     background-color: #fff;
-    padding: 15px; 
-    cursor: pointer; 
-    transition: transform 0.2s; 
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .skill-category-block h4 {
@@ -559,6 +641,23 @@ input[type="text"], input[type="file"], select, textarea {
     margin-bottom: 10px;
 }
 
+.comment-card{
+    background-color: #fff;
+    gap: 40px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+.card-header{
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 25px;
+    padding: 18px 0;
+}
+
 /* ===========================
    14. RWD 響應式設計（共用）
    適用於所有頁面
@@ -575,7 +674,7 @@ input[type="text"], input[type="file"], select, textarea {
     }
 }
 @media screen and (max-width: 768px) {
-    .profile-card {
+    .profile-card ,.comment-card{
         flex-direction: column;
         padding: 20px;
         align-items: center;

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-<main>
+
     <section class="profile">
         <!-- =======================
             編輯個人資料標題
@@ -30,13 +30,15 @@
                     {% endif %}
                 </div>
 
-                <!-- Instagram -->
-                <h3>{% trans "Instagram" %}：</h3>
-                <input type="text" id="instagram" name="instagram" value="{{ profile.instagram }}" class="profile-input"><br>
-                
-                <!-- 城市 -->
-                <h3>{% trans "City" %}：</h3>
-                <input type="text" id="city" name="city" value="{{ profile.city }}" class="profile-input"><br>
+                    <!-- Instagram -->
+                    <h3>{% trans "Instagram" %}：</h3>
+                    <input type="text" id="instagram" name="instagram" value="{{ profile.instagram }}" class="profile-input"><br>
+
+                    <!-- 城市 -->
+                    <h3>{% trans "City" %}：</h3>
+                    <input type="text" id="city" name="city" value="{{ profile.city }}" class="profile-input"><br>
+
+
 
                 <!-- 想學技能 -->
                 <h3>{% trans "Want to Learn：" %}</h3>
@@ -138,6 +140,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     // 彈窗資料

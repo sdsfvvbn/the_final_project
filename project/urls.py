@@ -29,6 +29,7 @@ urlpatterns = [
     path('profile/', include('myprofile.urls')),      # 包含 myprofile 的所有路由（包含 update_avatar）
     path('comment/', include('comment.urls')),
     path('category/', category_views.category, name='category'),
+    path('ai-agent/', include('ai_agent.urls', namespace='ai_agent')),  # 添加 AI agent 的路由
 ]
 
 if settings.DEBUG:

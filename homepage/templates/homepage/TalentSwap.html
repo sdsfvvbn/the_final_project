@@ -1,14 +1,15 @@
 {% extends "homepage/base.html" %}
 {% load static %}
 {%block body%}
+
     <section class="py-5 bg-white">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
               <h1 class="fw-bold text-dark">Ready to Learn<br>New Skill?</h1>
               <form class="mt-4" onsubmit="return redirectSearch();">
-                <input type="text" id="materialSearch" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm" 
-                       placeholder="What you want to learn?" 
+                <input type="text" id="materialSearch" class="form-control rounded-pill px-4 py-2 border-0 shadow-sm"
+                       placeholder="What you want to learn?"
                        style="background-color: #64b9d8; color: white">
               </form>
             </div>
@@ -60,7 +61,7 @@
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
-    </div> 
+    </div>
 
     <section class="py-5 bg-light">
         <div class="container text-center">
@@ -76,17 +77,21 @@
                     <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target2.png' %}" alt="Parents">
                     <p>Parents</p>
                 </div>
-                <div class="target-icon">   
+                <div class="target-icon">
                     <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target3.png' %}" alt="Lifelong Learners">
                     <p>Lifelong Learners</p>
                 </div>
-                <div class="target-icon">   
+                <div class="target-icon">
                     <img style="width: 230px; height: 230px" src="{% static 'homepage/assets/target4.png' %}" alt="Community Helpers">
                     <p>Community Helpers</p>
                 </div>
             </div>
             <p>And many more!</p>
-            <a href="{% url 'myapp:login' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Join Now!</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'category' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Start searching!</a>
+            {% else %}
+                <a href="{% url 'myapp:login' %}" class="btn btn-primary rounded-pill px-4 py-2 join">Join Now!</a>
+            {% endif %}
             <p class="section-subtitle mt-4">
                 For anyone who wants to learn, share, and support each other in the journey of personal growth.
             </p>
@@ -94,7 +99,7 @@
     </section>
 
     <!-- TAB COMPONENT -->
-    <div class="container my-5">    
+    <div class="container my-5">
         <!-- Tab navigation bar -->
         <nav>
             <ul class="nav nav-tabs" id="myTab">
@@ -104,14 +109,14 @@
                     Art
                     </button>
                 </li>
-    
+
                 <!-- Tab button: IT & Computer -->
                 <li class="nav-item">
                     <button class="nav-link" id="itcomp-tab" data-bs-toggle="tab" data-bs-target="#itcomp" type="button">
                     IT & Computer
                     </button>
                 </li>
-    
+
                 <!-- Tab button: Language -->
                 <li class="nav-item">
                     <button class="nav-link" id="language-tab" data-bs-toggle="tab" data-bs-target="#language" type="button">
@@ -148,7 +153,7 @@
                 </li>
             </ul>
         </nav>
-    
+
         <!-- Tab content area -->
         <div class="tab-content p-3" id="myTabContent">
             <!-- Tab panel: Art -->
@@ -182,7 +187,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <!-- Tab panel: IT & Computer -->
             <div class="tab-pane fade" id="itcomp">
                 <!-- CAROUSEL HORIZONTAL -->
@@ -246,7 +251,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Tab panel: Music -->
             <div class="tab-pane fade" id="music">
                 <!-- CAROUSEL HORIZONTAL -->
@@ -360,6 +365,183 @@
             </div>
         </div>
     </div>
+
+    <!-- AI Agent 按鈕 -->
+    <button class="btn btn-primary position-fixed" style="bottom: 20px; right: 20px; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#aiAgentModal ">
+        <i class="fas fa-robot"></i> AI Agent
+    </button>
+
+    <!-- AI Agent Modal -->
+    <div class="modal fade" id="aiAgentModal" tabindex="-1" aria-labelledby="aiAgentModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #5fa8d3;">
+                    <h5 class="modal-title" id="aiAgentModalLabel">TalentSwap AI Agent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-container">
+                        <div class="messages" id="chat-messages"></div>
+                        <div class="quick-questions mt-3">
+                            <button class="btn btn-outline-primary btn-sm me-2" onclick="askQuestion('What is this website about?')">What is this website about?</button>
+                            <button class="btn btn-outline-primary btn-sm me-2" onclick="askQuestion('How to use this website?')">How to use this website?</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="askQuestion('How to report an error?')">Error Report</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #5fa8d3;">
+                    <div class="chat-input w-100">
+                        <input type="text" id="user-input" class="form-control" placeholder="Enter your question...">
+                        <button id="send-button" class="btn btn-primary">Send</button>
+                        <button id="reset-button" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .chat-container {
+        height: 400px;
+        overflow-y: auto;
+        padding: 15px;
+    }
+
+    .messages {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .message {
+        max-width: 80%;
+        margin-bottom: 10px;
+    }
+
+    .user-message {
+        align-self: flex-end;
+    }
+
+    .ai-message {
+        align-self: flex-start;
+    }
+
+    .chat-input {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .chat-input input {
+        flex: 1;
+    }
+
+    .quick-questions {
+        padding: 10px;
+        border-top: 1px solid #dee2e6;
+        text-align: center;
+    }
+    </style>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const resetButton = document.getElementById('reset-button');
+
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'} mb-3`;
+        messageDiv.innerHTML = `
+            <div class="card ${isUser ? 'bg-primary text-white' : 'bg-light'}">
+                <div class="card-body">
+                    ${message}
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        addMessage(message, true);
+        userInput.value = '';
+
+        try {
+            const response = await fetch('{% url "ai_agent:chat" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+            if (data.error) {
+                addMessage(`錯誤：${data.error}`);
+            } else {
+                addMessage(data.response);
+            }
+        } catch (error) {
+            addMessage(`錯誤：${error.message}`);
+        }
+    }
+
+    async function resetChat() {
+        try {
+            const response = await fetch('{% url "ai_agent:chat" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ message: 'reset' })
+            });
+
+            const data = await response.json();
+            chatMessages.innerHTML = '';
+            addMessage(data.response);
+        } catch (error) {
+            addMessage(`錯誤：${error.message}`);
+        }
+    }
+
+    // 獲取 CSRF Token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    resetButton.addEventListener('click', resetChat);
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // 添加預設問題功能
+    window.askQuestion = function(question) {
+        userInput.value = question;
+        sendMessage();
+    };
+});
+</script>
 
     <script src="{% static 'homepage/search.js' %}"></script>
 {%endblock%}

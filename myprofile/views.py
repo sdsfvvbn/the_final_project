@@ -79,6 +79,7 @@ def edit_profile(request):
         'skill_categories': skill_categories,
         'tags': tags,
         'class_types': class_types,
+        'is_own_profile': True,
     })
 
 
