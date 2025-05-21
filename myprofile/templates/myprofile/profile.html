@@ -4,6 +4,14 @@
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+<!-- Font Awesome CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-papFjzXz7B3NaaK2lEjaT+6kz8VJ+lwSBOU78HRZ2gY9fXFXqThIEPIBLMZmh0Gn4QXSnHwD1pEK7sTdtS+hzA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
 {% endblock %}
 
 {% block body %}
@@ -31,7 +39,7 @@
                 <!-- =======================
                     Chat Icon 區塊
                 ======================= -->
-                {% if not request.user %}
+                {% if request.user != profile.user %}
                 <div class="chat-icon-container">
                     <a href="{% url 'message:add_contact' username=profile.user %}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>

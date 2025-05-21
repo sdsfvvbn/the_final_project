@@ -124,6 +124,9 @@ body {
 .chat-icon-container {
     margin-top: 20px;
     text-align: right;
+    position: absolute;
+    font-size: 24px;
+    color: #5FA8D3;
 }
 
 .chat-icon {
@@ -139,6 +142,7 @@ body {
 
 .chat-icon-container a:hover .chat-icon {
     color: #1B4965;
+    cursor: pointer;
     transform: scale(1.15);
 }
 
@@ -232,7 +236,7 @@ body {
 =========================== */
 .checkbox-group {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;   
     gap: 24px 36px;
     margin-top: 10px;
 }
@@ -253,6 +257,11 @@ body {
     transition: background 0.2s, color 0.2s;
     user-select: none;
     min-width: 140px;
+}
+
+.class-type input[type="checkbox"]:disabled {
+    accent-color: #5FA8D3;
+    opacity: 1;
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -306,8 +315,8 @@ body {
     font-size: 16px;
     margin-top: 8px;
     margin-bottom: 16px;
-    background: #f7fbff;
-    color: #1B4965;
+    background: #5FA8D3;
+    color: #ccc;
     box-sizing: border-box;
     white-space: pre-line;
 }
@@ -330,7 +339,7 @@ body {
 
 .self-introduction p {
     font-size: 16px;
-    color: #222;
+    color: #ccc;
     background: #5FA8D3;
     border-radius: 16px;
     padding: 18px 22px;
