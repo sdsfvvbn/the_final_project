@@ -18,27 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from homepage import views as homepage_views
 from category import views as category_views
-from django.urls import path
-from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 
-import message
-from homepage import views
-import uuid
-import os
-from django.db import models
-
 urlpatterns = [
-    path('', homepage_views.home, name='homepage'),
+    path('', homepage_views.home, name='homepage'),  # 首頁
     path('admin/', admin.site.urls),
     path('message/', include('message.urls', namespace='message')),
     path('myapp/', include('myapp.urls', namespace='myapp')),
-    path('', views.home, name='homepage'),
-    path('profile/', include('myprofile.urls')),
+    path('profile/', include('myprofile.urls')),      # 包含 myprofile 的所有路由（包含 update_avatar）
     path('comment/', include('comment.urls')),
-    path('', homepage_views.home, name='homepage'),
-    path('category/', category_views.category, name='category')
+    path('category/', category_views.category, name='category'),
 ]
 
 if settings.DEBUG:
