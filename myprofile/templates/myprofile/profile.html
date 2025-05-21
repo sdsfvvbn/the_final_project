@@ -178,6 +178,7 @@
     <!-- =======================
         推薦老師區塊
     ======================= -->
+    {%if is_own_profile%}
     <section class="suggested-teachers">
         <h1>{% trans "Suggested Teachers" %}</h1>
         <div class="teachers">
@@ -196,5 +197,6 @@
             {% endfor %}
         </div>
     </section>
+    {% endif %}
 </main>
 {% endblock %}
