@@ -1,11 +1,95 @@
 /* ===========================
    1. General & Layout（共用）
 =========================== */
+header,
+nav {
+    background-color: #5FA8D3;
+    color: white;
+    font-family: "Montserrat Bold", "Font Tex Bold", sans-serif;
+}
+
 body {
     margin: 0;
-    font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+    font-family: "Montserrat Regular", "Font Tex Regular", sans-serif;
     background-color: #CAE9FF;
     color: #1B4965;
+}
+
+@font-face {
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Montserrat Bold";
+    src: url("fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Monrserrat Regular";
+    src: url("fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
+
+
+.nav-link {
+    color: white;
+}
+
+.nav-tabs {
+    background-color: white;
+    justify-content: space-between;
+    border-bottom: none;
+}
+
+.nav-tabs .nav-link {
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #BEE9E8;
+    border-bottom: 3px solid #1B4965;
+    color: #000;
+}
+
+.tab-content {
+    background-color: #BEE9E8;
+}
+
+.navbar {
+    background-color: #5FA8D3 !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.navbar .nav-link {
+    color: white !important;
+    font-weight: 600;
+    text-transform: none;
+    transition: font-size 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #1B4965 !important;
+    font-size: 1.2em;
+}
+
+.navbar-brand img {
+    height: auto;
+    width: 100px;
 }
 
 /* Bootstrap 容器微調（create_profile.html 專用） */
