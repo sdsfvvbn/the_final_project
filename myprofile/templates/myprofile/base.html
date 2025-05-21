@@ -3,23 +3,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentSwap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <title>Chatting</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <link rel="stylesheet" type="text/css" href="{% static 'homepage/styles.css' %}">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
         integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+"
         crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
     <style>
         .ratings {
             display: inline-flex;
@@ -102,42 +100,50 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold" href="{%url 'category'%}">CATEGORY</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" href="#contact">CONTACT US</a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link fw-semibold" href="{%url 'message:message_page_without_username'%}">CHAT</a>
                     </li>
                 </ul>
 
-                 <!-- Login/Signup or User Info -->
+                <!-- Login/Signup or User Info -->
                 <div class="d-flex align-items-center">
                     {% if user.is_authenticated %}
                         <div class="dropdown">
                             <div class="d-flex align-items-center" role="button" data-bs-toggle="dropdown" style="cursor: pointer;">
                                 <span class="text-white me-3">Welcome, {{ user.username }}</span>
-                                <img src="{% static 'homepage/assets/DP1.png' %}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
+                                {% if user.userprofile.avatar %}
+                                    <img src="{{ user.userprofile.avatar.url }}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                {% else %}
+                                    <img src="/media/avatars/default.png" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                {% endif %}
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'profile_view' %}">profile</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#historyModal">history</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal">comments for partner</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Log Out</a></li>
                             </ul>
                         </div>
                     {% else %}
-                        <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">Log In</a>
-                        <a href="{% url 'myapp:register' %}" class="btn custom-btn">Sign Up</a>
+                        <a href="{% url 'myapp:login' %}" class="btn custom-btn me-2">LOG IN</a>
+                        <a href="{% url 'myapp:register' %}" class="btn custom-btn">SIGN UP</a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-
     {%block body%}
     {%endblock%}
+
+    <footer class="text-center py-4">
+        <div class="container">
+            <p>&copy; 2025 TalentSwap. All rights reserved.</p>
+        </div>
+    </footer>
+
     <div class="modal fade" id="reviewModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="reviewModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -233,12 +239,12 @@
             // 打開評價模態框
             const reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
             reviewModal.show();
-            
+
             // 設置評價數據
             const ratedUserSelect = document.getElementById('ratedUserSelect');
             ratedUserSelect.value = ratedUser;
             ratedUserSelect.disabled = true;  // 禁用選擇用戶
-            
+
             // 添加一個隱藏的 input 來保存 rated_user_id
             let hiddenInput = document.getElementById('rated_user_id');
             if (!hiddenInput) {
@@ -249,21 +255,21 @@
                 document.getElementById('reviewForm').appendChild(hiddenInput);
             }
             hiddenInput.value = ratedUser;
-            
+
             setRating(rating);
             document.getElementById('comment').value = comment;
-            
+
             // 修改提交按鈕文字為 SAVE
             const submitButton = document.querySelector('#reviewModal .modal-footer .btn-primary');
             submitButton.textContent = 'SAVE';
-            
+
             // 修改表單提交行為
             const form = document.getElementById('reviewForm');
             form.onsubmit = function(e) {
                 e.preventDefault();
                 const formData = new FormData(form);
                 formData.append('review_id', reviewId);
-            
+
                 fetch('{% url "comment:update_review" %}', {
                     method: 'POST',
                     body: formData,
@@ -276,19 +282,19 @@
                     if (data.success) {
                         // 關閉評價模態框
                         reviewModal.hide();
-                        
+
                         // 立即重新載入評論列表
                         fetch('{% url "comment:get_reviews" %}')
                             .then(response => response.json())
                             .then(data => {
                                 const modalBody = document.querySelector('#historyModal .modal-body');
                                 modalBody.innerHTML = '';
-                                
+
                                 // 添加收到的評論部分
                                 const receivedTitle = document.createElement('h5');
                                 receivedTitle.textContent = 'Feedback from your partners';
                                 modalBody.appendChild(receivedTitle);
-                                
+
                                 if (data.received_reviews && data.received_reviews.length > 0) {
                                     data.received_reviews.forEach(review => {
                                         const reviewDiv = document.createElement('div');
@@ -307,13 +313,13 @@
                                     noReviews.innerHTML = '<span>No history available.</span>';
                                     modalBody.appendChild(noReviews);
                                 }
-                                
+
                                 // 添加發出的評論部分
                                 const givenTitle = document.createElement('h5');
                                 givenTitle.className = 'mt-4';
                                 givenTitle.textContent = 'Feedback you gave to your partners';
                                 modalBody.appendChild(givenTitle);
-                                
+
                                 if (data.given_reviews && data.given_reviews.length > 0) {
                                     data.given_reviews.forEach(review => {
                                         const reviewDiv = document.createElement('div');
@@ -384,10 +390,10 @@
             if (!confirm('確定要刪除這條評價嗎？')) {
                 return;
             }
-            
+
             const formData = new FormData();
             formData.append('review_id', reviewId);
-            
+
             fetch('{% url "comment:delete_review" %}', {
                 method: 'POST',
                 body: formData,
@@ -436,14 +442,14 @@
                     // 關閉評價模態框
                     const reviewModal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
                     reviewModal.hide();
-                    
+
                         // 重置表單
                         form.reset();
                         document.querySelectorAll('.rating-star').forEach(star => {
                             star.classList.remove('rating-color');
                         });
                         document.getElementById('ratingInput').value = '0';
-                    
+
                     // 重新載入評論列表
                     document.getElementById('historyModal').dispatchEvent(new Event('show.bs.modal'));
                     } else {
@@ -460,7 +466,7 @@
         window.setRating = function(rating) {
             document.getElementById('ratingInput').value = rating;
             console.log('Rating set to:', rating);
-            
+
             // 更新星星顯示
             const stars = document.querySelectorAll('.rating-star');
             stars.forEach(star => {
@@ -471,7 +477,7 @@
                 }
             });
         };
-        
+
         document.addEventListener("DOMContentLoaded", function () {
             // 評價模態框的事件處理
             document.getElementById('reviewModal').addEventListener('show.bs.modal', function(event) {
@@ -501,12 +507,12 @@
                     .then(data => {
                         const modalBody = document.querySelector('#historyModal .modal-body');
                         modalBody.innerHTML = '';
-                        
+
                         // 添加收到的評論部分
                         const receivedTitle = document.createElement('h5');
                         receivedTitle.textContent = 'Feedback from your partners';
                         modalBody.appendChild(receivedTitle);
-                        
+
                         if (data.received_reviews && data.received_reviews.length > 0) {
                             data.received_reviews.forEach(review => {
                                 const reviewDiv = document.createElement('div');
@@ -525,13 +531,13 @@
                             noReviews.innerHTML = '<span>No history available.</span>';
                             modalBody.appendChild(noReviews);
                         }
-                        
+
                         // 添加發出的評論部分
                         const givenTitle = document.createElement('h5');
                         givenTitle.className = 'mt-4';
                         givenTitle.textContent = 'Feedback you gave to your partners';
                         modalBody.appendChild(givenTitle);
-                        
+
                         if (data.given_reviews && data.given_reviews.length > 0) {
                             data.given_reviews.forEach(review => {
                                 const reviewDiv = document.createElement('div');

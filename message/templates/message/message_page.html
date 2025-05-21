@@ -127,14 +127,20 @@
                                onclick="toggleMobileSidebar()" style="cursor: pointer; color: #1b4965; font-size: 2rem;"></i>
                         </div>
                         <div class="d-flex align-items-center justify-content-center">
-                            {% if other_user.userprofile.avatar %}
-                                <img src="{{ other_user.userprofile.avatar.url }}" alt=""
-                                    class="me-2" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                            {% else %}
-                                <img src="/media/avatars/default.png" alt=""
-                                    class="me-2" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                            {% endif %}
-                            <h3 class="text-center text-md-start mb-0" id="chatTitle">{% if other_user %}Chat with {{ other_user.username }}{% else %}Welcome to Chat{% endif %}</h3>
+                            <h3 class="text-center text-md-start mb-0" id="chatTitle">
+                                {% if other_user %}
+                                    {% if other_user.userprofile.avatar %}
+                                        <img src="{{ other_user.userprofile.avatar.url }}" alt=""
+                                            class="me-2" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+                                    {% else %}
+                                        <img src="/media/avatars/default.png" alt=""
+                                            class="me-2" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+                                    {% endif %}
+                                    {{ other_user.username }}
+                                {% else %}
+                                    Welcome to Chat
+                                {% endif %}
+                            </h3>
                         </div>
                         <div></div>
                     </div>
@@ -225,8 +231,11 @@
                 // 獲取 CSRF token
                 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-                // 獲取當前聊天對象的用戶名
-                const currentChat = document.getElementById('chatTitle').textContent.replace('Chat with ', '');
+                // 獲取當前聊天對象的用戶名和頭像
+                const chatTitle = document.getElementById('chatTitle');
+                const currentChat = chatTitle.textContent;
+                const avatarImg = chatTitle.querySelector('img');
+                const avatarUrl = avatarImg ? avatarImg.src : '/media/avatars/default.png';
 
                 // 創建新的訊息元素
                 const messageHtml = `
@@ -313,9 +322,14 @@
                         const parser = new DOMParser();
                         const doc = parser.parseFromString(html, 'text/html');
                         const newMessageArea = doc.querySelector('.message-area');
+                        const newChatTitle = doc.getElementById('chatTitle');
 
                         if (newMessageArea) {
                             messageArea.innerHTML = newMessageArea.innerHTML;
+                        }
+
+                        if (newChatTitle) {
+                            chatTitle.innerHTML = newChatTitle.innerHTML;
                         }
 
                         // 移除未讀標記 - 不需調用後端，後端已經處理
