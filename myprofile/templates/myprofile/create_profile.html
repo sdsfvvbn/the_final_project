@@ -4,171 +4,129 @@
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 
 {% block body %}
-<!-- =======================
-    建立個人資料主區塊
-======================= -->
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <!-- 卡片標題 -->
-                <div class="card-header">
-                    <h3 class="text-center">Create Profile</h3>
+<main>
+    <section class="profile">
+        <h1>{% trans "Create Profile" %}</h1>
+        <div class="profile-card">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- 頭像上傳 -->
+                <h3>{% trans "Avatar" %}：</h3>
+                <div class="skill-category-block">
+                    <img id="avatar-preview" src="/media/avatars/default.png" alt="avatar-preview" width="80">
+                    <input type="file" id="avatar" name="avatar"><br>
                 </div>
-                <div class="card-body">
-                    <!-- =======================
-                        訊息提示區塊
-                    ======================= -->
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">
-                                {{ message }}
-                            </div>
+
+                <!-- Instagram -->
+                <h3>{% trans "Instagram" %}：</h3>
+                <input type="text" id="instagram" name="instagram" class="profile-input"><br>
+
+                <!-- 城市 -->
+                <h3>{% trans "City" %}：</h3>
+                <input type="text" id="city" name="city" class="profile-input"><br>
+
+                <!-- 想學技能 -->
+                <h3>{% trans "Want to Learn：" %}</h3>
+                <div class="skill-category-block">
+                    {% for category in skill_categories %}
+                        <h4>{{ category.name }}</h4>
+                        <div class="skill-checkbox-group">
+                            {% for skill in category.skills.all %}
+                            <label class="skill-checkbox">
+                                <input type="checkbox" name="want_to_learn" value="{{ skill.id }}">
+                                {{ skill.name }}
+                            </label>
+                            {% empty %}
+                            <p>{% trans "No skills in this category." %}</p>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+
+                <!-- 可以教技能 -->
+                <h3>{% trans "Can Teach：" %}</h3>
+                <div class="skill-category-block">
+                    {% for category in skill_categories %}
+                        <h4>{{ category.name }}</h4>
+                        <div class="skill-checkbox-group">
+                            {% for skill in category.skills.all %}
+                            <label class="skill-checkbox">
+                                <input type="checkbox" name="can_teach" value="{{ skill.id }}">
+                                {{ skill.name }}
+                            </label>
+                            {% empty %}
+                            <p>{% trans "No skills in this category." %}</p>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+                <br>
+
+                <!-- 個性標籤 -->
+                <h3>{% trans "Personality：" %}</h3>
+                <div class="skill-category-block">
+                    <div class="skill-checkbox-group">
+                        {% for tag in tags %}
+                        <label class="skill-checkbox">
+                            <input type="checkbox" name="personality" value="{{ tag.id }}">
+                            {{ tag.name }}
+                        </label>
                         {% endfor %}
-                    {% endif %}
-
-                    <!-- =======================
-                        建立個人資料表單
-                    ======================= -->
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-
-                        <!-- =======================
-                            頭像上傳與預覽
-                        ======================= -->
-                        <div class="form-group mb-4">
-                            <label for="{{ form.avatar.id_for_label }}">Avatar</label>
-                            <div class="text-center mb-3">
-                                <img id="avatar-preview" src="/media/avatars/default.png" alt="預覽頭像" class="img-thumbnail" style="max-width: 200px;">
-                            </div>
-                            {{ form.avatar }}
-                            <small class="form-text text-muted">You can upload your own avatar or use a preset avatar.</small>
-                        </div>
-
-                        <!-- =======================
-                            Instagram 欄位
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label for="{{ form.instagram.id_for_label }}">Instagram</label>
-                            {{ form.instagram }}
-                        </div>
-
-                        <!-- =======================
-                            城市欄位
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label for="{{ form.city.id_for_label }}">City</label>
-                            {{ form.city }}
-                        </div>
-
-                        <!-- =======================
-                            自我介紹欄位
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label for="{{ form.self_intro.id_for_label }}">Self Introduction</label>
-                            {{ form.self_intro }}
-                            <small class="form-text text-muted">Please briefly introduce yourself and click "Create Profile" below to submit after completing the form.</small>
-                        </div>
-
-                        <!-- =======================
-                            想學習的技能（多選）
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label>Skills you want to learn</label>
-                            <div class="checkbox-group">
-                                {% for skill in skills %}
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" name="want_to_learn" value="{{ skill.id }}">
-                                        <span>{{ skill.name }}</span>
-                                    </label>
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <!-- =======================
-                            可以教授的技能（多選）
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label>Skills you can teach</label>
-                            <div class="checkbox-group">
-                                {% for skill in skills %}
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" name="can_teach" value="{{ skill.id }}">
-                                        <span>{{ skill.name }}</span>
-                                    </label>
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <!-- =======================
-                            個性特質（多選）
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label>Your personality traits</label>
-                            <div class="checkbox-group">
-                                {% for tag in tags %}
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" name="personality" value="{{ tag.id }}">
-                                        <span>{{ tag.name }}</span>
-                                    </label>
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <!-- =======================
-                            課程類型（多選）
-                        ======================= -->
-                        <div class="form-group mb-3">
-                            <label>Your preferred class type</label>
-                            <div class="checkbox-group class-type-group">
-                                {% for ct in class_types %}
-                                    {% if ct.name != "Both" %}
-                                        <label class="checkbox-label tag-option">
-                                            <input type="checkbox" name="class_type" value="{{ ct.id }}">
-                                            <span>{{ ct.name }}</span>
-                                        </label>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <!-- =======================
-                            送出按鈕
-                        ======================= -->
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">Create Profile</button>
-                        </div>
-                    </form>
-                    <!-- ====== 表單結束 ====== -->
+                    </div>
                 </div>
-            </div>
+                <br>
+
+                <!-- 上課型態 -->
+                <h3>{% trans "Preferred Class Type" %}：</h3>
+                <div class="skill-category-block">
+                    <div class="skill-checkbox-group">
+                        {% for ct in class_types %}
+                        <label class="skill-checkbox">
+                            <input type="checkbox" name="class_type" value="{{ ct.id }}">
+                            {{ ct.name }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <br>
+
+                <!-- 可上課時間 -->
+                <h3>{% trans "Available Time" %}：</h3>
+                <textarea id="available_time" name="available_time" rows="3"></textarea><br><br>
+
+                <!-- 自我介紹 -->
+                <h3>{% trans "Self Introduction" %}：</h3>
+                <textarea id="self_intro" name="self_intro" rows="5">Please briefly introduce yourself :D</textarea><br><br>
+
+                <button type="submit" class="btn btn-primary">{% trans "Create Profile" %}</button>
+            </form>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
-{% block extra_js %}
 <script>
-/* =======================
-   頭像即時預覽功能
-======================= */
-document.addEventListener('DOMContentLoaded', function() {
-    const avatarInput = document.querySelector('input[type="file"]');
-    const avatarPreview = document.getElementById('avatar-preview');
+// 頭像即時預覽功能
+    document.addEventListener('DOMContentLoaded', function() {
+        const avatarInput = document.querySelector('input[type="file"]');
+        const avatarPreview = document.getElementById('avatar-preview');
 
-    avatarInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                avatarPreview.src = e.target.result;
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
-        }
+        });
     });
-});
 </script>
-{% endblock %}
 {% endblock %}

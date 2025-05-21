@@ -38,12 +38,14 @@ def create_profile(request):
     tags = PersonalityTag.objects.all()
     class_types = ClassType.objects.all()
     categories = SkillCategory.objects.values_list('name', flat=True).distinct()
-
+    skill_categories = SkillCategory.objects.prefetch_related('skills').all()
+    
     return render(request, 'myprofile/create_profile.html', {
         'form': form,
         'skills': skills,
         'tags': tags,
         'categories': categories,
+        'skill_categories': skill_categories,
         'class_types': class_types,
     })
 
