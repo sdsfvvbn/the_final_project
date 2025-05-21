@@ -123,9 +123,10 @@ body {
 =========================== */
 .chat-icon-container {
     margin-top: 20px;
-    text-align: right;
+    text-align: center;
     font-size: 24px;
     color: #5FA8D3;
+    display: block;
 }
 
 .chat-icon {
@@ -305,6 +306,13 @@ body {
     height: 18px;
 }
 
+.class-type label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #1B4965;
+}
+
 .available-time-paragraph {
     width: 100%;
     min-height: 60px;
@@ -318,6 +326,11 @@ body {
     color: #fff;
     box-sizing: border-box;
     white-space: pre-line;
+}
+
+.available-time-paragraph,
+.available-time-paragraph * {
+    color: #fff !important;
 }
 
 /* ===========================
@@ -391,7 +404,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 32px 36px;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .teacher-card {
