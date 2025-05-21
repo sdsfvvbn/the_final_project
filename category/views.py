@@ -22,7 +22,6 @@ def category(request):
 
     if personality_filter:
         mentors = mentors.filter(personality__name=personality_filter)
-
         
     if skill_filter:
         mentors = mentors.filter(can_teach__name=skill_filter)
@@ -42,7 +41,6 @@ def category(request):
     categories = SkillCategory.objects.all()
     personality_tags = PersonalityTag.objects.all()
     class_types = ClassType.objects.all()
-
     skills = Skill.objects.all()
     
     context = {

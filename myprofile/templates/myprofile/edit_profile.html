@@ -112,6 +112,8 @@
                     <textarea id="self_intro" name="self_intro" rows="5">{{ profile.self_intro }}</textarea><br><br>
 
                     <button type="submit" class="btn">{% trans "Save" %}</button>
+                    <!-- 返回個人頁面的連結 -->
+                    <a href="{% url 'profile_view' %}" class="btn" style="margin-left:10px;">{% trans "Back" %}</a>
                 </form>
                 <!-- 編輯表單結束 -->
             </div>
