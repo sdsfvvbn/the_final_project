@@ -6,6 +6,8 @@ from myprofile.models import UserProfile, Skill, SkillCategory, PersonalityTag, 
 def category(request):
     # 獲取所有有教學技能且已發布的用戶
     mentors = UserProfile.objects.filter(can_teach__isnull=False, is_published=True).distinct()
+    if request.user.is_authenticated:
+        mentors = mentors.exclude(user=request.user)
 
     # 獲取過濾參數
     category_filter = request.GET.get('category', '')

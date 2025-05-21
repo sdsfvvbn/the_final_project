@@ -15,8 +15,9 @@
         <h1>
             {% if is_own_profile %}
                 Profile
-                <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
-                    <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg">
+                <a href="{% url 'edit_profile' %}" class="edit-btn " title="{% trans 'Edit Profile' %}">
+                    <!-- <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg"> -->
+                    <i class="fas fa-edit mx-2" style="color: #5FA8D3;"></i>
                 </a>
                 <div class="publish-toggle">
                     <form method="post" action="{% url 'toggle_publish' %}" class="d-inline">
