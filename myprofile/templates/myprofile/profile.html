@@ -177,6 +177,7 @@
     <!-- =======================
         推薦老師區塊
     ======================= -->
+    {%if is_own_profile%}
     <section class="suggested-teachers">
         <h1>{% trans "Suggested Teachers" %}</h1>
         <div class="teachers">
@@ -195,5 +196,78 @@
             {% endfor %}
         </div>
     </section>
+    {% else %}
+    <div class="show-comments">
+        <div class="card comment-card" style="border-radius: 20px; box-shadow: 0 4px 16px rgba(30,80,140,0.10);">
+            <div class="card-header" style="border-radius: 20px 20px 0 0; background: #5FA8D3; text-align: center;">
+                <h1 style="margin: 0; color: #fff; font-size: 2.2rem; letter-spacing: 1px;">{% trans "History Comments" %}</h1>
+            </div>
+            <div class="comments card-body" id="profile-comments-list" style="border-radius: 0 0 20px 20px; background: #f7fbff;">
+                <span>Loading...</span>
+            </div>
+        </div>
+    </div>
+    {%endif%}
 </main>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // 取得該 profile 的 username
+    var username = "{{ profile.user.username }}";
+    var url = "{% url 'comment:get_reviews' %}?username=" + encodeURIComponent(username);
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const commentsList = document.getElementById('profile-comments-list');
+            commentsList.innerHTML = '';
+            if (data.received_reviews && data.received_reviews.length > 0) {
+                data.received_reviews.forEach(review => {
+                    // 星星評分
+                    let stars = '';
+                    for (let i = 0; i < 5; i++) {
+                        if (i < review.rating) {
+                            stars += '<i class="fa fa-star" style="color: #FFD700;"></i>';
+                        } else {
+                            stars += '<i class="fa fa-star" style="color: #e0e0e0;"></i>';
+                        }
+                    }
+                    const reviewDiv = document.createElement('div');
+                    reviewDiv.className = 'history-comment-card mb-3';
+                    reviewDiv.style.display = 'flex';
+                    reviewDiv.style.alignItems = 'center';
+                    reviewDiv.style.background = '#fff';
+                    reviewDiv.style.borderRadius = '18px';
+                    reviewDiv.style.boxShadow = '0 2px 8px rgba(30,80,140,0.08)';
+                    reviewDiv.style.padding = '18px 22px';
+                    reviewDiv.style.marginBottom = '18px';
+
+                    const avatarUrl = review.reviewer_avatar || '/media/avatars/default.png';
+
+                    reviewDiv.innerHTML = `
+                        <div class="history-comment-avatar" style="flex:0 0 60px; margin-right:18px;">
+                            <img src="${avatarUrl}" alt="reviewer avatar" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:2px solid #5FA8D3;">
+                        </div>
+                        <div class="history-comment-info" style="flex:1;">
+                            <div class="history-comment-header" style="display:flex; align-items:center; gap:10px;">
+                                <span class="history-comment-name" style="font-weight:bold; font-size:1.2rem; color:#1B4965; text-transform:uppercase; letter-spacing:1px;">${review.reviewer}</span>
+                                <span class="history-comment-rating" style="font-size:1.1rem;">${stars}</span>
+                            </div>
+                            <div class="history-comment-content" style="margin:8px 0 4px 0; color:#1B4965; font-size:1rem;">${review.comment}</div>
+                            <div class="history-comment-meta" style="font-size:0.95rem; color:#888;">
+                                <i class="fa fa-clock"></i> ${review.created_at}
+                            </div>
+                        </div>
+                    `;
+                    commentsList.appendChild(reviewDiv);
+                });
+            } else {
+                commentsList.innerHTML = '<span>No history available.</span>';
+            }
+        })
+        .catch(error => {
+            const commentsList = document.getElementById('profile-comments-list');
+            commentsList.innerHTML = '<span style="color:red;">Error loading comments.</span>';
+        });
+});
+</script>
 {% endblock %}

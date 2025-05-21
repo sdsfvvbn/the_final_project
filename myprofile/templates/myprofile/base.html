@@ -503,7 +503,13 @@
 
             // 歷史記錄模態框的事件處理
             document.getElementById('historyModal').addEventListener('show.bs.modal', function() {
-                fetch('{% url "comment:get_reviews" %}')
+                // 帶上 username 查詢該 profile 的評論
+                var username = '{{ profile.user.username|default_if_none:"" }}';
+                var url = '{% url "comment:get_reviews" %}';
+                if (username) {
+                    url += '?username=' + encodeURIComponent(username);
+                }
+                fetch(url)
                     .then(response => response.json())
                     .then(data => {
                         const modalBody = document.querySelector('#historyModal .modal-body');
