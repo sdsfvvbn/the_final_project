@@ -124,7 +124,6 @@ body {
 .chat-icon-container {
     margin-top: 20px;
     text-align: right;
-    position: absolute;
     font-size: 24px;
     color: #5FA8D3;
 }
@@ -235,9 +234,9 @@ body {
    8. Checkbox Group（edit_profile.html、create_profile.html 專用）
 =========================== */
 .checkbox-group {
-    display: flex;
     flex-direction: column;   
-    gap: 24px 36px;
+    gap: 12px;
+    align-items: flex-start;
     margin-top: 10px;
 }
 
@@ -316,7 +315,7 @@ body {
     margin-top: 8px;
     margin-bottom: 16px;
     background: #5FA8D3;
-    color: #ccc;
+    color: #fff;
     box-sizing: border-box;
     white-space: pre-line;
 }
@@ -339,7 +338,7 @@ body {
 
 .self-introduction p {
     font-size: 16px;
-    color: #ccc;
+    color: #fff;
     background: #5FA8D3;
     border-radius: 16px;
     padding: 18px 22px;
