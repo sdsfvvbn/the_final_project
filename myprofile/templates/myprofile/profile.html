@@ -12,32 +12,40 @@
         個人資料主區塊
     ======================= -->
     <section class="profile">
-        <h1>{% trans "Profile" %}
-        <!-- 編輯按鈕，連到 edit_profile 頁面 -->
+        <h1>
+            {% trans "Profile" %}
+            <!-- 編輯按鈕，連到 edit_profile 頁面 -->
             <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
                 <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg">
             </a>
         </h1>
         <div class="profile-card">
             <div>
-                {# 頭像區塊 #}
+                <!-- =======================
+                    頭像區塊
+                ======================= -->
                 {% if profile.avatar and profile.avatar.url %}
                     <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
                 {% else %}
                     <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
                 {% endif %}
 
-                {# Chat Icon 區塊 #}
-                {%if not request.user%}
+                <!-- =======================
+                    Chat Icon 區塊
+                ======================= -->
+                {% if not request.user %}
                 <div class="chat-icon-container">
-                    <a href="{% url 'message:add_contact' username=profile.user%}" title="{% trans 'Chat' %}">
+                    <a href="{% url 'message:add_contact' username=profile.user %}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>
                     </a>
                 </div>
-                {%endif%}
+                {% endif %}
             </div>
             
             <div class="profile-details">
+                <!-- =======================
+                    使用者名稱與基本資訊
+                ======================= -->
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>
                     {% if profile.instagram %}
@@ -53,9 +61,10 @@
                     {% endif %}
                 </p>
 
-                <!-- 技能區塊：想學與能教 -->
+                <!-- =======================
+                    技能區塊：想學技能
+                ======================= -->
                 <div class="skills">
-                    <!-- 想學技能 -->
                     <h3>{% trans "Want to Learn" %}</h3>
                     {% for skill in profile.want_to_learn.all %}
                         <span class="tag">{{ skill.name }}</span>
@@ -72,7 +81,9 @@
                     {% endfor %}
                 </div>
 
-                <!-- 能教技能 -->
+                <!-- =======================
+                    技能區塊：能教技能
+                ======================= -->
                 <div class="skills">
                     <h3>{% trans "Can Teach" %}</h3>
                     {% for skill in profile.can_teach.all %}
@@ -90,7 +101,9 @@
                     {% endfor %}
                 </div>
 
-                <!-- 個性特質 -->
+                <!-- =======================
+                    個性標籤區塊
+                ======================= -->
                 <div class="personality">
                     <h3>{% trans "Personality" %}</h3>
                     {% for trait in profile.personality.all %}
@@ -108,7 +121,9 @@
                     {% endfor %}
                 </div>
 
-                <!-- 上課型態與可上課時間 -->
+                <!-- =======================
+                    上課型態與可上課時間
+                ======================= -->
                 <div class="availability-container">
                     <div class="class-type">
                         <h3>{% trans "Preferred Class Type" %}</h3>
@@ -128,7 +143,9 @@
                     </div>
                 </div>
 
-                <!-- 自我介紹區塊 -->
+                <!-- =======================
+                    自我介紹區塊
+                ======================= -->
                 <div class="self-introduction">
                     <h3>{% trans "Self Introduction" %}</h3>
                     <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
