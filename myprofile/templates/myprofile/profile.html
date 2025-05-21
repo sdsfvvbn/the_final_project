@@ -1,20 +1,10 @@
 {% extends "myprofile/base.html" %}
 {% load static %}
 {% load i18n %}
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link rel="stylesheet" type="text/css" href= "{% static 'profile/styles.css' %}" />
-=======
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
 {% endblock %}
->>>>>>> 1f91e617c3b9f05bce4ca1d3d40a90ee3e71d661
 
 {% block body %}
 <main>
@@ -22,19 +12,48 @@
         個人資料主區塊
     ======================= -->
     <section class="profile">
-        <h1>{% trans "Profile" %}
-        <!-- 編輯按鈕，連到 edit_profile 頁面 -->
-            <a href="{% url 'edit_profile' %}" class="btn btn-primary" style="margin-left:10px;">
-                <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" style="width:20px;vertical-align:middle;">
-                {% trans "Edit" %}
-            </a>
+        <h1>
+            {% if is_own_profile %}
+                Profile
+                <a href="{% url 'edit_profile' %}" class="edit-btn " title="{% trans 'Edit Profile' %}">
+                    <!-- <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg"> -->
+                    <i class="fas fa-edit mx-2" style="color: #5FA8D3;"></i>
+                </a>
+                <div class="publish-toggle">
+                    <form method="post" action="{% url 'toggle_publish' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn {% if profile.is_published %}btn-success{% else %}btn-secondary{% endif %}">
+                            {% if profile.is_published %}
+                                <i class="fas fa-eye"></i> Published
+                            {% else %}
+                                <i class="fas fa-eye-slash"></i> Unpublished
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                {{ profile.user.username }}'s Profile
+            {% endif %}
         </h1>
         <div class="profile-card">
-            {% if profile.avatar and profile.avatar.url %}
-                <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
-            {% else %}
-                <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
-            {% endif %}
+            <div>
+                {# 頭像區塊 #}
+                {% if profile.avatar and profile.avatar.url %}
+                    <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
+                {% else %}
+                    <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
+                {% endif %}
+
+                {# Chat Icon 區塊 #}
+                {%if not is_own_profile%}
+                <div class="chat-icon-container">
+                    <a href="{% url 'message:add_contact' username=profile.user%}" title="{% trans 'Chat' %}">
+                        <i class="fa-solid fa-comments chat-icon"></i>
+                    </a>
+                </div>
+                {%endif%}
+            </div>
+
             <div class="profile-details">
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>
@@ -53,28 +72,56 @@
 
                 <!-- 技能區塊：想學與能教 -->
                 <div class="skills">
+                    <!-- 想學技能 -->
                     <h3>{% trans "Want to Learn" %}</h3>
                     {% for skill in profile.want_to_learn.all %}
                         <span class="tag">{{ skill.name }}</span>
+                        {% if forloop.last %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
                     {% empty %}
                         <span>{% trans "No skills selected." %}</span>
-                    {% endfor %}
-
-                    <h3>{% trans "Can Teach" %}</h3>
-                    {% for skill in profile.can_teach.all %}
-                        <span class="tag">{{ skill.name }}</span>
-                    {% empty %}
-                        <span>{% trans "No teaching skills." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
                     {% endfor %}
                 </div>
 
-                <!-- 個性標籤區塊 -->
+                <!-- 能教技能 -->
+                <div class="skills">
+                    <h3>{% trans "Can Teach" %}</h3>
+                    {% for skill in profile.can_teach.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                        {% if forloop.last %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
+                    {% empty %}
+                        <span>{% trans "No teaching skills." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <!-- 個性特質 -->
                 <div class="personality">
                     <h3>{% trans "Personality" %}</h3>
                     {% for trait in profile.personality.all %}
                         <span class="tag">{{ trait.name }}</span>
+                        {% if forloop.last %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
                     {% empty %}
                         <span>{% trans "No traits specified." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
                     {% endfor %}
                 </div>
 
@@ -94,22 +141,12 @@
                     </div>
                     <div class="time-box">
                         <h3>{% trans "Available Time" %}</h3>
-                        <ol id="available-time-list">
-                            {% for time in profile.available_time.splitlines %}
-                                <li>{{ time }}</li>
-                            {% empty %}
-                                <li>{% trans "No available time specified." %}</li>
-                            {% endfor %}
-                        </ol>
-                        <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
-                            {{ profile.available_time|default:""}}
-                        </textarea>
+                        <p class="available-time-paragraph">{{ profile.available_time|default:_("No available time provided.") }}</p>
                     </div>
                 </div>
 
                 <!-- 自我介紹區塊 -->
                 <div class="self-introduction">
-                    <h3>{% trans "Self Introduction" %}</h3>
                     <h3>{% trans "Self Introduction" %}</h3>
                     <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
                 </div>
