@@ -24,8 +24,8 @@
             {% if is_own_profile %}
                 Profile
                 <a href="{% url 'edit_profile' %}" class="edit-btn " title="{% trans 'Edit Profile' %}">
-                    <!-- <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg"> -->
-                    <i class="fas fa-edit mx-2" style="color: #5FA8D3;"></i>
+                    
+                    <i class="fas fa-edit mx-2" style="color: #5FA8D3; font-size: 32px; margin-bottom: 15px"></i>
                 </a>
                 <div class="publish-toggle">
                     <form method="post" action="{% url 'toggle_publish' %}" class="d-inline">
@@ -178,16 +178,23 @@
     <!-- =======================
         推薦老師區塊
     ======================= -->
+    {%if is_own_profile%}
     <section class="suggested-teachers">
         <h1>{% trans "Suggested Teachers" %}</h1>
         <div class="teachers">
             {% for teacher in suggested_teachers %}
             <div class="teacher-card">
                 <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
-                <p>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</p>
+                <p>
+                    {% if teacher.user.first_name or teacher.user.last_name %}
+                        {{ teacher.user.first_name }} {{ teacher.user.last_name }}
+                    {% else %}
+                        {{ teacher.user.username }}
+                    {% endif %}
+                </p>
                 <p>
                     {% for skill in teacher.can_teach.all %}
-                        <span>{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
+                        <span>{{ skill.name }}</span>{% if not forloop.last %}{% endif %}
                     {% endfor %}
                 </p>
             </div>
@@ -196,5 +203,6 @@
             {% endfor %}
         </div>
     </section>
+    {% endif %}
 </main>
 {% endblock %}

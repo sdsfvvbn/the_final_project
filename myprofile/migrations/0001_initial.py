@@ -90,77 +90,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="UserProfile",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "avatar",
-                    models.ImageField(
-                        default="avatars/default.png",
-                        upload_to=myprofile.models.user_avatar_path,
-                    ),
-                ),
-                ("instagram", models.CharField(blank=True, max_length=100, null=True)),
-                ("city", models.CharField(blank=True, max_length=100, null=True)),
-                (
-                    "is_published",
-                    models.BooleanField(
-                        default=False, help_text="是否要在 category 頁面顯示"
-                    ),
-                ),
-                (
-                    "available_time",
-                    models.TextField(
-                        blank=True,
-                        help_text="請輸入你方便上課的時間，例如：Mon-Fri evenings, Sat morning",
-                        null=True,
-                    ),
-                ),
-                (
-                    "self_intro",
-                    models.TextField(
-                        blank=True, help_text="請簡單介紹你自己 :)", null=True
-                    ),
-                ),
-                (
-                    "can_teach",
-                    models.ManyToManyField(
-                        blank=True, related_name="teaching_users", to="myprofile.skill"
-                    ),
-                ),
-                (
-                    "class_type",
-                    models.ManyToManyField(
-                        blank=True,
-                        help_text="可複選你偏好的上課型態",
-                        to="myprofile.classtype",
-                    ),
-                ),
-                (
-                    "personality",
-                    models.ManyToManyField(blank=True, to="myprofile.personalitytag"),
-                ),
-                (
-                    "user",
-                    models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-                (
-                    "want_to_learn",
-                    models.ManyToManyField(
-                        blank=True,
-                        related_name="interested_users",
-                        to="myprofile.skill",
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('avatar', models.ImageField(default='avatars/default.png', upload_to=myprofile.models.user_avatar_path)),
+                ('instagram', models.CharField(blank=True, max_length=100, null=True)),
+                ('city', models.CharField(blank=True, max_length=100, null=True)),
+                ('is_published', models.BooleanField(default=False, help_text='是否要在 category 頁面顯示')),
+                ('available_time', models.TextField(blank=True, help_text='請輸入你方便上課的時間，例如：Mon-Fri evenings, Sat morning', null=True)),
+                ('self_intro', models.TextField(blank=True, help_text='請簡單介紹你自己 :)', null=True)),
+                ('can_teach', models.ManyToManyField(blank=True, related_name='teaching_users', to='myprofile.skill')),
+                ('class_type', models.ManyToManyField(blank=True, help_text='可複選你偏好的上課型態', to='myprofile.classtype')),
+                ('personality', models.ManyToManyField(blank=True, to='myprofile.personalitytag')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('want_to_learn', models.ManyToManyField(blank=True, related_name='interested_users', to='myprofile.skill')),
             ],
         ),
     ]
