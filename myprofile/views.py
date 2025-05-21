@@ -52,12 +52,10 @@ def create_profile(request):
 # ================================================
 @login_required
 def edit_profile(request):
-    # 嘗試取得目前登入使用者的 UserProfile，找不到就自動回傳 404
     profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == 'POST':
         if request.FILES.get('avatar'):
             profile.avatar = request.FILES['avatar']
-        # 依表單資料更新 profile
         profile.instagram = request.POST.get('instagram')
         profile.city = request.POST.get('city')
         profile.self_intro = request.POST.get('self_intro')
@@ -68,18 +66,18 @@ def edit_profile(request):
         profile.class_type.set(request.POST.getlist('class_type'))
         profile.save()
         return redirect('profile_view')
-    # GET 請求，顯示表單
-    skills = Skill.objects.all()
+
+    skill_categories = SkillCategory.objects.prefetch_related('skills').all()
     tags = PersonalityTag.objects.all()
     class_types = ClassType.objects.all()
-    categories = ["language", "art", "music", "sports", "cooking"]
+
     return render(request, 'myprofile/edit_profile.html', {
         'profile': profile,
-        'skills': skills,
+        'skill_categories': skill_categories,
         'tags': tags,
-        'categories': categories,
         'class_types': class_types,
     })
+
 
 
 # ==========================
