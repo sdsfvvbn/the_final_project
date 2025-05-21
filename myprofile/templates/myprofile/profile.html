@@ -1,13 +1,6 @@
 {% extends "myprofile/base.html" %}
 {% load static %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link rel="stylesheet" type="text/css" href= "{% static 'profile/styles.css' %}" />
 
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
@@ -31,7 +24,7 @@
             {% if is_own_profile %}
                 Profile
                 <a href="{% url 'edit_profile' %}" class="edit-btn " title="{% trans 'Edit Profile' %}">
-                    <!-- <img src="{% static 'profile/edit_icon.svg' %}" alt="{% trans 'Edit' %}" class="edit-icon-svg"> -->
+
                     <i class="fas fa-edit mx-2" style="color: #5FA8D3;"></i>
                 </a>
                 <div class="publish-toggle">
@@ -49,11 +42,6 @@
             {% else %}
                 {{ profile.user.username }}'s Profile
             {% endif %}
-            {% trans "Profile" %}
-            <!-- 編輯按鈕，連到 edit_profile 頁面 -->
-            <a href="{% url 'edit_profile' %}" class="edit-btn">
-                <i class="fa fa-pencil"></i> Edit
-            </a>
         </h1>
         <div class="profile-card">
             <div>
@@ -66,10 +54,8 @@
                     <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
                 {% endif %}
 
-                <!-- =======================
-                    Chat Icon 區塊
-                ======================= -->
-                {% if request.user != profile.user %}
+                {# Chat Icon 區塊 #}
+                {%if not is_own_profile%}
                 <div class="chat-icon-container">
                     <a href="{% url 'message:add_contact' username=profile.user %}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>
