@@ -28,7 +28,7 @@
                 {% endif %}
 
                 {# Chat Icon 區塊 #}
-                {%if not request.user%}
+                {%if not is_own_profile%}
                 <div class="chat-icon-container">
                     <a href="{% url 'message:add_contact' username=profile.user%}" title="{% trans 'Chat' %}">
                         <i class="fa-solid fa-comments chat-icon"></i>

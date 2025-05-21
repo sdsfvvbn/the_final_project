@@ -113,7 +113,8 @@ def profile_view(request):
 
     return render(request, 'myprofile/profile.html', {
         'profile': profile,
-        'suggested_teachers': suggested_teachers
+        'suggested_teachers': suggested_teachers,
+        'is_own_profile': profile.user == request.user 
     })
 
 @login_required
