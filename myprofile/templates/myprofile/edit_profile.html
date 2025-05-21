@@ -1,4 +1,3 @@
-{% extends "myprofile/base.html" %}
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -119,8 +118,6 @@
                     <label for="city">{% trans "City" %}：</label>
                     <input type="text" id="city" name="city" value="{{ profile.city }}"><br>
 
-                    <!-- 想學技能 -->
-                    <!-- 想學技能 -->
                     <!-- 想學技能 -->
                     <h3>{% trans "Want to Learn" %}</h3>
                     {% for category in skill_categories %}
