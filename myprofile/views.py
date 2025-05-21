@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from myprofile.models import UserProfile, Skill, PersonalityTag, ClassType, SkillCategory
-from .forms import CreateProfileForm
+from .forms import CreateProfileForm, ProfileAvatarForm
 from django.contrib import messages
 
 # ==========================
