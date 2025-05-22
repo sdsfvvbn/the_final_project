@@ -72,7 +72,7 @@
                 <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                 <p>
                     {% if profile.instagram %}
-                        Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank">@{{ profile.instagram }}</a>
+                        Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank" class="text-decoration-none" style="color: #ff4500;">@{{ profile.instagram }}</a>
                     {% else %}
                         {% trans "No Instagram provided." %}
                     {% endif %}
@@ -161,9 +161,7 @@
                     </div>
                     <div class="time-box">
                         <h3>{% trans "Available Time" %}</h3>
-                        <p class="available-time-paragraph">
-                            {{ profile.available_time|default:_("No available time provided.") }}
-                        </p>
+                        <p class="available-time-paragraph">{{ profile.available_time|default:_("No available time provided.")}}</p>
                     </div>
                 </div>
 
@@ -186,21 +184,23 @@
         <h1>{% trans "Suggested Teachers" %}</h1>
         <div class="teachers">
             {% for teacher in suggested_teachers %}
-            <div class="teacher-card">
-                <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
-                <p>
-                    {% if teacher.user.first_name or teacher.user.last_name %}
-                        {{ teacher.user.first_name }} {{ teacher.user.last_name }}
-                    {% else %}
-                        {{ teacher.user.username }}
-                    {% endif %}
-                </p>
-                <p>
-                    {% for skill in teacher.can_teach.all %}
-                        <span>{{ skill.name }}</span>{% if not forloop.last %}{% endif %}
-                    {% endfor %}
-                </p>
-            </div>
+            <a href="{% url 'profile_view' %}?username={{ teacher.user.username }}" class="text-decoration-none">
+                <div class="teacher-card">
+                    <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
+                    <p>
+                        {% if teacher.user.first_name or teacher.user.last_name %}
+                            {{ teacher.user.first_name }} {{ teacher.user.last_name }}
+                        {% else %}
+                            {{ teacher.user.username }}
+                        {% endif %}
+                    </p>
+                    <p>
+                        {% for skill in teacher.can_teach.all %}
+                            <span>{{ skill.name }}</span>{% if not forloop.last %}{% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </a>
             {% empty %}
             <p>{% trans "No suggested teachers available at the moment." %}</p>
             {% endfor %}
@@ -209,8 +209,8 @@
     {% else %}
     <div class="show-comments" style="display: flex; justify-content: center;">
         <div class="card comment-card" style="border-radius: 20px; box-shadow: 0 4px 16px rgba(30,80,140,0.10); width: 90%; max-width: 1200px; margin: 0 auto;">
-            <div class="card-header" style="border-radius: 20px 20px 0 0; background: #5FA8D3; text-align: center; width: 100%;">
-                <h1 style="margin: 0; color: #fff; font-size: 2.2rem; letter-spacing: 1px;">{% trans "History Comments" %}</h1>
+            <div class="card-header" style="border-radius: 20px 20px 0 0; background: #5FA8D3; text-align: center;">
+                <h1 style="margin: 0; color: #fff; font-size: 2.2rem; letter-spacing: 1px;">{% trans "Comment History" %}</h1>
             </div>
             <div class="comments card-body" id="profile-comments-list" style="border-radius: 0 0 20px 20px; background: #f7fbff;">
                 <span>Loading...</span>

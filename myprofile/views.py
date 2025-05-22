@@ -20,6 +20,8 @@ def create_profile(request):
             # 建立 UserProfile 物件
             profile = form.save(commit=False)
             profile.user = request.user
+            profile.self_intro = (request.POST.get('self_intro'))
+            profile.available_time = (request.POST.get('available_time'))
             profile.save()
 
             # 設定多對多欄位

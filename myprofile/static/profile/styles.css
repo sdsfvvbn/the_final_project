@@ -36,8 +36,6 @@ body {
     src: url("fonts/Montserrat-Regular.ttf") format("truetype");
 }
 
-
-
 .nav-link {
     color: white;
 }
@@ -94,7 +92,10 @@ body {
 }
 
 /* Bootstrap 容器微調（create_profile.html 專用） */
-
+.container {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
 
 h3 {
     font-size: 20px;
@@ -464,6 +465,7 @@ input#city {
     font-size: 16px;
     color: #1B4965;
 }
+
 .available-time-paragraph {
     width: 100%;
     min-height: 60px;
@@ -478,6 +480,7 @@ input#city {
     box-sizing: border-box;
     white-space: pre-line;
 }
+
 .available-time-paragraph,
 .available-time-paragraph * {
     color: #fff !important;
@@ -651,6 +654,7 @@ input[type="text"], input[type="file"], select, textarea {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 30px;
 }
+
 .card-header{
     background: #5FA8D3;
     color: #fff;

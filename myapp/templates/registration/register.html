@@ -20,16 +20,37 @@
 
                     <form method="post">
                         {% csrf_token %}
-                        {% for field in form %}
-                            <div class="form-group mb-3">
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                {{ field.errors }}
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %}
+                        <!-- Baris untuk Nama Depan dan Nama Belakang -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                    {{ form.first_name.errors }}
+                                    {{ form.first_name }}
+                                </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                                    {{ form.last_name.errors }}
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for field in form %}
+                            {% if field.name != 'first_name' and field.name != 'last_name' %}
+                                <div class="form-group mb-3">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field.errors }}
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         {% endfor %}
+
                         <button type="submit" class="btn btn-primary w-100">註冊</button>
                     </form>
                     <div class="text-center mt-3">

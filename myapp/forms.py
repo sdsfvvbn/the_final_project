@@ -11,16 +11,20 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # 自定義其他欄位的樣式
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': '請輸入名字'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control', 'placeholder': '請輸入姓'})
         self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': '請輸入使用者名稱'})
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': '請輸入密碼'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': '請再次輸入密碼'})
 
         # 自定義欄位標籤
+        self.fields['first_name'].label = '名字'
+        self.fields['last_name'].label = '姓'
         self.fields['username'].label = '使用者名稱'
         self.fields['password1'].label = '密碼'
         self.fields['password2'].label = '確認密碼'
