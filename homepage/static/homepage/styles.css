@@ -1,21 +1,35 @@
-header, nav {
+header,
+nav {
     background-color: #5FA8D3;
     color: white;
-    font-family: "Font Tex Bold", sans-serif;
+    font-family: "Montserrat Bold", "Font Tex Bold", sans-serif;
 }
 
 body {
-    font-family: "Font Tex Regular", sans-serif;
+    margin: 0;
+    font-family: "Montserrat Regular", "Font Tex Regular", sans-serif;
+    background-color: #CAE9FF;
+    color: #1B4965;
 }
 
 @font-face {
-   font-family: "Font Tex Bold";
-   src: url("fonts/texgyreadventor-bold.otf") format("opentype");
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
 }
 
 @font-face {
-   font-family: "Font Tex Regular";
-   src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Montserrat Bold";
+    src: url("fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Montserrat Regular";
+    src: url("fonts/Montserrat-Regular.ttf") format("truetype");
 }
 
 body {
@@ -26,6 +40,19 @@ body {
     color: #ddd;
     font-size: 1.5rem;
     margin-right: 0.2rem;
+}
+
+.join {
+    background-color: #62B6CB;
+    color: #ffffff;
+    font-weight: bold;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    border: none !important;
+}
+
+.join:hover {
+    transform: scale(1.08);    
+    background-color: #1B4965; 
 }
 
 .rating-star.rating-color {
@@ -76,14 +103,14 @@ body {
     justify-content: space-between;
     border-bottom: none;
 }
-  
+
 .nav-tabs .nav-link {
     color: #000;
     font-weight: bold;
     width: 100%;
     text-align: center;
 }
-  
+
 .nav-tabs .nav-item {
     flex: 1;
     text-align: center;
@@ -101,6 +128,7 @@ body {
 
 .navbar {
     background-color: #5FA8D3 !important;
+    min-height: 80px !important;
 }
 
 .navbar .nav-link {
@@ -114,7 +142,7 @@ body {
     color: #1B4965 !important;
     font-size: 1.2em;
 }
-  
+
 .navbar-brand img {
     height: auto;
     width: 100px;
@@ -128,6 +156,11 @@ body {
     gap: 10px;
     padding: 0 5%;
     flex-wrap: nowrap;
+}
+
+.choices__item {
+    flex-shrink: 0;
+    margin-right: 6px;
 }
 
 .filter-buttons select,
@@ -157,36 +190,66 @@ body {
 }
 
 .mentor-card {
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mentor-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .mentor-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: orange;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .mentor-name {
-    font-weight: 600;
-    font-size: 1.25rem;
-    margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #1B4965;
 }
 
 .mentor-title {
-    font-size: 0.95rem;
-    color: #6c757d;
+  font-size: 0.875rem;
+  color: #6c757d; /* Bootstrap muted */
+  margin-bottom: 4px;
 }
 
 .mentor-location {
-    font-size: 0.9rem;
-    color: #495057;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    padding: 30px 0;
+}
+
+.rating-star {
+    color: #ddd;
+    font-size: 1.5rem;
+    margin-right: 0.2rem;
+}
+
+.rating-star.rating-color {
+    color: #ffc107;
+}
+
+.rating-star:hover,
+.rating-star:hover~.rating-star {
+    color: #ffc107;
+    background-color: orange;
 }
 
 .highlight {

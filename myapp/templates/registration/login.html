@@ -1,8 +1,7 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends "homepage/base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block body %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -15,12 +14,6 @@
                         {% for message in messages %}
                             <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
                                 {{ message }}
-                                {% if message.tags == 'error' and show_register %}
-                                    <div class="mt-3">
-                                        <p>還沒有帳號？</p>
-                                        <a href="{% url 'myapp:register' %}" class="btn btn-success">立即註冊</a>
-                                    </div>
-                                {% endif %}
                             </div>
                         {% endfor %}
                     {% endif %}
@@ -39,6 +32,7 @@
                     </form>
                     <div class="text-center mt-3">
                         <p>還沒有帳號？ <a href="{% url 'myapp:register' %}">註冊</a></p>
+                        <p><a href="{% url 'myapp:password_reset' %}">忘記密碼？</a></p>
                     </div>
                 </div>
             </div>

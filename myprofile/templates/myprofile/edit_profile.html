@@ -1,0 +1,177 @@
+{% extends "myprofile/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+
+    <section class="profile">
+        <!-- =======================
+            編輯個人資料標題
+        ======================= -->
+        <h1>{% trans "Edit Profile" %}</h1>
+        <div class="profile-card">
+            <!-- =======================
+                編輯表單開始
+            ======================= -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- 頭像上傳 -->
+                <h3>{% trans "Avatar" %}：</h3>
+                <div class="skill-category-block">
+                    <input type="file" id="avatar" name="avatar"><br>
+                    {% if profile.avatar %}
+                        <img src="{{ profile.avatar.url }}" alt="{% trans 'Current Avatar' %}" width="80">
+                    {% endif %}
+                </div>
+
+                    <!-- Instagram -->
+                    <h3>{% trans "Instagram" %}：</h3>
+                    <input type="text" id="instagram" name="instagram" value="{{ profile.instagram }}" class="profile-input"><br>
+
+                    <!-- 城市 -->
+                    <h3>{% trans "City" %}：</h3>
+                    <input type="text" id="city" name="city" value="{{ profile.city }}" class="profile-input"><br>
+
+
+
+                <!-- 想學技能 -->
+                <h3>{% trans "Want to Learn：" %}</h3>
+                <div class="skill-category-block">
+                    {% for category in skill_categories %}
+                        <h4>{{ category.name }}</h4>
+                        <div class="skill-checkbox-group">
+                            {% for skill in category.skills.all %}
+                                <label class="skill-checkbox">
+                                    <input type="checkbox" name="want_to_learn" value="{{ skill.id }}" {% if skill in profile.want_to_learn.all %}checked{% endif %}>
+                                    {{ skill.name }}
+                                </label>
+                            {% empty %}
+                                <p>{% trans "No skills in this category." %}</p>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+
+                <!-- 可以教技能 -->
+                <h3>{% trans "Can Teach：" %}</h3>
+                <div class="skill-category-block">
+                    {% for category in skill_categories %}
+                        <h4>{{ category.name }}</h4>
+                        <div class="skill-checkbox-group">
+                            {% for skill in category.skills.all %}
+                                <label class="skill-checkbox">
+                                    <input type="checkbox" name="can_teach" value="{{ skill.id }}" {% if skill in profile.can_teach.all %}checked{% endif %}>
+                                    {{ skill.name }}
+                                </label>
+                            {% empty %}
+                                <p>{% trans "No skills in this category." %}</p>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+                <br>
+
+                <!-- 個性標籤 -->
+                <h3>{% trans "Personality：" %}</h3>
+                <div class="skill-category-block">
+                    <div class="skill-checkbox-group">
+                        {% for tag in tags %}
+                            <label class="skill-checkbox">
+                                <input type="checkbox" name="personality" value="{{ tag.id }}" {% if tag in profile.personality.all %}checked{% endif %}>
+                                {{ tag.name }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <br>
+
+                <!-- 上課型態 -->
+                <h3>{% trans "Preferred Class Type" %}：</h3>
+                <div class="skill-category-block">
+                    <div class="skill-checkbox-group">
+                        {% for ct in class_types %}
+                            <label class="skill-checkbox">
+                                <input type="checkbox" name="class_type" value="{{ ct.id }}" {% if ct in profile.class_type.all %}checked{% endif %}>
+                                {{ ct.name }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <br>
+
+                <!-- 可上課時間 -->
+                <h3>{% trans "Available Time" %}：</h3>
+                <textarea id="available_time" name="available_time" rows="3">{{ profile.available_time }}</textarea><br><br>
+
+                <!-- 自我介紹 -->
+                <h3>{% trans "Self Introduction" %}：</h3>
+                <textarea id="self_intro" name="self_intro" rows="5">{{ profile.self_intro }}</textarea><br><br>
+
+                <!-- 儲存與返回按鈕 -->
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                </div>
+            </form>
+            <!-- =======================
+                編輯表單結束
+            ======================= -->
+        </div>
+    </section>
+</main>
+
+<!-- =======================
+    編輯彈窗（如有需要可啟用）
+======================= -->
+<div class="modal-bg" id="editModal">
+    <div class="modal-content">
+        <h3 id="modalTitle"></h3>
+        <input type="text" id="editInput" />
+        <div>
+            <button type="button" onclick="saveEdit()">OK</button>
+            <button type="button" onclick="closeEditModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 彈窗資料
+    let currentEditType = '';
+    let currentEditId = '';
+    let currentLabelElem = null;
+
+    // 開啟編輯彈窗
+    function openEditModal(type, id, name) {
+        currentEditType = type;
+        currentEditId = id;
+        // 找到對應的 label 元素
+        currentLabelElem = document.querySelector(
+            '.editable-label[data-type="' + type + '"][data-id="' + id + '"]'
+        );
+        document.getElementById('modalTitle').innerText = (type === 'skill' ? '編輯技能名稱' : '編輯個性名稱');
+        document.getElementById('editInput').value = name;
+        document.getElementById('editModal').style.display = 'flex';
+    }
+    // 關閉彈窗
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+    // 儲存編輯（僅前端示範，實際應送 AJAX 到後端）
+    function saveEdit() {
+        const newName = document.getElementById('editInput').value;
+        if (currentLabelElem && newName.trim() !== '') {
+            currentLabelElem.innerText = newName;
+        }
+        closeEditModal();
+        // 實際專案應該用 AJAX 將新名稱送到後端並更新資料庫
+    }
+</script>
+{% endblock %}

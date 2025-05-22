@@ -1,13 +1,11 @@
 from django.db import models
+from myprofile.models import UserProfile
 
-# Create your models here.
-class Mentor(models.Model):
-    name = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    mode = models.CharField(max_length=50)  # e.g., 'Online', 'Meet in Person'
-    rating = models.DecimalField(max_digits=2, decimal_places=1, default=5.0)
-    avatar = models.ImageField(upload_to='mentors/', default='default.png')
-
-    def __str__(self):
-        return self.name
+# 我們不需要額外的模型，直接使用 UserProfile
+# 因為 UserProfile 已經包含了所有我們需要的資訊：
+# - can_teach (技能)
+# - personality (個性標籤)
+# - class_type (上課方式)
+# - city (地點)
+# - avatar (頭像)
+# - self_intro (自我介紹)

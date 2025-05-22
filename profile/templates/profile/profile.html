@@ -1,0 +1,86 @@
+{% extends "profile/base.html" %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block profile_content %}
+<!-- Profile Content -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Column - Profile Info -->
+        <div class="col-md-4">
+            <div class="card profile-card">
+                <div class="card-body text-center">
+                    <img src="{{ user.profile.avatar.url }}" alt="Profile Picture" class="rounded-circle profile-avatar mb-3">
+                    <h4>{{ user.username }}</h4>
+                    <p class="text-muted">{{ user.profile.bio }}</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Skills and Courses -->
+        <div class="col-md-8">
+            <!-- Skills Section -->
+            <div class="card profile-card mb-4">
+                <div class="card-header profile-header">
+                    <h5 class="mb-0">My Skills</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for skill in user.profile.skills.all %}
+                        <div class="col-md-4 mb-2">
+                            <span class="skill-badge">{{ skill.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="card profile-card">
+                <div class="card-header profile-header">
+                    <h5 class="mb-0">My Courses</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for course in user.courses.all %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card course-card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ course.title }}</h6>
+                                    <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header profile-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

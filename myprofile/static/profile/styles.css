@@ -1,118 +1,108 @@
 /* ===========================
-   General Styles
+   1. General & Layout（共用）
+   適用於所有頁面
 =========================== */
+header,
+nav {
+    background-color: #5FA8D3;
+    color: white;
+    font-family: "Montserrat Bold", "Font Tex Bold", sans-serif;
+}
+
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: "Montserrat Regular", "Font Tex Regular", sans-serif;
     background-color: #CAE9FF;
     color: #1B4965;
 }
 
-/* ===========================
-   Header
-=========================== */
-header {
-    background-color: #5FA8D3;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+@font-face {
+    font-family: "Font Tex Bold";
+    src: url("fonts/texgyreadventor-bold.otf") format("opentype");
 }
 
-.top-nav {
-    display: flex;
+@font-face {
+    font-family: "Font Tex Regular";
+    src: url("fonts/texgyreadventor-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Montserrat Bold";
+    src: url("fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Monrserrat Regular";
+    src: url("fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
+
+
+.nav-link {
+    color: white;
+}
+
+.nav-tabs {
+    background-color: white;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px 30px;
-    color: #ffffff;
-    font-size: 14px;
-    position: relative;
+    border-bottom: none;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.logo img {
-    height: 150px;
-    width: 150px;
-}
-
-.auth-links {
-    position: absolute;
-    right: 30px;
-    top: 25px;
-    color: #1B4864;
+.nav-tabs .nav-link {
+    color: #000;
     font-weight: bold;
-    font-size: 15px;
-}
-
-.auth-links a {
-    color: #1B4864;
-    font-weight: bold;
-    text-decoration: none;
-    margin: 0 5px;
-}
-
-.divider {
-    height: 3px;
-    background-color: #1B4864;
-    margin: 0;
-}
-
-.bottom-nav {
-    background-color: #5FA8D3;
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
     width: 100%;
-    gap: 40px;
-    padding: 0;
-    margin: 0;
+    text-align: center;
 }
 
-.nav-links li {
+.nav-tabs .nav-item {
     flex: 1;
     text-align: center;
 }
 
-.nav-links li a {
-    color: #ffffff;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+.nav-tabs .nav-link.active {
+    background-color: #BEE9E8;
+    border-bottom: 3px solid #1B4965;
+    color: #000;
+}
+
+.tab-content {
+    background-color: #BEE9E8;
+}
+
+.navbar {
+    background-color: #5FA8D3 !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.navbar .nav-link {
+    color: white !important;
+    font-weight: 600;
+    text-transform: none;
+    transition: font-size 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #1B4965 !important;
+    font-size: 1.2em;
+}
+
+.navbar-brand img {
+    height: auto;
+    width: 100px;
+}
+
+/* Bootstrap 容器微調（create_profile.html 專用） */
+
+
+h3 {
+    font-size: 20px;
 }
 
 /* ===========================
-   User Info
-=========================== */
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: #ffffff;
-    font-weight: bold;
-    margin-top: 50px;
-    font-size: 18px;
-}
-
-.user-avatar {
-    width: 50px;
-    height: 50px;
-    background-color: #ffffff;
-    border-radius: 50%;
-}
-
-/* ===========================
-   Profile Section
+   2. Profile Main Layout（共用）
+   適用於 profile.html、edit_profile.html、create_profile.html
 =========================== */
 .profile {
     padding: 20px 20px;
@@ -126,18 +116,38 @@ header {
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 30px;
+    text-align: center;
 }
 
+/* 編輯按鈕（共用） */
+.edit-btn {
+    display: inline-block;
+    font-size: 14px;
+    padding: 6px 12px;
+    margin-left: 12px;
+    vertical-align: middle;
+    text-decoration: none;
+}
+.edit-btn:hover {
+    filter: brightness(0.7);
+    transform: scale(1.12);
+}
+
+/* ===========================
+   3. Profile Card & Details
+   profile.html、edit_profile.html 專用
+=========================== */
 .profile-card {
-    background-color: #ffffff;
+    background-color: #fff;
     display: flex;
     flex-direction: row;
     gap: 40px;
-    max-width: 1000px;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
     border-radius: 25px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px 120px;
+    padding: 30px;
     text-align: left;
     align-items: flex-start;
 }
@@ -149,9 +159,6 @@ header {
     object-fit: cover;
     background-color: #ccc;
     border: 2px solid #5FA8D3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-top: 55px;
 }
 
@@ -159,236 +166,545 @@ header {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     text-align: left;
-    padding-left: 60px;
+    padding-left: 20px;
 }
 
 .profile-details h2 {
-    font-size: 40px;
+    font-size: 47px;
     color: #1B4965;
     font-weight: bold;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
 }
 
 .profile-details p {
     font-size: 16px;
-    text-align: left;
+    line-height: 1.5;
+    margin-bottom: 20px;
     color: #1B4965;
-    margin-bottom: 10px;
 }
 
 /* ===========================
-   Skills and Personality
+   4. Bootstrap Card
+   create_profile.html 專用
+=========================== */
+.card {
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(30, 80, 140, 0.10);
+    border: none;
+}
+.card-header {
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 18px 18px 0 0;
+    padding: 18px 0;
+}
+.card-body {
+    background: #fff;
+    border-radius: 0 0 18px 18px;
+    padding: 32px 28px 24px 28px;
+}
+
+/* ===========================
+   5. Chat Icon
+   profile.html 專用
+=========================== */
+.chat-icon-container {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 24px;
+    color: #5FA8D3;
+    display: block;
+}
+.chat-icon {
+    font-size: 32px;
+    color: #5FA8D3;
+    transition: color 0.2s, transform 0.2s;
+    vertical-align: middle;
+}
+.chat-icon-container a {
+    text-decoration: none;
+}
+.chat-icon-container a:hover .chat-icon {
+    color: #1B4965;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+/* ===========================
+   6. Edit/Create Profile Form
+   edit_profile.html、create_profile.html 專用
+=========================== */
+#self_intro, #available_time, textarea[name="self_intro"], textarea[name="available_time"] {
+    width: 100%;
+    min-height: 100px;
+    border: 1.5px solid #5FA8D3;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    resize: vertical;
+    background: #f7fbff;
+    color: #1B4965;
+    box-sizing: border-box;
+    line-height: 1.6;
+}
+
+/* 頭像預覽（create_profile.html 專用） */
+#avatar-preview {
+    border-radius: 50%;
+    border: 2px solid #5FA8D3;
+    object-fit: cover;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 10px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(95,168,211,0.08);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Instagram、City、Avatar 輸入框（edit/create profile 共用） */
+input#avatar,
+input#instagram,
+input#city {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #5FA8D3;
+    border-radius: 8px;
+    background: #f7fbff;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(95, 168, 211, 0.08);
+    transition: border-color 0.2s;
+}
+
+/* ===========================
+   7. 技能/標籤/加號（共用）
+   適用於 profile.html、edit_profile.html、create_profile.html
 =========================== */
 .skills, .personality {
     text-align: left;
     margin-left: 0;
     padding-left: 0;
+    margin-bottom: 20px;
 }
-
-.skills h3, .personality h3 {
-    font-size: 20px;
+.skills h3, .personality h3, .class-type h3, .time-box h3, .self-introduction h3 {
+    font-size: 16px;
     color: #1B4965;
     font-weight: bold;
     margin-bottom: 20px;
 }
-
-.skills span, .personality span {
+.tag {
     display: inline-block;
     background-color: #5FA8D3;
-    color: #ffffff;
-    padding: 5px 12px;
+    color: #fff;
+    padding: 5px 14px;
     border-radius: 20px;
     margin: 5px 8px 5px 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
+    vertical-align: middle;
+}
+.add-tag-link {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+    text-decoration: none;
+}
+.circle-add, .add-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #5FA8D3;
+    color: #5FA8D3;
+    font-size: 18px;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.circle-add:hover, .add-tag-link:hover .add-icon {
+    background: #5FA8D3;
+    color: #fff;
 }
 
 /* ===========================
-   Availability Section
+   8. Checkbox Group
+   edit_profile.html、create_profile.html 專用
+=========================== */
+.profile-input,
+.skill-category-block input[type="text"],
+.skill-category-block input[type="file"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #5FA8D3;
+    border-radius: 8px;
+    background: #f7fbff;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(95, 168, 211, 0.08);
+    transition: border-color 0.2s;
+}
+
+.checkbox-group {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 18px;
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 20px;
+    padding: 14px 30px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 8px;
+    transition: background 0.2s, color 0.2s;
+    user-select: none;
+    min-width: 140px;
+}
+.class-type input[type="checkbox"]:disabled {
+    accent-color: #5FA8D3;
+    opacity: 1;
+}
+.checkbox-label input[type="checkbox"] {
+    accent-color: #5FA8D3;
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+}
+.checkbox-label span {
+    pointer-events: none;
+}
+.checkbox-label:hover {
+    background: #1B4965;
+    color: #fff;
+}
+
+.skill-category-block {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #5FA8D3;
+    border-radius: 12px;
+    background-color: #fff;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.skill-category-block h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.2rem;
+}
+.skill-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+.skill-checkbox {
+    background: #CAE9FF;
+    border: 1px solid #5FA8D3;
+    border-radius: 20px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.9rem;
+    color:#1B4965;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+.skill-checkbox input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+/* ===========================
+   9. 上課型態與時間顯示
+   profile.html 專用
 =========================== */
 .availability-container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 30px;
-    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 40px 60px;
+    margin: 32px 0 24px 0;
 }
-
-.availability-container h3 {
-    font-size: 20px;
-    color: #1B4965;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
 .class-type, .time-box {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    min-height: 150px;
+    min-width: 260px;
+    margin-bottom: -5px;
 }
-
+.class-type h3, .time-box h3 {
+    margin-bottom: 12px;
+}
+.class-type input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #5FA8D3;
+    width: 18px;
+    height: 18px;
+}
 .class-type label {
-    display: flex;
-    align-items: center; 
-    gap: 10px; 
-    font-size: 20px;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
     color: #1B4965;
-    font-weight: bold;
-    margin-bottom: 10px; 
 }
-
-.class-type input[type="radio"] {
-    accent-color: #5FA8D3; 
-    margin-right: 5px;
-}
-
-.time-box {
-    margin-top: -15px;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    border-radius: 20px;
-    color: #1B4864;
-    font-size: 20px;
-    line-height: 1.6;
-    height: 100%;
-}
-
-#available-time-list {
-    list-style-type: decimal;
-    padding-left: 20px;
-    margin-bottom: 10px;
-}
-
-#available-time {
+.available-time-paragraph {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    min-height: 60px;
+    border: 1.5px solid #5FA8D3;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    background: #5FA8D3;
+    color: #fff;
+    box-sizing: border-box;
+    white-space: pre-line;
 }
-
-.time-box ul {
-    margin: 0;
-    padding: 15px 20px;
-    background-color: #5FA8D3;
-    border-radius: 20px;
-    color: #ffffff;
-    font-size: 20px;
-    line-height: 1.6;
-    list-style-position: inside;
+.available-time-paragraph,
+.available-time-paragraph * {
+    color: #fff !important;
 }
 
 /* ===========================
-   In-Person Section
+   10. 自我介紹區塊
+   profile.html 專用
 =========================== */
-.in-person {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    margin-top: 0px;
+.self-introduction {
+    width: 100%;
+    margin-top: 28px;
+    margin-bottom: 24px;
 }
-
-.in-person h3 {
-    font-size: 20px;
+.self-introduction h3 {
+    font-size: 16px;
     color: #1B4965;
     font-weight: bold;
-    margin-bottom: 0px;
+    margin-bottom: 14px;
+}
+.self-introduction p {
+    font-size: 16px;
+    color: #fff;
+    background: #5FA8D3;
+    border-radius: 16px;
+    padding: 18px 22px;
+    line-height: 1.7;
+    margin: 0;
+    word-break: break-word;
+    min-height: 40px;
 }
 
-.in-person label {
-    display: flex;
+/* ===========================
+   11. 編輯彈窗
+   edit_profile.html 專用
+=========================== */
+.modal-bg {
+    position: fixed;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    display: none;
     align-items: center;
-    gap: 10px;
-    font-size: 20px;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 28px 20px 28px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    min-width: 320px;
+    max-width: 90vw;
+    text-align: center;
+}
+#self_intro,
+#available_time{
+    background-color: #f7fbff;
+}
+
+/* ===========================
+   12. 推薦老師區塊
+   profile.html 專用
+=========================== */
+.suggested-teachers {
+    margin: 48px 0 0 0;
+    padding: 0 10px;
+}
+.suggested-teachers h1 {
+    margin: 0;
+    font-size: 47px;
     color: #1B4965;
     font-weight: bold;
     margin-top: 20px;
-}
-
-.in-person input[type="radio"] {
-    accent-color: #5FA8D3;
-    margin-right: 5px;
-}
-
-/* ===========================
-   Self Introduction
-=========================== */
-.self-introduction {
-    margin-top: 30px;
-}
-
-.self-introduction h3 {
-    font-size: 20px;
-    color: #1B4965;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.self-introduction textarea {
-    background-color: #5FA8D3;
-    color: #ffffff;
-    padding: 15px;
-    border-radius: 15px;
-    line-height: 1.6;
-    font-size: 20px;
-    font-weight: 500;
-    max-width: 100%;
-    resize: vertical;
-}
-
-/* ===========================
-   Suggested Teachers
-=========================== */
-.suggested-teachers {
-    margin-top: 50px;
-    background-color: #CAE9FF;
-    padding: 40px 20px;
+    margin-bottom: 30px;
     text-align: center;
 }
-
-.suggested-teachers h2 {
-    font-size: 40px;
-    margin-bottom: 30px;
-    color: #1B4965;
-}
-
 .teachers {
     display: flex;
-    justify-content: center;
-    gap: 30px;
     flex-wrap: wrap;
+    gap: 32px 36px;
+    justify-content: center;
 }
-
 .teacher-card {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 20px;
-    width: 160px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(30, 80, 140, 0.10);
+    padding: 24px 22px 18px 22px;
+    min-width: 220px;
+    max-width: 260px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
 .teacher-card img {
-    width: 100%;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
-    background-color: #CAE9FF;
+    border: 2px solid #5FA8D3;
+    margin-bottom: 12px;
 }
-
 .teacher-card p {
-    margin: 8px 0;
-    font-size: 14px;
+    margin: 8px 0 0 0;
+    font-size: 17px;
     color: #1B4965;
-    line-height: 1.4;
+    font-weight: 500;
+    word-break: break-word;
+}
+.teacher-card span {
+    display: inline-block;
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 4px 4px 0 0;
 }
 
-.teacher-card strong {
-    display: block;
-    margin-top: 10px;
+/* ===========================
+   13. 表單欄位、按鈕、訊息（共用）
+   適用於所有表單頁面
+=========================== */
+input[type="text"], input[type="file"], select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.btn, .btn-primary {
+    background-color: #5FA8D3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 5px;
+}
+.btn-primary:hover, .btn:hover {
+    background-color: #1B4965;
+}
+.error-message {
+    color: #d9534f;
+    background: #fff0f0;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.success-message {
+    color: #155724;
+    background: #d4edda;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.comment-card{
+    background-color: #fff;
+    gap: 40px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 25px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+.card-header{
+    background: #5FA8D3;
+    color: #fff;
+    border-radius: 25px;
+    padding: 18px 0;
+}
+
+/* ===========================
+   14. RWD 響應式設計（共用）
+   適用於所有頁面
+=========================== */
+@media screen and (max-width: 900px) {
+    .teachers {
+        flex-direction: column;
+        gap: 24px 0;
+        align-items: center;
+    }
+    .teacher-card {
+        width: 90%;
+        max-width: 350px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .profile-card ,.comment-card{
+        flex-direction: column;
+        padding: 20px;
+        align-items: center;
+    }
+    .profile-details {
+        padding-left: 0;
+        width: 100%;
+    }
+    .profile-picture {
+        margin-top: 20px;
+    }
+    .card-body {
+        padding: 18px 8px 12px 8px;
+    }
+}
+
+/* ===========================
+   15. 頭像預覽 RWD
+   create_profile.html 專用
+=========================== */
+#avatar-preview {
+    border-radius: 50%;              /* 圓形頭像 */
+    border: 2px solid #5FA8D3;       /* 藍色邊框 */
+    object-fit: cover;               /* 填滿區域不變形 */
+    width: 300px;                    /* 頭像寬度 */
+    height: 300px;                   /* 頭像高度 */
+    margin-bottom: 10px;
+    background: #fff;                /* 白底 */
+    box-shadow: 0 2px 8px rgba(95,168,211,0.08);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

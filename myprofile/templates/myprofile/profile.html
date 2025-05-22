@@ -1,156 +1,283 @@
+{% extends "myprofile/base.html" %}
 {% load static %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link rel="stylesheet" type="text/css" href= "{% static 'profile/styles.css' %}" />
 
-</head>
-<body>
-    <header>
-        <div class="top-nav">
-            <div class="logo">
-                <a href="homepage.html">
-                    <img src="{% static 'images/logo.png' %}" alt="{% trans 'TalentSwap Logo' %}">
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-papFjzXz7B3NaaK2lEjaT+6kz8VJ+lwSBOU78HRZ2gY9fXFXqThIEPIBLMZmh0Gn4QXSnHwD1pEK7sTdtS+hzA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"/>
+{% endblock %}
+
+{% block body %}
+<main>
+    <!-- =======================
+        個人資料主區塊
+    ======================= -->
+    <section class="profile">
+        <!-- 標題與編輯按鈕 -->
+        <h1>
+            {% if is_own_profile %}
+                Profile
+                <!-- 編輯按鈕 -->
+                <a href="{% url 'edit_profile' %}" class="edit-btn" title="{% trans 'Edit Profile' %}">
+                    <i class="fas fa-edit mx-2" style="color: #5FA8D3; font-size: 32px; margin-bottom: 15px"></i>
                 </a>
+                <!-- 發布/隱藏切換按鈕 -->
+                <div class="publish-toggle">
+                    <form method="post" action="{% url 'toggle_publish' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn {% if profile.is_published %}btn-success{% else %}btn-secondary{% endif %}">
+                            {% if profile.is_published %}
+                                <i class="fas fa-eye"></i> Published
+                            {% else %}
+                                <i class="fas fa-eye-slash"></i> Unpublished
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                {{ profile.user.username }}'s Profile
+            {% endif %}
+        </h1>
+
+        <div class="profile-card">
+            <!-- =======================
+                頭像與聊天按鈕
+            ======================= -->
+            <div>
+                {% if profile.avatar and profile.avatar.url %}
+                    <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
+                {% else %}
+                    <img src="/media/avatars/default.png" class="profile-picture" alt="{% trans 'Default Avatar' %}">
+                {% endif %}
+
+                <!-- 聊天按鈕（非本人時顯示） -->
+                {% if not is_own_profile %}
+                <div class="chat-icon-container">
+                    <a href="{% url 'message:add_contact' username=profile.user.username %}" title="{% trans 'Chat' %}">
+                        <i class="fa-solid fa-comments chat-icon"></i>
+                    </a>
+                </div>
+                {% endif %}
             </div>
-            <div class="auth-links">
-                <a href="#">{% trans "LOG IN" %}</a> | <a href="#">{% trans "SIGN UP" %}</a>
-            </div>
-            <div class="user-info">
-                <span>{% trans "Hi, " %}{{ profile.user.username }}!</span>
-                <div class="user-avatar">
-                    <img src="{{ profile.avatar.url }}" alt="{% trans 'User Avatar' %}">
+
+            <div class="profile-details">
+                <!-- =======================
+                    基本資訊（姓名、Instagram、城市）
+                ======================= -->
+                <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                <p>
+                    {% if profile.instagram %}
+                        Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank">@{{ profile.instagram }}</a>
+                    {% else %}
+                        {% trans "No Instagram provided." %}
+                    {% endif %}
+                    |
+                    {% if profile.city %}
+                        {{ profile.city }}
+                    {% else %}
+                        {% trans "No city provided." %}
+                    {% endif %}
+                </p>
+
+                <!-- =======================
+                    技能區塊：想學技能
+                ======================= -->
+                <div class="skills">
+                    <h3>{% trans "Want to Learn" %}</h3>
+                    {% for skill in profile.want_to_learn.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                        {% if forloop.last and is_own_profile %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
+                    {% empty %}
+                        <span>{% trans "No skills selected." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <!-- =======================
+                    技能區塊：能教技能
+                ======================= -->
+                <div class="skills">
+                    <h3>{% trans "Can Teach" %}</h3>
+                    {% for skill in profile.can_teach.all %}
+                        <span class="tag">{{ skill.name }}</span>
+                        {% if forloop.last and is_own_profile %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
+                    {% empty %}
+                        <span>{% trans "No teaching skills." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit skills' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <!-- =======================
+                    個性標籤區塊
+                ======================= -->
+                <div class="personality">
+                    <h3>{% trans "Personality" %}</h3>
+                    {% for trait in profile.personality.all %}
+                        <span class="tag">{{ trait.name }}</span>
+                        {% if forloop.last and is_own_profile %}
+                            <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                                <span class="circle-add"><i class="fa fa-plus"></i></span>
+                            </a>
+                        {% endif %}
+                    {% empty %}
+                        <span>{% trans "No traits specified." %}</span>
+                        <a href="{% url 'edit_profile' %}" class="add-tag-link" title="{% trans 'Edit personality' %}">
+                            <span class="circle-add"><i class="fa fa-plus"></i></span>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <!-- =======================
+                    上課型態與可上課時間
+                ======================= -->
+                <div class="availability-container">
+                    <div class="class-type">
+                        <h3>{% trans "Preferred Class Type" %}</h3>
+                        {% for ct in profile.class_type.all %}
+                            <label>
+                                <input type="checkbox" disabled checked>
+                                {{ ct.name }}
+                            </label>
+                        {% empty %}
+                            <p>{% trans "No preferred class type specified." %}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="time-box">
+                        <h3>{% trans "Available Time" %}</h3>
+                        <p class="available-time-paragraph">
+                            {{ profile.available_time|default:_("No available time provided.") }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- =======================
+                    自我介紹區塊
+                ======================= -->
+                <div class="self-introduction">
+                    <h3>{% trans "Self Introduction" %}</h3>
+                    <p>{{ profile.self_intro|default:_("No introduction provided.") }}</p>
                 </div>
             </div>
         </div>
-        <div class="divider"></div>
-        <nav class="bottom-nav">
-            <ul class="nav-links">
-                <li><a href="#">{% trans "HOMEPAGE" %}</a></li>
-                <li><a href="#">{% trans "CATEGORY" %}</a></li>
-                <li><a href="#">{% trans "CONTACT US" %}</a></li>
-                <li><a href="#">{% trans "CHAT" %}</a></li>
-            </ul>
-        </nav>
-    </header>
+    </section>
 
-    <main>
-        <section class="profile">
-            <h1>{% trans "Profile" %}</h1>
-            <div class="profile-card">
-                <img src="{{ profile.avatar.url }}" class="profile-picture" alt="{% trans 'User Avatar' %}">
-                <div class="profile-details">
-                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
-                    <p>
-                        {% if profile.instagram %}
-                            Instagram: <a href="https://instagram.com/{{ profile.instagram }}" target="_blank">@{{ profile.instagram }}</a>
-                        {% else %}
-                            {% trans "No Instagram provided." %}
-                        {% endif %}
-                        |
-                        {% if profile.city %}
-                            {{ profile.city }}
-                        {% else %}
-                            {% trans "No city provided." %}
-                        {% endif %}
-                    </p>
-
-                    <div class="skills">
-                        <h3>{% trans "Want to Learn" %}</h3>
-                        {% for skill in profile.want_to_learn.all %}
-                            <span>{{ skill.name }}</span>
-                        {% empty %}
-                            <p>{% trans "No skills selected." %}</p>
-                        {% endfor %}
-
-                        <h3>{% trans "Can Teach" %}</h3>
-                        {% for skill in profile.can_teach.all %}
-                            <span>{{ skill.name }}</span>
-                        {% empty %}
-                            <p>{% trans "No teaching skills." %}</p>
-                        {% endfor %}
-                    </div>
-
-                    <div class="personality">
-                        <h3>{% trans "Personality" %}</h3>
-                        {% for trait in profile.personality.all %}
-                            <span class="tag">{{ trait.name }}</span>
-                        {% empty %}
-                            <p>{% trans "No traits specified." %}</p>
-                        {% endfor %}
-                    </div>
-
-                    <div class="availability-container">
-                        <div class="class-type">
-                            <h3>{% trans "Preferred Class Type" %}</h3>
-                            <label>
-                                <input type="radio" name="class-type" value="Physical" {% if profile.class_type == "Physical" %}checked{% endif %}>
-                                {% trans "Physical" %}
-                            </label>
-                            <label>
-                                <input type="radio" name="class-type" value="Online" {% if profile.class_type == "Online" %}checked{% endif %}>
-                                {% trans "Online" %}
-                            </label>
-                        </div>
-                        <div class="time-box">
-                            <h3>{% trans "Available Time" %}</h3>
-                            <ol id="available-time-list">
-                                {% for time in profile.available_time.splitlines %}
-                                    <li>{{ time }}</li>
-                                {% empty %}
-                                    <li>{% trans "No available time specified." %}</li>
-                                {% endfor %}
-                            </ol>
-                            <textarea id="available-time" name="available_time" rows="4" cols="50" placeholder="{% trans 'Describe your availability (e.g., Weekends All Day, Wednesday Night)' %}">
-                                {{ profile.available_time|default:""|trim }}
-                            </textarea>
-                        </div>
-                    </div>
-
-                    <div class="in-person">
-                        <h3>{% trans "Willing to Meet In Person" %}</h3>
-                        <label>
-                            <input type="radio" name="in-person" value="Yes" {% if profile.willing_to_meet_in_person %}checked{% endif %}>
-                            {% trans "Yes" %}
-                        </label>
-                        <label>
-                            <input type="radio" name="in-person" value="No" {% if not profile.willing_to_meet_in_person %}checked{% endif %}>
-                            {% trans "No" %}
-                        </label>
-                    </div>
-
-                    <div class="self-introduction">
-                        <h3>{% trans "Self Introduction" %}</h3>
-                        <textarea id="self-intro" name="self_intro" rows="6" cols="50" placeholder="{% trans 'Write a brief introduction about yourself.' %}">
-                            {{ profile.self_intro|default:""|trim }}
-                        </textarea>
-                    </div>
-                </div>
+    <!-- =======================
+        推薦老師區塊（僅本人可見）
+    ======================= -->
+    {% if is_own_profile %}
+    <section class="suggested-teachers">
+        <h1>{% trans "Suggested Teachers" %}</h1>
+        <div class="teachers">
+            {% for teacher in suggested_teachers %}
+            <div class="teacher-card">
+                <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
+                <p>
+                    {% if teacher.user.first_name or teacher.user.last_name %}
+                        {{ teacher.user.first_name }} {{ teacher.user.last_name }}
+                    {% else %}
+                        {{ teacher.user.username }}
+                    {% endif %}
+                </p>
+                <p>
+                    {% for skill in teacher.can_teach.all %}
+                        <span>{{ skill.name }}</span>{% if not forloop.last %}{% endif %}
+                    {% endfor %}
+                </p>
             </div>
-        </section>
-
-        <section class="suggested-teachers">
-            <h2>{% trans "Suggested Teachers" %}</h2>
-            <div class="teachers">
-                {% for teacher in suggested_teachers %}
-                <div class="teacher-card">
-                    <img src="{{ teacher.avatar.url }}" alt="{% trans 'Profile picture of' %} {{ teacher.user.first_name }} {{ teacher.user.last_name }}">
-                    <p>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</p>
-                    <p>
-                        {% for skill in teacher.can_teach.all %}
-                            <span>{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                </div>
-                {% empty %}
-                <p>{% trans "No suggested teachers available at the moment." %}</p>
-                {% endfor %}
+            {% empty %}
+            <p>{% trans "No suggested teachers available at the moment." %}</p>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <div class="show-comments" style="display: flex; justify-content: center;">
+        <div class="card comment-card" style="border-radius: 20px; box-shadow: 0 4px 16px rgba(30,80,140,0.10); width: 90%; max-width: 1200px; margin: 0 auto;">
+            <div class="card-header" style="border-radius: 20px 20px 0 0; background: #5FA8D3; text-align: center; width: 100%;">
+                <h1 style="margin: 0; color: #fff; font-size: 2.2rem; letter-spacing: 1px;">{% trans "History Comments" %}</h1>
             </div>
-        </section>
-    </main>
-</body>
-</html>
+            <div class="comments card-body" id="profile-comments-list" style="border-radius: 0 0 20px 20px; background: #f7fbff;">
+                <span>Loading...</span>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+</main>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // 取得該 profile 的 username
+    var username = "{{ profile.user.username }}";
+    var url = "{% url 'comment:get_reviews' %}?username=" + encodeURIComponent(username);
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const commentsList = document.getElementById('profile-comments-list');
+            commentsList.innerHTML = '';
+            if (data.received_reviews && data.received_reviews.length > 0) {
+                data.received_reviews.forEach(review => {
+                    // 星星評分
+                    let stars = '';
+                    for (let i = 0; i < 5; i++) {
+                        if (i < review.rating) {
+                            stars += '<i class="fa fa-star" style="color: #FFD700;"></i>';
+                        } else {
+                            stars += '<i class="fa fa-star" style="color: #e0e0e0;"></i>';
+                        }
+                    }
+                    const reviewDiv = document.createElement('div');
+                    reviewDiv.className = 'history-comment-card mb-3';
+                    reviewDiv.style.display = 'flex';
+                    reviewDiv.style.alignItems = 'center';
+                    reviewDiv.style.background = '#fff';
+                    reviewDiv.style.borderRadius = '18px';
+                    reviewDiv.style.boxShadow = '0 2px 8px rgba(30,80,140,0.08)';
+                    reviewDiv.style.padding = '18px 22px';
+                    reviewDiv.style.marginBottom = '18px';
+
+                    const avatarUrl = review.reviewer_avatar || '/media/avatars/default.png';
+
+                    reviewDiv.innerHTML = `
+                        <div class="history-comment-avatar" style="flex:0 0 60px; margin-right:18px;">
+                            <img src="${avatarUrl}" alt="reviewer avatar" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:2px solid #5FA8D3;">
+                        </div>
+                        <div class="history-comment-info" style="flex:1;">
+                            <div class="history-comment-header" style="display:flex; align-items:center; gap:10px;">
+                                <span class="history-comment-name" style="font-weight:bold; font-size:1.2rem; color:#1B4965; text-transform:uppercase; letter-spacing:1px;">${review.reviewer}</span>
+                                <span class="history-comment-rating" style="font-size:1.1rem;">${stars}</span>
+                            </div>
+                            <div class="history-comment-content" style="margin:8px 0 4px 0; color:#1B4965; font-size:1rem;">${review.comment}</div>
+                            <div class="history-comment-meta" style="font-size:0.95rem; color:#888;">
+                                <i class="fa fa-clock"></i> ${review.created_at}
+                            </div>
+                        </div>
+                    `;
+                    commentsList.appendChild(reviewDiv);
+                });
+            } else {
+                commentsList.innerHTML = '<span>No history available.</span>';
+            }
+        })
+        .catch(error => {
+            const commentsList = document.getElementById('profile-comments-list');
+            commentsList.innerHTML = '<span style="color:red;">Error loading comments.</span>';
+        });
+});
+</script>
+{% endblock %}

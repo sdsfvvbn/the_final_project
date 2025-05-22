@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +25,7 @@ SECRET_KEY = 'django-insecure-sihs2%qg0$346u+g0qo@_7zfxbkc8@i3kb7=i@g2#6nb3g_x=-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+USE_I18N = True
 
 ALLOWED_HOSTS = []
 
@@ -31,18 +33,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'myapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'message', 
-    'myapp',
-    'homepage', 
+    'message',
+    'homepage',
     'myprofile',
     'comment',
     'category',
+    'ai_agent',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +149,22 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_URL = 'myapp:login'
 LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'homepage'
+
+import environ
+import os
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = env('EMAIL_HOST', default='localhost')
+EMAIL_PORT = env.int('EMAIL_PORT', default=1025)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=False)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='webmaster@localhost')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Gemini API 設置
+GEMINI_API_KEY = 'AIzaSyC-mIX1bdK0n4AM4PUFebTd8aST6k76iyM'  # 請替換為您的實際 API 密鑰
