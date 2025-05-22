@@ -15,6 +15,8 @@ function redirectSearch(skill = '') {
     const queryString = params.toString();
     if (queryString) {
         url += '?' + queryString;
+    } else {
+        url = '/category/';
     }
     
     window.location.href = url;
