@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">AI 助手</h3>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="mb-4" style="height: 400px; overflow-y: auto;">
+                        <!-- 訊息將在這裡動態添加 -->
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="form-control" placeholder="輸入您的訊息...">
+                        <button class="btn btn-primary" id="send-button">發送</button>
+                        <button class="btn btn-secondary" id="reset-button">重置對話</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const resetButton = document.getElementById('reset-button');
+
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'} mb-3`;
+        messageDiv.innerHTML = `
+            <div class="card ${isUser ? 'bg-primary text-white' : 'bg-light'}">
+                <div class="card-body">
+                    ${message}
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        addMessage(message, true);
+        userInput.value = '';
+
+        try {
+            const response = await fetch('{% url "ai_agent:chat" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+            if (data.error) {
+                addMessage(`錯誤：${data.error}`);
+            } else {
+                addMessage(data.response);
+            }
+        } catch (error) {
+            addMessage(`錯誤：${error.message}`);
+        }
+    }
+
+    async function resetChat() {
+        try {
+            const response = await fetch('{% url "ai_agent:chat" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: 'reset' })
+            });
+
+            const data = await response.json();
+            chatMessages.innerHTML = '';
+            addMessage(data.response);
+        } catch (error) {
+            addMessage(`錯誤：${error.message}`);
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    resetButton.addEventListener('click', resetChat);
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+</script>
+
+<style>
+.message {
+    max-width: 80%;
+}
+
+.user-message {
+    margin-left: auto;
+}
+
+.ai-message {
+    margin-right: auto;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+#chat-messages {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+</style>
+{% endblock %}

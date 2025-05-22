@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'myprofile',
     'comment',
     'category',
+    'ai_agent',
 ]
 
 MIDDLEWARE = [
@@ -164,3 +165,6 @@ DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='webmaster@localhost')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Gemini API 設置
+GEMINI_API_KEY = 'AIzaSyC-mIX1bdK0n4AM4PUFebTd8aST6k76iyM'  # 請替換為您的實際 API 密鑰

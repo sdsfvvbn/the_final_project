@@ -8,7 +8,7 @@ from django.utils.html import format_html
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     # 在 admin 列表中顯示的欄位
-    list_display = ('user', 'avatar_tag', 'instagram', 'city', 'get_teaching_skills', 'get_personality', 'get_class_type')
+    list_display = ('user', 'get_first_name', 'get_last_name','avatar_tag', 'instagram', 'city', 'get_teaching_skills', 'get_personality', 'get_class_type')
 
     # 提供搜尋功能，支援模糊查詢 username、IG、城市
     search_fields = ('user__username', 'instagram', 'city', 'can_teach__name')
@@ -19,6 +19,14 @@ class UserProfileAdmin(admin.ModelAdmin):
     # 可過濾的欄位
     list_filter = ('city', 'can_teach__category', 'personality', 'class_type')
 
+    def get_first_name(self, obj):
+        return obj.user.first_name
+    get_first_name.short_description = 'First Name'
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
+    get_last_name.short_description = 'Last Name'
+    
     def get_teaching_skills(self, obj):
         return ", ".join([skill.name for skill in obj.can_teach.all()])
     get_teaching_skills.short_description = '教學技能'

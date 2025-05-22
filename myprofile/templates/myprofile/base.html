@@ -26,12 +26,10 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    {% block extra_css %}{% endblock %}
-</head>
-
-<style>
-    .ratings {
+    <link rel="stylesheet" type="text/css" href="{% static 'profile/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .ratings {
             display: inline-flex;
             flex-direction: row-reverse;
         }
@@ -111,7 +109,7 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold" href="{%url 'category'%}">CATEGORY</a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link fw-semibold" href="{%url 'message:message_page_without_username'%}">CHAT</a>
                     </li>
@@ -512,7 +510,13 @@
 
             // 歷史記錄模態框的事件處理
             document.getElementById('historyModal').addEventListener('show.bs.modal', function() {
-                fetch('{% url "comment:get_reviews" %}')
+                // 帶上 username 查詢該 profile 的評論
+                var username = '{{ profile.user.username|default_if_none:"" }}';
+                var url = '{% url "comment:get_reviews" %}';
+                if (username) {
+                    url += '?username=' + encodeURIComponent(username);
+                }
+                fetch(url)
                     .then(response => response.json())
                     .then(data => {
                         const modalBody = document.querySelector('#historyModal .modal-body');
